@@ -144,7 +144,6 @@ liquibase {
             defaultSchemaName ""
             logLevel "debug"
             classpath "$buildDir/classes/java/main"
-            excludeObjects "oauth_access_token, oauth_approvals, oauth_client_details, oauth_client_token, oauth_code, oauth_refresh_token"
         }
     }
 
@@ -221,6 +220,7 @@ dependencies {
     testImplementation "org.testcontainers:jdbc"
     implementation "org.springframework.boot:spring-boot-starter-logging"
     implementation "org.springframework.boot:spring-boot-starter-mail"
+    implementation "org.springframework.boot:spring-boot-starter-security"
     implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
     implementation "org.springframework.boot:spring-boot-starter-web"
     testImplementation "org.springframework.boot:spring-boot-starter-test"
@@ -230,9 +230,17 @@ dependencies {
     testRuntimeOnly "com.tngtech.archunit:archunit-junit5-engine:${archunitJunit5Version}"
     implementation "org.zalando:problem-spring-web"
     implementation "org.springframework.boot:spring-boot-starter-undertow"
-    implementation "org.springframework.boot:spring-boot-starter-oauth2-client"
-    implementation "org.springframework.boot:spring-boot-starter-oauth2-resource-server"
+    implementation "io.jsonwebtoken:jjwt-api"
+    if (!project.hasProperty("gae")) {
+    runtimeOnly "io.jsonwebtoken:jjwt-impl"
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson"
+    } else {
+    implementation "io.jsonwebtoken:jjwt-impl"
+    implementation "io.jsonwebtoken:jjwt-jackson"
+    }
     implementation "org.springframework.cloud:spring-cloud-starter-bootstrap"
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+    implementation "org.springframework.cloud:spring-cloud-starter-config"
     implementation "org.springframework.security:spring-security-data"
     implementation "io.micrometer:micrometer-registry-prometheus"
     implementation "io.dropwizard.metrics:metrics-core"

@@ -8,6 +8,8 @@ import com.tngtech.archunit.core.importer.ImportOption.DoNotIncludeTests;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
+import org.pickwicksoft.libraary.config.ApplicationProperties;
+import org.pickwicksoft.libraary.config.Constants;
 
 @AnalyzeClasses(packagesOf = LibraaryApp.class, importOptions = DoNotIncludeTests.class)
 class TechnicalStructureTest {
@@ -31,7 +33,7 @@ class TechnicalStructureTest {
 
         .ignoreDependency(belongToAnyOf(LibraaryApp.class), alwaysTrue())
         .ignoreDependency(alwaysTrue(), belongToAnyOf(
-            org.pickwicksoft.libraary.config.Constants.class,
-            org.pickwicksoft.libraary.config.ApplicationProperties.class
+            Constants.class,
+            ApplicationProperties.class
         ));
 }

@@ -1,5 +1,6 @@
 package org.pickwicksoft.libraary.web.rest.vm;
 
+import javax.validation.constraints.Size;
 import org.pickwicksoft.libraary.service.dto.AdminUserDTO;
 
 /**
@@ -7,8 +8,23 @@ import org.pickwicksoft.libraary.service.dto.AdminUserDTO;
  */
 public class ManagedUserVM extends AdminUserDTO {
 
+    public static final int PASSWORD_MIN_LENGTH = 4;
+
+    public static final int PASSWORD_MAX_LENGTH = 100;
+
+    @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
+    private String password;
+
     public ManagedUserVM() {
         // Empty constructor needed for Jackson.
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     // prettier-ignore

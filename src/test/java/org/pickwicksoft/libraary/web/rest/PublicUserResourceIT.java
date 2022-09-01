@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.pickwicksoft.libraary.IntegrationTest;
-import org.pickwicksoft.libraary.config.TestSecurityConfiguration;
 import org.pickwicksoft.libraary.domain.User;
 import org.pickwicksoft.libraary.repository.UserRepository;
 import org.pickwicksoft.libraary.security.AuthoritiesConstants;
@@ -82,5 +81,19 @@ class PublicUserResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$").isArray())
             .andExpect(jsonPath("$").value(hasItems(AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN)));
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersSortedByParameters() throws Exception {
+        // Initialize the database
+        userRepository.saveAndFlush(user);
+
+        restUserMockMvc.perform(get("/api/users?sort=resetKey,desc").accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+        restUserMockMvc.perform(get("/api/users?sort=password,desc").accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+        restUserMockMvc
+            .perform(get("/api/users?sort=resetKey,desc&sort=id,desc").accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isBadRequest());
+        restUserMockMvc.perform(get("/api/users?sort=id,desc").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
     }
 }

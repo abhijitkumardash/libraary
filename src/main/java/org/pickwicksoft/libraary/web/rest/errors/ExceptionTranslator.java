@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
+import org.pickwicksoft.libraary.service.UsernameAlreadyUsedException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.ConcurrencyFailureException;
@@ -116,11 +117,42 @@ public class ExceptionTranslator implements ProblemHandling, SecurityAdviceTrait
     }
 
     @ExceptionHandler
+    public ResponseEntity<Problem> handleEmailAlreadyUsedException(
+        org.pickwicksoft.libraary.service.EmailAlreadyUsedException ex,
+        NativeWebRequest request
+    ) {
+        EmailAlreadyUsedException problem = new EmailAlreadyUsedException();
+        return create(
+            problem,
+            request,
+            HeaderUtil.createFailureAlert(applicationName, true, problem.getEntityName(), problem.getErrorKey(), problem.getMessage())
+        );
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Problem> handleUsernameAlreadyUsedException(UsernameAlreadyUsedException ex, NativeWebRequest request) {
+        LoginAlreadyUsedException problem = new LoginAlreadyUsedException();
+        return create(
+            problem,
+            request,
+            HeaderUtil.createFailureAlert(applicationName, true, problem.getEntityName(), problem.getErrorKey(), problem.getMessage())
+        );
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Problem> handleInvalidPasswordException(
+        org.pickwicksoft.libraary.service.InvalidPasswordException ex,
+        NativeWebRequest request
+    ) {
+        return create(new InvalidPasswordException(), request);
+    }
+
+    @ExceptionHandler
     public ResponseEntity<Problem> handleBadRequestAlertException(BadRequestAlertException ex, NativeWebRequest request) {
         return create(
             ex,
             request,
-            HeaderUtil.createFailureAlert(applicationName, false, ex.getEntityName(), ex.getErrorKey(), ex.getMessage())
+            HeaderUtil.createFailureAlert(applicationName, true, ex.getEntityName(), ex.getErrorKey(), ex.getMessage())
         );
     }
 

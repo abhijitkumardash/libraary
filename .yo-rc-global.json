@@ -1,7 +1,6 @@
 {
   "generator-jhipster:7.9.2": {
     "promptValues": {
-      "packageName": "org.pickwicksoft.libraary",
       "nativeLanguage": "en"
     }
   }
