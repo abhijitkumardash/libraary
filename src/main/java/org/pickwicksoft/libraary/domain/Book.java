@@ -1,14 +1,13 @@
 package org.pickwicksoft.libraary.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 @MappedSuperclass
 public class Book {
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     private Long id;
 
     @Column(name = "title", nullable = false)
@@ -29,8 +28,8 @@ public class Book {
     @Column(name = "language", nullable = false)
     private String language;
 
-    @Column(name = "year", nullable = false)
-    private Integer year;
+    @Column(name = "publicationYear", nullable = false)
+    private Integer publicationYear;
 
     @Column(name = "pages", nullable = false)
     private Integer pages;
@@ -92,11 +91,11 @@ public class Book {
     }
 
     public Integer getYear() {
-        return year;
+        return publicationYear;
     }
 
     public void setYear(Integer year) {
-        this.year = year;
+        this.publicationYear = year;
     }
 
     public Integer getPages() {
