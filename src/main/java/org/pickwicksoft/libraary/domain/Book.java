@@ -2,7 +2,8 @@ package org.pickwicksoft.libraary.domain;
 
 import javax.persistence.*;
 
-@MappedSuperclass
+@Entity
+@Table(name = "book")
 public class Book {
 
     @Id

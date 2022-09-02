@@ -1,14 +1,22 @@
 package org.pickwicksoft.libraary.domain;
 
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.UUID;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "book_item")
-public class BookItem extends Book {
+public class BookItem {
+
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
+    @ManyToOne
+    @NotNull
+    private Book book;
 
     @Column(name = "barcode", nullable = false)
     private String barcode;
@@ -36,6 +44,10 @@ public class BookItem extends Book {
 
     @Column(name = "publicationDate", nullable = false)
     private Date publicationDate;
+
+    public UUID getId() {
+        return id;
+    }
 
     public String getBarcode() {
         return barcode;
@@ -107,5 +119,13 @@ public class BookItem extends Book {
 
     public void setPublicationDate(Date publicationDate) {
         this.publicationDate = publicationDate;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
     }
 }

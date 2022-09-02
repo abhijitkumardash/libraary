@@ -1,10 +1,13 @@
 package org.pickwicksoft.libraary.web.rest;
 
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
-import org.pickwicksoft.libraary.domain.BookItem;
-import org.pickwicksoft.libraary.repository.BookItemRepository;
+import java.util.UUID;
+import javax.validation.Valid;
+import org.pickwicksoft.libraary.domain.Book;
+import org.pickwicksoft.libraary.repository.BookRepository;
 import org.pickwicksoft.libraary.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,49 +21,56 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api")
 public class BookResource {
 
-    private final Logger log = LoggerFactory.getLogger(BookResource.class);
+    private final Logger log = LoggerFactory.getLogger(org.pickwicksoft.libraary.web.rest.BookResource.class);
 
-    private static final String ENTITY_NAME = "book";
+    private static final String ENTITY_NAME = "Book";
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final BookItemRepository bookRepository;
+    private final BookRepository bookRepository;
 
-    public BookResource(BookItemRepository bookRepository) {
+    public BookResource(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
     /**
-     * {@code GET  /books} : get all the books.
-     * @return the {@link List} of {@link BookItem}s.
+     * {@code GET  /book/items} : get all the book/items.
+     * @return the {@link List} of {@link Book}s.
      */
-    @GetMapping("/books")
-    public List<BookItem> getBooks() {
+    @GetMapping("/book")
+    public List<Book> getBooks() {
         log.debug("REST request to get all books");
         return bookRepository.findAll();
     }
 
     /**
-     * {@code GET  /books/:id} : get one book by id.
+     * {@code GET  /book/items/:id} : get one book by id.
      *
      * @param id the id of the book to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the book, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/books/{id}")
-    public ResponseEntity<BookItem> getBook(@PathVariable Long id) {
+    @GetMapping("/book/{id}")
+    public ResponseEntity<Book> getBook(@PathVariable Long id) {
         log.debug("REST request to get book : {}", id);
         return ResponseUtil.wrapOrNotFound(bookRepository.findById(id));
     }
 
-    @PostMapping("/books")
-    public BookItem createBook(@RequestBody BookItem book) {
+    @PostMapping("/book")
+    public ResponseEntity<Book> createBook(@Valid @RequestBody Book book) throws URISyntaxException {
         log.debug("REST request to save book : {}", book);
-        return bookRepository.save(book);
+        if (book.getId() != null) {
+            throw new BadRequestAlertException("A new book cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        Book result = bookRepository.save(book);
+        return ResponseEntity
+            .created(new URI("/api/projects/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .body(result);
     }
 
-    @PutMapping("/books/{id}")
-    public ResponseEntity<BookItem> updateBook(@RequestBody BookItem book, @PathVariable Long id) throws URISyntaxException {
+    @PutMapping("/book/{id}")
+    public ResponseEntity<Book> updateBook(@RequestBody Book book, @PathVariable Long id) {
         log.debug("REST request to update book : {}", book);
         if (book.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -73,14 +83,14 @@ public class BookResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        BookItem result = bookRepository.save(book);
+        Book result = bookRepository.save(book);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, book.getId().toString()))
             .body(result);
     }
 
-    @DeleteMapping("/books/{id}")
+    @DeleteMapping("/book/{id}")
     public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
         log.debug("REST request to delete book : {}", id);
         bookRepository.deleteById(id);
