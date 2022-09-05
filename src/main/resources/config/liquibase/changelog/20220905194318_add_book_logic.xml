@@ -1,9 +1,9 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.12.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <changeSet author="stefan (generated)" id="1662127279550-4">
+    <changeSet author="stefan (generated)" id="1662400140774-4">
         <createSequence incrementBy="1" sequenceName="hibernate_sequence" startValue="1"/>
     </changeSet>
-    <changeSet author="stefan (generated)" id="1662127279550-6">
+    <changeSet author="stefan (generated)" id="1662399802627-4">
         <createTable tableName="book">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="bookPK"/>
@@ -34,7 +34,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="stefan (generated)" id="1662127279550-7">
+    <changeSet author="stefan (generated)" id="1662399802627-5">
         <createTable tableName="book_item">
             <column name="id" type="BINARY(255)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="book_itemPK"/>
@@ -66,10 +66,40 @@
             <column name="status" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="book_id" type="BIGINT"/>
+            <column name="book_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
-    <changeSet author="stefan (generated)" id="1662127279550-8">
-        <addForeignKeyConstraint baseColumnNames="book_id" baseTableName="book_item" constraintName="FK8rv4lky70oknrbd01ph1w9adw" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="book" validate="true"/>
+    <changeSet author="stefan (generated)" id="1662399802627-6">
+        <createTable tableName="book_sub_categories">
+            <column name="book_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sub_categories_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stefan (generated)" id="1662399802627-7">
+        <createTable tableName="category">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="categoryPK"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stefan (generated)" id="1662399802627-11">
+        <createTable tableName="sub_category">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="sub_categoryPK"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category_id" type="BIGINT"/>
+        </createTable>
     </changeSet>
 </databaseChangeLog>

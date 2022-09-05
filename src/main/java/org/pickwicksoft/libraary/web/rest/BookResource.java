@@ -64,7 +64,7 @@ public class BookResource {
         }
         Book result = bookRepository.save(book);
         return ResponseEntity
-            .created(new URI("/api/projects/" + result.getId()))
+            .created(new URI("/api/book/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }

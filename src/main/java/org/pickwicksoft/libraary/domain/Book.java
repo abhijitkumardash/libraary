@@ -1,5 +1,6 @@
 package org.pickwicksoft.libraary.domain;
 
+import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -26,6 +27,7 @@ public class Book {
     @Column(name = "publisher", nullable = false)
     private String publisher;
 
+    // TODO: Add language enum and support for multi language books
     @Column(name = "language", nullable = false)
     private String language;
 
@@ -34,6 +36,9 @@ public class Book {
 
     @Column(name = "pages", nullable = false)
     private Integer pages;
+
+    @OneToMany
+    List<SubCategory> subCategories;
 
     public Long getId() {
         return id;
@@ -105,5 +110,21 @@ public class Book {
 
     public void setPages(Integer pages) {
         this.pages = pages;
+    }
+
+    public Integer getPublicationYear() {
+        return publicationYear;
+    }
+
+    public void setPublicationYear(Integer publicationYear) {
+        this.publicationYear = publicationYear;
+    }
+
+    public List<SubCategory> getSubCategories() {
+        return subCategories;
+    }
+
+    public void setSubCategories(List<SubCategory> subCategories) {
+        this.subCategories = subCategories;
     }
 }
