@@ -2,6 +2,8 @@ package org.pickwicksoft.libraary.domain;
 
 import java.util.List;
 import javax.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "book")
@@ -27,17 +29,18 @@ public class Book {
     @Column(name = "publisher", nullable = false)
     private String publisher;
 
-    // TODO: Add language enum and support for multi language books
-    @Column(name = "language", nullable = false)
-    private String language;
+    @OneToMany(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
+    private List<Language> languages;
 
-    @Column(name = "publicationYear", nullable = false)
+    @Column(name = "publication_year", nullable = false)
     private Integer publicationYear;
 
     @Column(name = "pages", nullable = false)
     private Integer pages;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     List<SubCategory> subCategories;
 
     public Long getId() {
@@ -88,14 +91,6 @@ public class Book {
         this.publisher = publisher;
     }
 
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
     public Integer getYear() {
         return publicationYear;
     }
@@ -126,5 +121,13 @@ public class Book {
 
     public void setSubCategories(List<SubCategory> subCategories) {
         this.subCategories = subCategories;
+    }
+
+    public List<Language> getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(List<Language> languages) {
+        this.languages = languages;
     }
 }

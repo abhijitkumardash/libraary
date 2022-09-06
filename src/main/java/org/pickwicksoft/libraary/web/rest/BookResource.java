@@ -4,7 +4,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 import javax.validation.Valid;
 import org.pickwicksoft.libraary.domain.Book;
 import org.pickwicksoft.libraary.repository.BookRepository;
@@ -62,6 +61,7 @@ public class BookResource {
         if (book.getId() != null) {
             throw new BadRequestAlertException("A new book cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        System.out.println(book.getLanguages());
         Book result = bookRepository.save(book);
         return ResponseEntity
             .created(new URI("/api/book/" + result.getId()))
@@ -93,6 +93,9 @@ public class BookResource {
     @DeleteMapping("/book/{id}")
     public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
         log.debug("REST request to delete book : {}", id);
+        if (!bookRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
         bookRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
