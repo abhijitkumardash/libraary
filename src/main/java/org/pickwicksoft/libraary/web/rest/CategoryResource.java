@@ -5,7 +5,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import javax.validation.Valid;
-import org.pickwicksoft.libraary.domain.Book;
 import org.pickwicksoft.libraary.domain.Category;
 import org.pickwicksoft.libraary.domain.SubCategory;
 import org.pickwicksoft.libraary.repository.CategoryRepository;
