@@ -1,5 +1,6 @@
 package org.pickwicksoft.libraary.web.rest;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
 
 @RestController
+@SecurityRequirement(name = "basicAuth")
 @RequestMapping("/api/book")
 public class CategoryResource {
 

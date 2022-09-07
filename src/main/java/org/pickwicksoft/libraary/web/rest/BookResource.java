@@ -1,5 +1,6 @@
 package org.pickwicksoft.libraary.web.rest;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -17,6 +18,7 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 @RestController
+@SecurityRequirement(name = "basicAuth")
 @RequestMapping("/api")
 public class BookResource {
 
