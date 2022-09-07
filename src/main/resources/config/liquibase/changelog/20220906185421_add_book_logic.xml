@@ -30,7 +30,7 @@
     </changeSet>
     <changeSet author="stefan (generated)" id="1662483264923-5">
         <createTable tableName="book_item">
-            <column name="id" type="BINARY(255)">
+            <column name="id" type="uuid">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="book_itemPK"/>
             </column>
             <column name="barcode" type="VARCHAR(255)">
@@ -115,5 +115,8 @@
             </column>
             <column name="category_id" type="BIGINT"/>
         </createTable>
+    </changeSet>
+    <changeSet author="stefan (generated)" id="1662483264923-14">
+        <createSequence incrementBy="1" sequenceName="hibernate_sequence" startValue="1"/>
     </changeSet>
 </databaseChangeLog>
