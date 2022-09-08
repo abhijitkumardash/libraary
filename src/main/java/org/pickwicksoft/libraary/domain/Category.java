@@ -1,6 +1,7 @@
 package org.pickwicksoft.libraary.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "category")
@@ -11,6 +12,7 @@ public class Category {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @NotNull
     @Column(name = "name", nullable = false)
     private String name;
 

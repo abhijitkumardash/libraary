@@ -1,0 +1,247 @@
+package org.pickwicksoft.libraary.web.rest;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.pickwicksoft.libraary.IntegrationTest;
+import org.pickwicksoft.libraary.domain.$ENTITY$;
+import org.pickwicksoft.libraary.repository.$ENTITY$Repository;
+import org.pickwicksoft.libraary.security.AuthoritiesConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@AutoConfigureMockMvc
+@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+@IntegrationTest
+class $ENTITY$ResourceIT {
+
+    $ATTRIBUTS$
+
+    private static final String ENTITY_API_URL = "$API_URL$";
+    private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
+
+    private static Random random = new Random();
+    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+
+    @Autowired
+    private $ENTITY$Repository $ENTITY_SMALL$Repository;
+
+    @Autowired
+    private EntityManager em;
+
+    @Autowired
+    private MockMvc rest$ENTITY$MockMvc;
+
+    private $ENTITY$ $ENTITY_SMALL$;
+
+    public static $ENTITY$ createEntity() {
+        $ENTITY$ $ENTITY_SMALL$ = new $ENTITY$();
+        $ATTRIBUTS_DEFAULT$
+        return $ENTITY_SMALL$;
+    }
+
+    public static $ENTITY$ createUpdatedEntity() {
+        $ENTITY$ $ENTITY_SMALL$ = new $ENTITY$();
+        $ATTRIBUTS_UPDATED$
+        return $ENTITY_SMALL$;
+    }
+
+    public static $ENTITY$ createUpdatedEntity($ENTITY$ $ENTITY_SMALL$) {
+        $ATTRIBUTS_UPDATED$
+        return $ENTITY_SMALL$;
+    }
+
+    @BeforeEach
+    public void initTest() {
+        $ENTITY_SMALL$ = createEntity();
+    }
+
+    @Test
+    @Transactional
+    void create$ENTITY$() throws Exception {
+        int dbSizeBeforeCreate = $ENTITY_SMALL$Repository.findAll().size();
+        rest$ENTITY$MockMvc
+            .perform(
+                post(ENTITY_API_URL).with(csrf()).contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes($ENTITY_SMALL$)))
+            .andExpect(status().isCreated());
+
+        List<$ENTITY$> $ENTITY_SMALL$List = $ENTITY_SMALL$Repository.findAll();
+        assertThat($ENTITY_SMALL$List).hasSize(dbSizeBeforeCreate + 1);
+        $ENTITY$ test$ENTITY$ = $ENTITY_SMALL$List.get($ENTITY_SMALL$List.size() - 1);
+        $ATTRIBUTS_ASSERT$
+    }
+
+    @Test
+    @Transactional
+    void create$ENTITY$WithExistingId() throws Exception {
+        $ENTITY_SMALL$.setId(1L);
+        int dbSizeBeforeCreate = $ENTITY_SMALL$Repository.findAll().size();
+        rest$ENTITY$MockMvc
+            .perform(
+                post(ENTITY_API_URL).with(csrf()).contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes($ENTITY_SMALL$)))
+            .andExpect(status().isBadRequest());
+
+        List<$ENTITY$> $ENTITY_SMALL$List = $ENTITY_SMALL$Repository.findAll();
+        assertThat($ENTITY_SMALL$List).hasSize(dbSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    void getAll$ENTITY$s() throws Exception {
+        // Initialize the database
+        $ENTITY_SMALL$Repository.saveAndFlush($ENTITY_SMALL$);
+
+        // Get all the $ENTITY_SMALL$List
+        rest$ENTITY$MockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem($ENTITY_SMALL$.getId().intValue())))
+        $MVC_ASSERT$
+    }
+
+    @Test
+    @Transactional
+    void get$ENTITY$() throws Exception {
+        // Initialize the database
+        $ENTITY_SMALL$Repository.saveAndFlush($ENTITY_SMALL$);
+
+        // Get the $ENTITY_SMALL$
+        rest$ENTITY$MockMvc
+            .perform(get(ENTITY_API_URL_ID, $ENTITY_SMALL$.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.id").value($ENTITY_SMALL$.getId().intValue()))
+        $MVC_ASSERT_ONE$
+    }
+
+
+    @Test
+    @Transactional
+    void getNonExisting$ENTITY$() throws Exception {
+        // Get the $ENTITY_SMALL$
+        rest$ENTITY$MockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Transactional
+    void putNew$ENTITY$() throws Exception {
+        // Initialize the database
+        $ENTITY_SMALL$Repository.saveAndFlush($ENTITY_SMALL$);
+
+        int databaseSizeBeforeUpdate = $ENTITY_SMALL$Repository.findAll().size();
+
+        // Update the $ENTITY_SMALL$
+        $ENTITY$ updated$ENTITY$ = $ENTITY_SMALL$Repository.findById($ENTITY_SMALL$.getId()).get();
+        // Disconnect from session so that the updates on updated$ENTITY$ are not directly saved in db
+        em.detach(updated$ENTITY$);
+        updated$ENTITY$ = createUpdatedEntity(updated$ENTITY$);
+
+        rest$ENTITY$MockMvc
+            .perform(
+                put(ENTITY_API_URL_ID, updated$ENTITY$.getId())
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(updated$ENTITY$))
+            )
+            .andExpect(status().isOk());
+
+        // Validate the $ENTITY$ in the database
+        List<$ENTITY$> $ENTITY_SMALL$List = $ENTITY_SMALL$Repository.findAll();
+        assertThat($ENTITY_SMALL$List).hasSize(databaseSizeBeforeUpdate);
+        $ENTITY$ test$ENTITY$ = $ENTITY_SMALL$List.get($ENTITY_SMALL$List.size() - 1);
+        $ATTRIBUTS_ASSERT_UPDATED$
+    }
+
+    @Test
+    @Transactional
+    void putNonExisting$ENTITY$() throws Exception {
+        int databaseSizeBeforeUpdate = $ENTITY_SMALL$Repository.findAll().size();
+        $ENTITY_SMALL$.setId(count.incrementAndGet());
+
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException
+        rest$ENTITY$MockMvc
+            .perform(
+                put(ENTITY_API_URL_ID, $ENTITY_SMALL$.getId())
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes($ENTITY_SMALL$))
+            )
+            .andExpect(status().isBadRequest());
+
+        // Validate the $ENTITY$ in the database
+        List<$ENTITY$> $ENTITY_SMALL$List = $ENTITY_SMALL$Repository.findAll();
+        assertThat($ENTITY_SMALL$List).hasSize(databaseSizeBeforeUpdate);
+    }
+
+    @Test
+    @Transactional
+    void putWithIdMismatch$ENTITY$() throws Exception {
+        int databaseSizeBeforeUpdate = $ENTITY_SMALL$Repository.findAll().size();
+        $ENTITY_SMALL$.setId(count.incrementAndGet());
+
+        // If url ID doesn't match entity ID, it will throw BadRequestAlertException
+        rest$ENTITY$MockMvc
+            .perform(
+                put(ENTITY_API_URL_ID, count.incrementAndGet())
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes($ENTITY_SMALL$))
+            )
+            .andExpect(status().isBadRequest());
+
+        // Validate the $ENTITY$ in the database
+        List<$ENTITY$> $ENTITY_SMALL$List = $ENTITY_SMALL$Repository.findAll();
+        assertThat($ENTITY_SMALL$List).hasSize(databaseSizeBeforeUpdate);
+    }
+
+    @Test
+    @Transactional
+    void putWithMissingIdPathParam$ENTITY$() throws Exception {
+        int databaseSizeBeforeUpdate = $ENTITY_SMALL$Repository.findAll().size();
+        $ENTITY_SMALL$.setId(count.incrementAndGet());
+
+        // If url ID doesn't match entity ID, it will throw BadRequestAlertException
+        rest$ENTITY$MockMvc
+            .perform(put(ENTITY_API_URL).with(csrf()).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes($ENTITY_SMALL$)))
+            .andExpect(status().isMethodNotAllowed());
+
+        // Validate the $ENTITY$ in the database
+        List<$ENTITY$> $ENTITY_SMALL$List = $ENTITY_SMALL$Repository.findAll();
+        assertThat($ENTITY_SMALL$List).hasSize(databaseSizeBeforeUpdate);
+    }
+
+    @Test
+    @Transactional
+    void delete$ENTITY$() throws Exception {
+        // Initialize the database
+        $ENTITY_SMALL$Repository.saveAndFlush($ENTITY_SMALL$);
+
+        int databaseSizeBeforeDelete = $ENTITY_SMALL$Repository.findAll().size();
+
+        // Delete the $ENTITY_SMALL$
+        rest$ENTITY$MockMvc
+            .perform(delete(ENTITY_API_URL_ID, $ENTITY_SMALL$.getId()).with(csrf()).accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isNoContent());
+
+        // Validate the database contains one less item
+        List<$ENTITY$> $ENTITY_SMALL$List = $ENTITY_SMALL$Repository.findAll();
+        assertThat($ENTITY_SMALL$List).hasSize(databaseSizeBeforeDelete - 1);
+    }
+}

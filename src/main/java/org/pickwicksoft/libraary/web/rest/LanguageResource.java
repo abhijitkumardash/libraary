@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.ResponseUtil;
 
 @RestController
 @SecurityRequirement(name = "basicAuth")
@@ -38,6 +39,13 @@ public class LanguageResource {
     public List<Language> getLanguages() {
         log.debug("REST request to get all languages");
         return languageRepository.findAll();
+    }
+
+    @GetMapping("/language/{id}")
+    public ResponseEntity<Language> getLanguage(@PathVariable Long id) {
+        log.debug("REST request to get language : {}", id);
+        var language = languageRepository.findById(id);
+        return ResponseUtil.wrapOrNotFound(language);
     }
 
     @PostMapping("/language")
@@ -78,6 +86,9 @@ public class LanguageResource {
     public ResponseEntity<Void> deleteLanguage(@PathVariable Long id) {
         log.debug("REST request to delete language : {}", id);
         languageRepository.deleteById(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

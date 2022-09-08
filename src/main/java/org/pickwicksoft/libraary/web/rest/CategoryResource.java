@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.ResponseUtil;
 
 @RestController
 @SecurityRequirement(name = "basicAuth")
@@ -76,8 +77,25 @@ public class CategoryResource {
         return subCategoryRepository.findAll();
     }
 
+    @GetMapping("/category/{id}")
+    public ResponseEntity<Category> getCategory(@PathVariable Long id) {
+        log.debug("REST request to get Category : {}", id);
+        var category = categoryRepository.findById(id);
+        return ResponseUtil.wrapOrNotFound(category);
+    }
+
+    @GetMapping("/subcategory/{id}")
+    public ResponseEntity<SubCategory> getSubcategory(@PathVariable Long id) {
+        log.debug("REST request to get Subcategory : {}", id);
+        var category = subCategoryRepository.findById(id);
+        return ResponseUtil.wrapOrNotFound(category);
+    }
+
     @PutMapping("/category/{id}")
-    public ResponseEntity<Category> updateCategory(@RequestBody Category category, @PathVariable Long id) {
+    public ResponseEntity<Category> updateCategory(
+        @RequestBody @Valid Category category,
+        @PathVariable(value = "id", required = false) final Long id
+    ) {
         log.debug("REST request to update category : {}", category);
         if (category.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -97,7 +115,10 @@ public class CategoryResource {
     }
 
     @PutMapping("/subcategory/{id}")
-    public ResponseEntity<SubCategory> updateSubcategory(@RequestBody SubCategory category, @PathVariable Long id) {
+    public ResponseEntity<SubCategory> updateSubcategory(
+        @RequestBody @Valid SubCategory category,
+        @PathVariable(value = "id", required = false) final Long id
+    ) {
         log.debug("REST request to update subcategory : {}", category);
         if (category.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -106,7 +127,7 @@ public class CategoryResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        if (!categoryRepository.existsById(id)) {
+        if (!subCategoryRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
@@ -121,13 +142,19 @@ public class CategoryResource {
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         log.debug("REST request to delete category : {}", id);
         categoryRepository.deleteById(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 
     @DeleteMapping("/subcategory/{id}")
     public ResponseEntity<Void> deleteSubcategory(@PathVariable Long id) {
         log.debug("REST request to delete subcategory : {}", id);
-        categoryRepository.deleteById(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+        subCategoryRepository.deleteById(id);
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }
