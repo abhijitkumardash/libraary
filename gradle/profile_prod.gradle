@@ -41,6 +41,12 @@ processResources {
     }
 }
 
+
+task webapp(type: NpmTask, dependsOn: "npm_install") {
+    args = ["run", "webapp:prod"]
+    environment = [APP_VERSION: project.version]
+}
+
 task integrationTest(type: Test) {
     maxHeapSize = "1G"
     useJUnitPlatform()
@@ -58,5 +64,4 @@ task integrationTest(type: Test) {
     reports.html.enabled = false
 }
 integrationTest.dependsOn test
-
-
+processResources.dependsOn webapp
