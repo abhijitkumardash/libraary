@@ -49,6 +49,10 @@ public class BookItem {
         return id;
     }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     public String getBarcode() {
         return barcode;
     }

@@ -99,6 +99,9 @@ public class BookItemResource {
     public ResponseEntity<Void> deleteBookItem(@PathVariable UUID id) {
         log.debug("REST request to delete book item: {}", id);
         bookItemRepository.deleteById(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
     }
 }
