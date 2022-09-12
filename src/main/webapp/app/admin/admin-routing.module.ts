@@ -12,11 +12,7 @@ import { RouterModule } from '@angular/router';
         data: {
           pageTitle: 'userManagement.home.title',
         },
-      },
-      {
-        path: 'docs',
-        loadChildren: () => import('./docs/docs.module').then(m => m.DocsModule),
-      },
+      }
       /* jhipster-needle-add-admin-route - JHipster will add admin routes here */
     ]),
   ],

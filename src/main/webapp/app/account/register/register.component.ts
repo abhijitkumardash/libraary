@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
@@ -10,7 +10,7 @@ import { RegisterService } from './register.service';
   selector: 'jhi-register',
   templateUrl: './register.component.html',
 })
-export class RegisterComponent implements AfterViewInit {
+export class RegisterComponent {
   @ViewChild('login', { static: false })
   login?: ElementRef;
 
@@ -45,12 +45,6 @@ export class RegisterComponent implements AfterViewInit {
   });
 
   constructor(private translateService: TranslateService, private registerService: RegisterService) {}
-
-  ngAfterViewInit(): void {
-    if (this.login) {
-      this.login.nativeElement.focus();
-    }
-  }
 
   register(): void {
     this.doNotMatch = false;
