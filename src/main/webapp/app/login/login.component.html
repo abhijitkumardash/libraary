@@ -22,39 +22,22 @@
     </p>
     <form class="form flex flex-col" role="form" (ngSubmit)="login()" [formGroup]="loginForm">
       <mat-form-field appearance="outline">
-        <mat-label>Username</mat-label>
-        <input
-          matInput
-          type="text"
-          name="username"
-          id="username"
-          placeholder="{{ 'global.form.username.placeholder' | translate }}"
-          formControlName="username"
-          #username
-          data-cy="username"
-        />
+        <mat-label jhiTranslate="global.form.email.placeholder">Your Email</mat-label>
+        <input matInput type="text" name="username" id="username" formControlName="username" #username data-cy="username" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
-        <input
-          matInput
-          type="password"
-          name="password"
-          id="password"
-          placeholder="{{ 'login.form.password.placeholder' | translate }}"
-          formControlName="password"
-          data-cy="password"
-        />
+        <mat-label jhiTranslate="login.form.password.placeholder">You Password</mat-label>
+        <input matInput type="password" name="password" id="password" formControlName="password" data-cy="password" />
       </mat-form-field>
 
-      <div class="flex items-center justify-between pb-3">
+      <div class="flex flex-col sm:flex-row items-center justify-between pb-3">
         <div class="flex items-center">
           <mat-checkbox formControlName="rememberMe" color="primary"
             ><span jhiTranslate="login.form.rememberme">Remember me</span>
           </mat-checkbox>
         </div>
-        <div class="text-sm">
+        <div class="text-sm p3">
           <a
             routerLink="/account/reset/request"
             jhiTranslate="login.password.forgot"

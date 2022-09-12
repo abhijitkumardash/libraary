@@ -1,9 +1,9 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 @import 'bootstrap-variables';
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @import "material";
 
 /* ==============================================================
@@ -198,7 +198,7 @@ ui bootstrap tweaks
 }
 
 .dropdown-menu {
-  padding-left: 0px;
+  padding-left: 0;
 }
 
 /* ==========================================================================
@@ -223,3 +223,10 @@ angular-cli removes postcss-rtl processed inline css, processed rules must be ad
   }
 }
 /* jhipster-needle-scss-add-main JHipster will add new css style */
+
+
+@media (max-width: 640px) {
+  .p3 {
+    @apply pt-3;
+  }
+}
