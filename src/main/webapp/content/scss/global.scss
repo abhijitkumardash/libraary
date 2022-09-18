@@ -4,6 +4,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind variants;
 @import "material";
 
 /* ==============================================================
@@ -229,4 +230,8 @@ angular-cli removes postcss-rtl processed inline css, processed rules must be ad
   .p3 {
     @apply pt-3;
   }
+}
+
+.mat-form-field {
+  font-size: 14px; // example
 }
