@@ -1,4 +1,4 @@
-![](/datadisk1/Projects/Java/bookmania/.readme/cover.png 'Libraary Logo Banner')
+![](.readme/cover.png 'Libraary Logo Banner')
 
 ## Project Structure
 
