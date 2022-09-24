@@ -18,23 +18,14 @@ export class UserManagementUpdateComponent implements OnInit {
   languages = LANGUAGES;
   authorities: string[] = [];
   isSaving = false;
+  id: number | null = null;
 
   editForm = new FormGroup({
-    id: new FormControl(initialUser.id),
-    login: new FormControl(initialUser.login, {
-      nonNullable: true,
-      validators: [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(50),
-        Validators.pattern('^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$'),
-      ],
-    }),
     firstName: new FormControl(initialUser.firstName, { validators: [Validators.maxLength(50)] }),
     lastName: new FormControl(initialUser.lastName, { validators: [Validators.maxLength(50)] }),
     email: new FormControl(initialUser.email, {
       nonNullable: true,
-      validators: [Validators.minLength(5), Validators.maxLength(254), Validators.email],
+      validators: [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email],
     }),
     activated: new FormControl(initialUser.activated, { nonNullable: true }),
     langKey: new FormControl(initialUser.langKey, { nonNullable: true }),
@@ -48,6 +39,8 @@ export class UserManagementUpdateComponent implements OnInit {
       if (user) {
         if (user.id === undefined) {
           user.activated = true;
+        } else {
+          this.id = user.id;
         }
         this.editForm.patchValue(user);
       }
@@ -62,13 +55,13 @@ export class UserManagementUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const user = this.editForm.getRawValue();
-    if (user.id !== null && user.id !== undefined) {
-      this.userService.update(user).subscribe({
+    if (this.id !== null && this.id !== undefined) {
+      this.userService.update({ id: this.id, login: user.email, email: user.email, firstName: user.firstName, lastName: user.lastName, langKey: user.langKey, authorities: user.authorities, activated: user.activated }).subscribe({
         next: () => this.onSaveSuccess(),
         error: () => this.onSaveError(),
       });
     } else {
-      this.userService.create(user).subscribe({
+      this.userService.create({ login: user.email, email: user.email, firstName: user.firstName, lastName: user.lastName, langKey: user.langKey, authorities: user.authorities, activated: user.activated }).subscribe({
         next: () => this.onSaveSuccess(),
         error: () => this.onSaveError(),
       });

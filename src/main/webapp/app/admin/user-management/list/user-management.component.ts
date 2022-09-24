@@ -1,30 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { HttpResponse, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { ASC, DESC, SORT } from 'app/config/navigation.constants';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { UserManagementService } from '../service/user-management.service';
 import { User } from '../user-management.model';
 import { UserManagementDeleteDialogComponent } from '../delete/user-management-delete-dialog.component';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'jhi-user-mgmt',
   templateUrl: './user-management.component.html',
 })
-export class UserManagementComponent implements OnInit {
+export class UserManagementComponent implements OnInit, AfterViewInit {
   currentAccount: Account | null = null;
-  users: User[] | null = null;
+  users: MatTableDataSource<User> = new MatTableDataSource<User>([]);
+  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'activated', "authorities", "actions"];
   isLoading = false;
   totalItems = 0;
-  itemsPerPage = ITEMS_PER_PAGE;
+  itemsPerPage = 5;
   page!: number;
   predicate!: string;
   ascending!: boolean;
+  defaultSortColumn: string = "email";
+  defaultSortOrder: string = "asc";
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private userService: UserManagementService,
@@ -37,6 +45,11 @@ export class UserManagementComponent implements OnInit {
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => (this.currentAccount = account));
     this.handleNavigation();
+  }
+
+  ngAfterViewInit() {
+    this.users.paginator = this.paginator;
+    this.users.sort = this.sort;
   }
 
   setActive(user: User, isActivated: boolean): void {
@@ -62,17 +75,23 @@ export class UserManagementComponent implements OnInit {
     this.isLoading = true;
     this.userService
       .query({
-        page: this.page - 1,
+        page: this.page,
         size: this.itemsPerPage,
-        sort: this.sort(),
+        sort: this.sortData(),
       })
       .subscribe({
         next: (res: HttpResponse<User[]>) => {
           this.isLoading = false;
-          this.onSuccess(res.body, res.headers);
+          this.onSuccess(res.body ? res.body : [], res.headers);
         },
         error: () => (this.isLoading = false),
       });
+  }
+
+  getData(event: PageEvent) {
+    this.page = event.pageIndex;
+    this.itemsPerPage = event.pageSize;
+    this.loadAll();
   }
 
   transition(): void {
@@ -88,7 +107,7 @@ export class UserManagementComponent implements OnInit {
   private handleNavigation(): void {
     combineLatest([this.activatedRoute.data, this.activatedRoute.queryParamMap]).subscribe(([data, params]) => {
       const page = params.get('page');
-      this.page = +(page ?? 1);
+      this.page = +(page ?? 0);
       const sort = (params.get(SORT) ?? data['defaultSort']).split(',');
       this.predicate = sort[0];
       this.ascending = sort[1] === ASC;
@@ -96,16 +115,19 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
-  private sort(): string[] {
-    const result = [`${this.predicate},${this.ascending ? ASC : DESC}`];
+  private sortData(): string[] {
+    const result = [`${this.sort ? this.sort.active : this.defaultSortColumn},${this.sort ? this.sort.direction : "ASC"}`];
     if (this.predicate !== 'id') {
       result.push('id');
     }
     return result;
   }
 
-  private onSuccess(users: User[] | null, headers: HttpHeaders): void {
+  private onSuccess(users: User[], headers: HttpHeaders): void {
     this.totalItems = Number(headers.get('X-Total-Count'));
-    this.users = users;
+    this.paginator.length = this.totalItems;
+    this.paginator.pageIndex = this.page;
+    this.users = new MatTableDataSource<User>(users);
+    this.users.sort = this.sort;
   }
 }

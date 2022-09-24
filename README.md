@@ -1,6 +1,4 @@
-# libraary
-
-This application was generated using JHipster 7.9.2, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v7.9.2](https://www.jhipster.tech/documentation-archive/v7.9.2).
+![](/datadisk1/Projects/Java/bookmania/.readme/cover.png 'Libraary Logo Banner')
 
 ## Project Structure
 
