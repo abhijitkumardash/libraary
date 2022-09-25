@@ -48,7 +48,16 @@
         </div>
       </div>
 
-      <button mat-flat-button color="primary" type="submit" jhiTranslate="login.form.button" data-cy="submit">Sign in</button>
+      <button
+        mat-flat-button
+        color="primary"
+        [disabled]="loginForm.invalid"
+        type="submit"
+        jhiTranslate="login.form.button"
+        data-cy="submit"
+      >
+        Sign in
+      </button>
     </form>
   </div>
 </div>
