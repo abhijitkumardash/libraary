@@ -58,6 +58,29 @@
             </li>
           </ul>
         </li>
+        <li
+          *jhiHasAnyAuthority="'ROLE_ADMIN'"
+          ngbDropdown
+          class="nav-item dropdown pointer"
+          display="dynamic"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="librarian-menu" data-cy="librarianMenu">
+            <span>
+              <fa-icon icon="person-chalkboard"></fa-icon>
+              <span jhiTranslate="global.menu.librarian.main">Librarian</span>
+            </span>
+          </a>
+          <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="librarian-menu">
+            <li>
+              <a class="dropdown-item" routerLink="librarian/books" routerLinkActive="active" (click)="collapseNavbar()">
+                <fa-icon icon="book" [fixedWidth]="true"></fa-icon>
+                <span jhiTranslate="global.menu.librarian.books">Books</span>
+              </a>
+            </li>
+          </ul>
+        </li>
         <li ngbDropdown class="nav-item dropdown pointer" display="dynamic" *ngIf="languages && languages.length > 1">
           <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="languagesnavBarDropdown">
             <span>
