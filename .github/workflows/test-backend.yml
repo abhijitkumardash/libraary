@@ -25,4 +25,6 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run Gradle tests
-        run: ./gradlew test integrationTest jacocoTestReport
+        run: |
+          chmod +x gradlew
+          ./gradlew test integrationTest jacocoTestReport
