@@ -38,10 +38,10 @@ jobs:
           distribution: 'adopt'
           java-version: '11'
           cache: 'gradle'
-      - run: ./gradlew build --no-daemon
+      - run: |
+          chmod +x gradlew
+          ./gradlew build --no-daemon
 
       # Runs a single command using the runners shell
       - name: Run Gradle tests
-        run: |
-          chmod +x gradlew
-          ./gradlew test integrationTest jacocoTestReport
+        run: ./gradlew test integrationTest jacocoTestReport
