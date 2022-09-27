@@ -38,9 +38,6 @@ jobs:
           distribution: 'adopt'
           java-version: '11'
           cache: 'gradle'
-      - run: |
-          chmod +x gradlew
-          ./gradlew build --no-daemon
 
       # Runs a single command using the runners shell
       - name: Run Gradle tests
