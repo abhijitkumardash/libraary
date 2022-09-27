@@ -237,7 +237,7 @@ class SubCategoryResourceIT {
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(subcategory))
             )
-            .andExpect(status().isMethodNotAllowed());
+            .andExpect(status().isBadRequest());
 
         // Validate the SubCategory in the database
         List<SubCategory> subcategoryList = subcategoryRepository.findAll();
