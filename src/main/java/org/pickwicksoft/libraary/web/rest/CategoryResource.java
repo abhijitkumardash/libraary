@@ -92,10 +92,7 @@ public class CategoryResource {
     }
 
     @PutMapping("/category/{id}")
-    public ResponseEntity<Category> updateCategory(
-        @RequestBody @Valid Category category,
-        @PathVariable(value = "id", required = false) final Long id
-    ) {
+    public ResponseEntity<Category> updateCategory(@RequestBody @Valid Category category, @PathVariable Long id) {
         log.debug("REST request to update category : {}", category);
         if (category.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -115,10 +112,7 @@ public class CategoryResource {
     }
 
     @PutMapping("/subcategory/{id}")
-    public ResponseEntity<SubCategory> updateSubcategory(
-        @RequestBody @Valid SubCategory category,
-        @PathVariable(value = "id", required = false) final Long id
-    ) {
+    public ResponseEntity<SubCategory> updateSubcategory(@RequestBody @Valid SubCategory category, @PathVariable Long id) {
         log.debug("REST request to update subcategory : {}", category);
         if (category.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

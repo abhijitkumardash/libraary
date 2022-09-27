@@ -244,7 +244,7 @@ class CategoryResourceIT {
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(category))
             )
-            .andExpect(status().isMethodNotAllowed());
+            .andExpect(status().isBadRequest());
 
         // Validate the Category in the database
         List<Category> categoryList = categoryRepository.findAll();
