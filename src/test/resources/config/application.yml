@@ -34,6 +34,9 @@ spring:
       write-durations-as-timestamps: false
   mail:
     host: localhost
+    port: 8080
+    username: ''
+    password: ''
   main:
     allow-bean-definition-overriding: true
   mvc:
