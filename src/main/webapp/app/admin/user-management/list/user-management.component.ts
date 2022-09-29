@@ -13,6 +13,7 @@ import { UserManagementDeleteDialogComponent } from '../delete/user-management-d
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import {MatDialogService} from "../../../shared/dialog/mat-dialog.service";
 
 @Component({
   selector: 'jhi-user-mgmt',
@@ -39,7 +40,7 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
     private accountService: AccountService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private modalService: NgbModal
+    private dialogService: MatDialogService
   ) {}
 
   ngOnInit(): void {
@@ -61,12 +62,15 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
   }
 
   deleteUser(user: User): void {
-    const modalRef = this.modalService.open(UserManagementDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
-    modalRef.componentInstance.user = user;
-    // unsubscribe not needed because closed completes on modal close
-    modalRef.closed.subscribe(reason => {
+    console.log(user.login)
+    const dialog = this.dialogService.openDialog(UserManagementDeleteDialogComponent, {
+      data: user
+    })
+    dialog.closed?.subscribe(reason => {
       if (reason === 'deleted') {
-        this.loadAll();
+        this.userService.delete(user.login!).subscribe(() => {
+          this.loadAll();
+        });
       }
     });
   }
