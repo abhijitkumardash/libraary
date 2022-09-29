@@ -5,6 +5,8 @@ import {UserManagementDeleteDialogComponent} from "../delete/user-management-del
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Account} from "../../../core/auth/account.model";
 import {AccountService} from 'app/core/auth/account.service';
+import {MatDialogService} from "../../../shared/dialog/mat-dialog.service";
+import {UserManagementService} from "../service/user-management.service";
 
 @Component({
   selector: 'jhi-user-mgmt-detail',
@@ -15,9 +17,10 @@ export class UserManagementDetailComponent implements OnInit {
   currentAccount: Account | null = null;
 
   constructor(private route: ActivatedRoute,
-              private modalService: NgbModal,
+              private dialogService: MatDialogService,
               private router: Router,
-              private accountService: AccountService) {}
+              private accountService: AccountService,
+              private userService: UserManagementService) {}
 
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => (this.currentAccount = account));
@@ -27,11 +30,16 @@ export class UserManagementDetailComponent implements OnInit {
   }
 
   deleteUser(user: User): void {
-    const modalRef = this.modalService.open(UserManagementDeleteDialogComponent, {size: 'lg', backdrop: 'static'});
-    modalRef.componentInstance.user = user;
-    // unsubscribe not needed because closed completes on modal close
-    modalRef.closed.subscribe(() => {
-      this.router.navigate(['../../'])
+    console.log(user.login)
+    const dialog = this.dialogService.openDialog(UserManagementDeleteDialogComponent, {
+      data: user
+    })
+    dialog.closed?.subscribe(reason => {
+      if (reason === 'deleted') {
+        this.userService.delete(user.login!).subscribe(() => {
+          this.router.navigate(['../../'])
+        });
+      }
     });
   }
 }

@@ -1,27 +1,20 @@
-import { Component, Injectable } from '@angular/core';
+import { ComponentType } from '@angular/cdk/overlay';
+import { Injectable } from '@angular/core';
 
-import { User } from '../user-management.model';
-import { UserManagementService } from '../service/user-management.service';
-import { MatDialog } from '@angular/material/dialog';
-import { UserManagementDeleteDialogComponent } from './user-management-delete-dialog.component';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class UserManagementDeleteDialogService {
-  user?: User;
+export class MatDialogService {
+  private dialogRef: any;
+  public closed: Observable<any> | undefined;
 
-  constructor(private userService: UserManagementService, public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog) {}
 
-  openDialog() {
-    const dialogRef = this.dialog.open(UserManagementDeleteDialogComponent);
+  openDialog(component: ComponentType<unknown>, config: MatDialogConfig<any | undefined>): MatDialogService {
+    this.dialogRef = this.dialog.open(component, config);
 
-    dialogRef.afterClosed().subscribe(result => {
-      this.confirmDelete(result);
-    });
-  }
-
-  confirmDelete(result: boolean): void {
-    if (result) {
-      this.userService.delete(this.user?.login!).subscribe(() => {});
-    }
+    this.closed = this.dialogRef.afterClosed();
+    return this;
   }
 }
