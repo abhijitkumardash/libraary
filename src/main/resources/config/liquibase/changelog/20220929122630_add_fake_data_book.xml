@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.12.xsd">
+
+    <changeSet id="1664456985022-1" author="stefan">
+        <modifyDataType tableName="book" columnName="subject" newDataType="varchar(2000)"/>
+    </changeSet>
+    <changeSet id="20220929122630-data" author="garlontas" context="faker">
+        <loadData tableName="book" file="config/liquibase/fake-data/book.csv" separator=";" encoding="UTF-8" usePreparedStatements="true">
+            <column name="id" type="numeric"/>
+            <column name="author" type="string"/>
+            <column name="isbn" type="string"/>
+            <column name="pages" type="numeric"/>
+            <column name="publication_year" type="numeric"/>
+            <column name="publisher" type="string"/>
+            <column name="subject" type="string"/>
+            <column name="title" type="string"/>
+        </loadData>
+    </changeSet>
+    <changeSet id="20220929122630-data-item" author="garlontas" context="faker">
+        <loadData tableName="book_item" file="config/liquibase/fake-data/book-item.csv" separator=";" encoding="UTF-8" usePreparedStatements="true">
+            <column name="id" type="uuid"/>
+            <column name="barcode" type="string"/>
+            <column name="borrowed" type="date"/>
+            <column name="date_of_purchase" type="date"/>
+            <column name="due_date" type="date"/>
+            <column name="format" type="numeric"/>
+            <column name="is_reference_only" type="boolean"/>
+            <column name="price" type="numeric"/>
+            <column name="publication_date" type="date"/>
+            <column name="status" type="numeric"/>
+            <column name="book_id" type="numeric"/>
+        </loadData>
+    </changeSet>
+    <changeSet id="20220929122630-data-category" author="garlontas" context="faker">
+        <loadData tableName="category" file="config/liquibase/fake-data/category.csv" separator=";" encoding="UTF-8" usePreparedStatements="true">
+            <column name="id" type="numeric"/>
+            <column name="name" type="string"/>
+        </loadData>
+        <loadData tableName="sub_category" file="config/liquibase/fake-data/subcategory.csv" separator=";" encoding="UTF-8" usePreparedStatements="true">
+            <column name="id" type="numeric"/>
+            <column name="name" type="string"/>
+            <column name="category_id" type="numeric"/>
+        </loadData>
+        <loadData tableName="book_sub_categories" file="config/liquibase/fake-data/book_sub_categories.csv" separator=";" encoding="UTF-8" usePreparedStatements="true">
+            <column name="book_id" type="numeric"/>
+            <column name="sub_categories_id" type="numeric"/>
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

@@ -1,5 +1,8 @@
 ![](.readme/cover.png 'Libraary Logo Banner')
 
+[![Backend tests](https://github.com/PickwickSoft/libraary/actions/workflows/test-backend.yml/badge.svg)](https://github.com/PickwickSoft/libraary/actions/workflows/test-backend.yml)
+[![DeepSource](https://deepsource.io/gh/PickwickSoft/libraary.svg/?label=active+issues&show_trend=true&token=dqUjH8I5M6OLeO07UyBbbaN5)](https://deepsource.io/gh/PickwickSoft/libraary/?ref=repository-badge)
+
 ## Project Structure
 
 Node is required for generation and recommended for development. `package.json` is always generated for a better development experience with prettier, commit hooks, scripts and so on.
