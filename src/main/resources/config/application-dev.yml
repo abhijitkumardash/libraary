@@ -65,8 +65,8 @@ spring:
   mail:
     host: smtp.mailgun.org
     port: 587
-    username: '${MAILGUN_USERNAME}'
-    password: '${MAILGUN_PASSWORD}'
+    username: 'libraary@localhost'
+    password: ''
     properties:
       mail:
         smtp:
