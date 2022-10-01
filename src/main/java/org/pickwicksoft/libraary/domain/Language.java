@@ -9,16 +9,19 @@ public class Language {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    private Long id;
+    private String id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
-    public Long getId() {
+    @Column(name = "flag", nullable = false)
+    private String flag;
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -28,6 +31,14 @@ public class Language {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
     }
 
     @Override
