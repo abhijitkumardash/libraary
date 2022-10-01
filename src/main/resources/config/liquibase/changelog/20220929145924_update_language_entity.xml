@@ -1,0 +1,29 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.12.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="202209145924" author="garlontas">
+        <modifyDataType  columnName="id"
+                         newDataType="VARCHAR(64)"
+                         schemaName="public"
+                         tableName="language"/>
+        <modifyDataType  columnName="languages_id"
+                         newDataType="VARCHAR(64)"
+                         schemaName="public"
+                         tableName="book_languages"/>
+        <addColumn tableName="language">
+            <column name="flag" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1664463099431-1" author="stefan">
+        <loadData tableName="language" file="config/liquibase/data/language.csv" separator=";" encoding="UTF-8" usePreparedStatements="true">
+            <column name="id" type="string"/>
+            <column name="name" type="string"/>
+            <column name="flag" type="string"/>
+        </loadData>
+    </changeSet>
+    <changeSet id="1664463099431-2" author="stefan" context="faker">
+        <loadData tableName="book_languages" file="config/liquibase/fake-data/book_language.csv" separator=";" encoding="UTF-8" usePreparedStatements="true">
+            <column name="book_id" type="numeric"/>
+            <column name="languages_id" type="string"/>
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

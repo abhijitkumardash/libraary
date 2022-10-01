@@ -42,53 +42,9 @@ public class LanguageResource {
     }
 
     @GetMapping("/language/{id}")
-    public ResponseEntity<Language> getLanguage(@PathVariable Long id) {
+    public ResponseEntity<Language> getLanguage(@PathVariable String id) {
         log.debug("REST request to get language : {}", id);
         var language = languageRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(language);
-    }
-
-    @PostMapping("/language")
-    public ResponseEntity<Language> createLanguage(@Valid @RequestBody Language language) throws URISyntaxException {
-        log.debug("REST request to save Language : {}", language);
-        if (language.getId() != null) {
-            throw new BadRequestAlertException("A new language cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        var result = languageRepository.save(language);
-        return ResponseEntity
-            .created(new URI("api/language" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
-    }
-
-    @PutMapping("/language/{id}")
-    public ResponseEntity<Language> updateLanguage(@RequestBody Language language, @PathVariable Long id) {
-        log.debug("REST request to update language : {}", language);
-        if (language.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        if (!Objects.equals(id, language.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
-        }
-
-        if (!languageRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
-        }
-
-        Language result = languageRepository.save(language);
-        return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, language.getId().toString()))
-            .body(result);
-    }
-
-    @DeleteMapping("/language/{id}")
-    public ResponseEntity<Void> deleteLanguage(@PathVariable Long id) {
-        log.debug("REST request to delete language : {}", id);
-        languageRepository.deleteById(id);
-        return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
-            .build();
     }
 }
