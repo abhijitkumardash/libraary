@@ -1,3 +1,6 @@
+import {ILanguage} from "./language.model";
+import {ISubCategory} from "./subcategory.model";
+
 export interface IBook {
   id: number;
   title?: string;
@@ -7,6 +10,8 @@ export interface IBook {
   publisher?: string;
   publicationYear?: string;
   pages?: number;
+  languages?: ILanguage[];
+  subcategory?: ISubCategory[];
 }
 
 export class Book implements IBook {

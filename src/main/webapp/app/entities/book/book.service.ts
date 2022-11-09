@@ -13,5 +13,21 @@ export class BookService {
   query(): Observable<HttpResponse<IBook[]>> {
     return this.http.get<IBook[]>(this.resourceUrl, { observe: 'response' });
   }
+
+  find(id: number): Observable<HttpResponse<IBook>> {
+    return this.http.get<IBook>(`${this.resourceUrl}/${id}`, { observe: 'response' })
+  }
+
+  create(book: IBook): Observable<HttpResponse<IBook>> {
+    return this.http.post<IBook>(this.resourceUrl, book, { observe: 'response' });
+  }
+
+  update(book: IBook): Observable<HttpResponse<IBook>> {
+    return this.http.put<IBook>(this.resourceUrl, book, { observe: 'response' });
+  }
+
+  delete(id: number): Observable<HttpResponse<{}>> {
+    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
 }
 
