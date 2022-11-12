@@ -1,6 +1,19 @@
 <div class="w-3/4 ml-auto mr-auto mt-8">
   <h2 class="flex items-center justify-between pb-8">
-    <span class="text-3xl font-bold tracking-tight text-gray-900">Books</span>
+    <span
+      id="book-page-heading"
+      jhiTranslate="book.home.title"
+      data-cy="userManagementPageHeading"
+      class="text-3xl font-bold tracking-tight text-gray-900"
+      >Books</span
+    >
+
+    <div class="">
+      <button mat-flat-button color="primary" [routerLink]="['./new']">
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="book.home.createLabel">Add new book</span>
+      </button>
+    </div>
   </h2>
 
   <mat-form-field appearance="standard">
