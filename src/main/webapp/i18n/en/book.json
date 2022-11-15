@@ -2,7 +2,7 @@
   "book": {
     "home": {
       "title": "Books",
-      "createLabel": "Create new Book"
+      "create": "Create new Book"
     }
   }
 }
