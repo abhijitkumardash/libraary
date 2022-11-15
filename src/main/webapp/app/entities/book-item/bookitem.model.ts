@@ -1,16 +1,17 @@
 import {IBook} from "../book/book.model";
+import {Dayjs} from "dayjs";
 
 export interface IBookItem {
   id: number;
   book: IBook;
   barcode: string;
-  borrowed: date;
-  dueDate: date;
+  borrowed: Dayjs;
+  dueDate: Dayjs;
   price: number;
   format: FormatType; // enum
   status: StatusType; // enum
-  dateOfPurchase: dayjs.Dayjs;
-  publicationDate: dayjs.Dayjs;
+  dateOfPurchase: Dayjs;
+  publicationDate: Dayjs;
   referenceOnly: boolean;
 }
 
@@ -36,13 +37,13 @@ export class BookItem implements IBookItem {
     public id: number,
     public book: IBook,
     public barcode: string,
-    public borrowed: date,
-    public dueDate: date,
+    public borrowed: Dayjs,
+    public dueDate: Dayjs,
     public price: number,
-    public format: string,
-    public status: string,
-    public dateofPurchase: dayjs.Dayjs,
-    public pubicationDate: dayjs.Dayjs,
+    public format: FormatType,
+    public status: StatusType,
+    public dateOfPurchase: Dayjs,
+    public publicationDate: Dayjs,
     public referenceOnly: boolean,
   ) {}
 }
