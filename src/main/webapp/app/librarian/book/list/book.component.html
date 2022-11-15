@@ -1,1 +1,78 @@
-<p>book-list works!</p>
+<div class="w-3/4 ml-auto mr-auto mt-8">
+  <h2 class="flex items-center justify-between pb-8">
+    <span
+      id="book-page-heading"
+      jhiTranslate="book.home.title"
+      data-cy="userManagementPageHeading"
+      class="text-3xl font-bold tracking-tight text-gray-900"
+      >Books</span
+    >
+
+    <div class="">
+      <button mat-flat-button color="primary" [routerLink]="['./new']">
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="book.home.create">Add new book</span>
+      </button>
+    </div>
+  </h2>
+
+  <mat-form-field appearance="standard">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input />
+  </mat-form-field>
+
+  <table mat-table [dataSource]="dataSource" class="w-full">
+    <ng-container matColumnDef="author">
+      <th mat-header-cell *matHeaderCellDef>Author</th>
+      <td mat-cell *matCellDef="let element">{{ element.author }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="isbn">
+      <th mat-header-cell *matHeaderCellDef>ISBN</th>
+      <td mat-cell *matCellDef="let element">{{ element.isbn }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef>Title</th>
+      <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="year">
+      <th mat-header-cell *matHeaderCellDef>Year</th>
+      <td mat-cell *matCellDef="let element">{{ element.year }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="publisher">
+      <th mat-header-cell *matHeaderCellDef>Publisher</th>
+      <td mat-cell *matCellDef="let element">{{ element.publisher }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="publicationYear">
+      <th mat-header-cell *matHeaderCellDef>PublicationYear</th>
+      <td mat-cell *matCellDef="let element">{{ element.publicationYear }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="pages">
+      <th mat-header-cell *matHeaderCellDef>Pages</th>
+      <td mat-cell *matCellDef="let element">{{ element.pages }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="subject">
+      <th mat-header-cell *matHeaderCellDef>Subject</th>
+      <td mat-cell *matCellDef="let element">{{ element.subject }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{ input.value }}"</td>
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+</div>

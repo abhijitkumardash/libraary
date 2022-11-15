@@ -1,7 +1,8 @@
 {
   "book": {
     "home": {
-      "title": "Book administration"
+      "title": "Books",
+      "create": "Create new Book"
     }
   }
 }
