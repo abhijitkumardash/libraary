@@ -22,7 +22,6 @@ export class BookComponent implements OnInit {
   ngOnInit(): void {
     this.bookService.query().subscribe((result) => {
       this.dataSource = result.body
-      console.log(this.dataSource)
     })
   }
 
