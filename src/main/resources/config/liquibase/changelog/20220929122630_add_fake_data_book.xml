@@ -11,7 +11,6 @@
     <changeSet id="20220929122630-data" author="garlontas" context="faker">
         <loadData tableName="book" file="config/liquibase/fake-data/book.csv" separator=";" encoding="UTF-8" usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="author" type="string"/>
             <column name="isbn" type="string"/>
             <column name="pages" type="numeric"/>
             <column name="publication_year" type="numeric"/>
@@ -19,6 +18,8 @@
             <column name="subject" type="string"/>
             <column name="title" type="string"/>
         </loadData>
+        <loadData tableName="author" file="config/liquibase/fake-data/author.csv" separator=";" encoding="UTF-8" usePreparedStatements="true"/>
+        <loadData tableName="rel_book_author" file="config/liquibase/fake-data/rel_book_author.csv" separator=";" encoding="UTF-8" usePreparedStatements="true"/>
     </changeSet>
     <changeSet id="20220929122630-data-item" author="garlontas" context="faker">
         <loadData tableName="book_item" file="config/liquibase/fake-data/book-item.csv" separator=";" encoding="UTF-8" usePreparedStatements="true">
