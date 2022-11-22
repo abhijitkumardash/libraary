@@ -2,6 +2,9 @@
   "book": {
     "home": {
       "title": "Book administration"
+    },
+    "delete": {
+      "message": "Are you sure you want to delete user <span class=\"font-bold\">\"{{ title }}\"</span>?"
     }
   }
 }
