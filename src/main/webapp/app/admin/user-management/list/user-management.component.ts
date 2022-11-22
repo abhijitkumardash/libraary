@@ -62,7 +62,6 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
   }
 
   deleteUser(user: User): void {
-    console.log(user.login)
     const dialog = this.dialogService.openDialog(UserManagementDeleteDialogComponent, {
       data: user
     })
