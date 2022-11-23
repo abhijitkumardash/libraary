@@ -29,8 +29,8 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
   page!: number;
   predicate!: string;
   ascending!: boolean;
-  defaultSortColumn: string = "email";
-  defaultSortOrder: string = "asc";
+  defaultSortColumn = "email";
+  defaultSortOrder = "asc";
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
