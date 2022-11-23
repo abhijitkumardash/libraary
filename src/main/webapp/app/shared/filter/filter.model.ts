@@ -31,7 +31,7 @@ export class FilterOption implements IFilterOption {
   }
 
   isSet(): boolean {
-    return this.value != null && this.value.length > 0;
+    return this.value !== null && this.value.length > 0;
   }
 }
 
