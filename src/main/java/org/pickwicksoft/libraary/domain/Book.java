@@ -1,5 +1,6 @@
 package org.pickwicksoft.libraary.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -25,22 +26,20 @@ public class Book {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @Column(name = "cover")
     private byte[] cover;
 
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "subtitle")
     private String subtitle;
 
-    @Column(name = "subject", nullable = false)
-    private String subject;
+    @Column(name = "description", nullable = false)
+    private String description;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "rel_book_author", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    //@JsonIgnoreProperties(value = { "books" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "books" }, allowSetters = true)
     private Set<Author> authors = new HashSet<>();
 
     @Column(name = "isbn", nullable = false)
@@ -75,12 +74,12 @@ public class Book {
         this.title = title;
     }
 
-    public String getSubject() {
-        return subject;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void addAuthor(Author author) {
@@ -94,6 +93,11 @@ public class Book {
             this.authors.remove(author);
             author.getBooks().remove(this);
         }
+    }
+
+    public void removeAuthor(Author author) {
+        this.authors.remove(author);
+        author.getBooks().remove(this);
     }
 
     public List<Author> getAuthors() {
@@ -114,14 +118,6 @@ public class Book {
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
-    }
-
-    public Integer getYear() {
-        return publicationYear;
-    }
-
-    public void setYear(Integer year) {
-        this.publicationYear = year;
     }
 
     public Integer getPages() {

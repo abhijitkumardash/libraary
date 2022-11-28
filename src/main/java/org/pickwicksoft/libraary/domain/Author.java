@@ -26,6 +26,12 @@ public class Author {
     @JsonIgnore
     private Set<Book> books = new HashSet<>();
 
+    public Author(String name) {
+        this.name = name;
+    }
+
+    public Author() {}
+
     public Set<Book> getBooks() {
         return books;
     }
@@ -48,10 +54,5 @@ public class Author {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Author name(String name) {
-        this.name = name;
-        return this;
     }
 }

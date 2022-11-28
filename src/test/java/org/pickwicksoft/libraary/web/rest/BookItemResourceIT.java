@@ -128,11 +128,11 @@ class BookItemResourceIT {
         }
         book.setSubtitle("AAA");
         book.setCover(TestUtil.createByteArray(1, "0"));
-        book.addAuthor(new Author().name("AAA"));
+        book.addAuthor(new Author("AAA"));
         book.setPublisher("Test Publisher");
         book.setPublicationYear(2020);
         book.setPages(100);
-        book.setSubject("Test Subject");
+        book.setDescription("Test Subject");
         book = bookRepository.save(book);
         return book;
     }

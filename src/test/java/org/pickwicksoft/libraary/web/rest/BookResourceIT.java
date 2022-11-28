@@ -13,7 +13,6 @@ import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.pickwicksoft.libraary.IntegrationTest;
-import org.pickwicksoft.libraary.domain.Author;
 import org.pickwicksoft.libraary.domain.Book;
 import org.pickwicksoft.libraary.repository.BookRepository;
 import org.pickwicksoft.libraary.security.AuthoritiesConstants;
@@ -36,10 +35,8 @@ class BookResourceIT {
     private static final String UPDATED_SUBTITLE = "BBB";
     private static final byte[] DEFAULT_COVER = TestUtil.createByteArray(1, "0");
     private static final byte[] UPDATED_COVER = TestUtil.createByteArray(1, "1");
-    private static final String DEFAULT_SUBJECT = "AAA";
-    private static final String UPDATED_SUBJECT = "BBB";
-    private static final Author DEFAULT_AUTHOR = new Author().name("AAA");
-    private static final Author UPDATED_AUTHOR = new Author().name("BBB");
+    private static final String DEFAULT_DESCRIPTION = "AAA";
+    private static final String UPDATED_DESCRIPTION = "BBB";
     private static final String DEFAULT_ISBN = "AAA";
     private static final String UPDATED_ISBN = "BBB";
     private static final String DEFAULT_PUBLISHER = "AAA";
@@ -75,7 +72,7 @@ class BookResourceIT {
 
         book.setSubtitle(DEFAULT_SUBTITLE);
 
-        book.setSubject(DEFAULT_SUBJECT);
+        book.setDescription(DEFAULT_DESCRIPTION);
 
         book.setIsbn(DEFAULT_ISBN);
 
@@ -99,7 +96,7 @@ class BookResourceIT {
 
         book.setSubtitle(UPDATED_SUBTITLE);
 
-        book.setSubject(UPDATED_SUBJECT);
+        book.setDescription(UPDATED_DESCRIPTION);
 
         book.setIsbn(UPDATED_ISBN);
 
@@ -134,7 +131,7 @@ class BookResourceIT {
         assertThat(testBook.getTitle()).isEqualTo(DEFAULT_TITLE);
         assertThat(testBook.getSubtitle()).isEqualTo(DEFAULT_SUBTITLE);
         assertThat(testBook.getCover()).isEqualTo(DEFAULT_COVER);
-        assertThat(testBook.getSubject()).isEqualTo(DEFAULT_SUBJECT);
+        assertThat(testBook.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         //assertThat(testBook.getAuthors().get(0).getName()).isEqualTo(DEFAULT_AUTHOR.getName());
         assertThat(testBook.getIsbn()).isEqualTo(DEFAULT_ISBN);
         assertThat(testBook.getPublisher()).isEqualTo(DEFAULT_PUBLISHER);
@@ -172,7 +169,7 @@ class BookResourceIT {
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
             .andExpect(jsonPath("$.[*].subtitle").value(hasItem(DEFAULT_SUBTITLE)))
             .andExpect(jsonPath("$.[*].cover").isArray())
-            .andExpect(jsonPath("$.[*].subject").value(hasItem(DEFAULT_SUBJECT)))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             //.andExpect(jsonPath("$.[*].authors").value(hasItem(DEFAULT_AUTHOR.getName())))
             .andExpect(jsonPath("$.[*].isbn").value(hasItem(DEFAULT_ISBN)))
             .andExpect(jsonPath("$.[*].publisher").value(hasItem(DEFAULT_PUBLISHER)))
@@ -195,7 +192,7 @@ class BookResourceIT {
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
             .andExpect(jsonPath("$.subtitle").value(DEFAULT_SUBTITLE))
             .andExpect(jsonPath("$.cover").isNotEmpty())
-            .andExpect(jsonPath("$.subject").value(DEFAULT_SUBJECT))
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             //.andExpect(jsonPath("$.authors").value(DEFAULT_AUTHOR.getName()))
             .andExpect(jsonPath("$.isbn").value(DEFAULT_ISBN))
             .andExpect(jsonPath("$.publisher").value(DEFAULT_PUBLISHER))
@@ -239,7 +236,7 @@ class BookResourceIT {
         Book testBook = bookList.get(bookList.size() - 1);
 
         assertThat(testBook.getTitle()).isEqualTo(UPDATED_TITLE);
-        assertThat(testBook.getSubject()).isEqualTo(UPDATED_SUBJECT);
+        assertThat(testBook.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         //assertThat(testBook.getAuthors().get(0).getName()).isEqualTo(UPDATED_AUTHOR.getName());
         assertThat(testBook.getIsbn()).isEqualTo(UPDATED_ISBN);
         assertThat(testBook.getPublisher()).isEqualTo(UPDATED_PUBLISHER);

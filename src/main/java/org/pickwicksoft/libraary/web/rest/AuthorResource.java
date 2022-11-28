@@ -36,7 +36,7 @@ public class AuthorResource {
     }
 
     /**
-     * {@code GET  /author/items} : get all the author/items.
+     * {@code GET  /author} : get all the authors.
      *
      * @return the {@link List} of {@link Author}s.
      */
@@ -47,7 +47,7 @@ public class AuthorResource {
     }
 
     /**
-     * {@code GET  /author/items/:id} : get one author by id.
+     * {@code GET  /author/:id} : get one author by id.
      *
      * @param id the id of the author to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the author, or with status {@code 404 (Not Found)}.
@@ -70,7 +70,7 @@ public class AuthorResource {
     }
 
     /**
-     * {@code DELETE  /author/items/:id} : delete the "id" author.
+     * {@code DELETE  /author/:id} : delete the "id" author.
      *
      * @param id the id of the author to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
@@ -78,6 +78,16 @@ public class AuthorResource {
     @DeleteMapping("/author/{id}")
     public ResponseEntity<Void> deleteAuthor(@PathVariable Long id) {
         log.debug("REST request to delete Author : {}", id);
+        authorRepository
+            .findById(id)
+            .ifPresent(author ->
+                author
+                    .getBooks()
+                    .forEach(book -> {
+                        book.removeAuthor(id);
+                        bookRepository.save(book);
+                    })
+            );
         authorRepository.deleteById(id);
         return ResponseEntity
             .noContent()

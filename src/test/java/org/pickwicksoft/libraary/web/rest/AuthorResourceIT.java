@@ -73,7 +73,7 @@ class AuthorResourceIT {
         book.setPublisher("Test Publisher");
         book.setPublicationYear(2020);
         book.setPages(100);
-        book.setSubject("Test Subject");
+        book.setDescription("Test Subject");
         book = bookRepository.save(book);
         return book;
     }
