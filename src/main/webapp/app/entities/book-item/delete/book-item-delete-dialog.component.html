@@ -1,0 +1,14 @@
+<h2 mat-dialog-title jhiTranslate="entity.delete.title">Confirm delete operation</h2>
+<mat-dialog-content class="mat-typography">
+  <jhi-alert-error></jhi-alert-error>
+  <p jhiTranslate="book.delete.question" [translateValues]="{ bookItem: bookItem.book.title }">
+    Are you sure you want to delete <span class="font-weight-bold">{{ bookItem.book.title }}</span
+    >?
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button mat-dialog-close><span jhi.Translate="entity.action.cancel">Cancel</span></button>
+  <button mat-flat-button color="danger" [mat-dialog-close]="'deleted'" cdkFocusInitial>
+    <span jhi.Translate="entity.action.delete">Delete</span>
+  </button>
+</mat-dialog-actions>
