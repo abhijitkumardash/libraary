@@ -1,27 +1,46 @@
 package org.pickwicksoft.libraary.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "book")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Book {
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
+    List<SubCategory> subCategories;
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+    @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
+
+    private byte[] cover;
 
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "subject", nullable = false)
-    private String subject;
+    private String subtitle;
 
-    @Column(name = "author", nullable = false)
-    private String author;
+    @Column(name = "description", nullable = false)
+    private String description;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "rel_book_author", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "books" }, allowSetters = true)
+    private Set<Author> authors = new HashSet<>();
 
     @Column(name = "isbn", nullable = false)
     private String isbn;
@@ -39,10 +58,6 @@ public class Book {
     @Column(name = "pages", nullable = false)
     private Integer pages;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
-    List<SubCategory> subCategories;
-
     public Long getId() {
         return id;
     }
@@ -59,20 +74,38 @@ public class Book {
         this.title = title;
     }
 
-    public String getSubject() {
-        return subject;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getAuthor() {
-        return author;
+    public void addAuthor(Author author) {
+        this.authors.add(author);
+        author.getBooks().add(this);
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthors(List<Author> authors) {
+        authors.forEach(this::addAuthor);
+    }
+
+    public void removeAuthor(long authorId) {
+        Author author = this.authors.stream().filter(t -> t.getId() == authorId).findFirst().orElse(null);
+        if (author != null) {
+            this.authors.remove(author);
+            author.getBooks().remove(this);
+        }
+    }
+
+    public void removeAuthor(Author author) {
+        this.authors.remove(author);
+        author.getBooks().remove(this);
+    }
+
+    public List<Author> getAuthors() {
+        return new ArrayList<>(this.authors);
     }
 
     public String getIsbn() {
@@ -89,14 +122,6 @@ public class Book {
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
-    }
-
-    public Integer getYear() {
-        return publicationYear;
-    }
-
-    public void setYear(Integer year) {
-        this.publicationYear = year;
     }
 
     public Integer getPages() {
@@ -129,5 +154,21 @@ public class Book {
 
     public void setLanguages(List<Language> languages) {
         this.languages = languages;
+    }
+
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
+    }
+
+    public byte[] getCover() {
+        return cover;
+    }
+
+    public void setCover(byte[] cover) {
+        this.cover = cover;
     }
 }

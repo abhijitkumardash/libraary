@@ -5,9 +5,6 @@
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="bookPK"/>
             </column>
-            <column name="author" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
             <column name="isbn" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
@@ -24,6 +21,12 @@
                 <constraints nullable="false"/>
             </column>
             <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subtitle" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cover" type="bytea">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -95,6 +98,16 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet author="stefan (generated)" id="1662483264923-11">
+        <createTable tableName="author">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
     <changeSet author="stefan (generated)" id="1662483264923-12">
         <createTable tableName="language">
             <column autoIncrement="true" name="id" type="BIGINT">
@@ -117,6 +130,16 @@
         </createTable>
     </changeSet>
     <changeSet author="stefan (generated)" id="1662483264923-14">
+        <createTable tableName="rel_book_author">
+            <column name="book_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="stefan (generated)" id="1662483264923-15">
         <createSequence incrementBy="1" sequenceName="hibernate_sequence" startValue="1"/>
     </changeSet>
 </databaseChangeLog>

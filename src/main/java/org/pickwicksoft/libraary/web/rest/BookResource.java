@@ -5,9 +5,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import javax.validation.Valid;
 import org.pickwicksoft.libraary.domain.Book;
 import org.pickwicksoft.libraary.repository.BookRepository;
+import org.pickwicksoft.libraary.service.BookService;
 import org.pickwicksoft.libraary.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,21 +26,22 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api")
 public class BookResource {
 
-    private final Logger log = LoggerFactory.getLogger(org.pickwicksoft.libraary.web.rest.BookResource.class);
-
     private static final String ENTITY_NAME = "Book";
+    private final Logger log = LoggerFactory.getLogger(org.pickwicksoft.libraary.web.rest.BookResource.class);
+    private final BookRepository bookRepository;
+    private final BookService bookService;
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final BookRepository bookRepository;
-
-    public BookResource(BookRepository bookRepository) {
+    public BookResource(BookRepository bookRepository, BookService bookService) {
         this.bookRepository = bookRepository;
+        this.bookService = bookService;
     }
 
     /**
      * {@code GET  /book/items} : get all the book/items.
+     *
      * @return the {@link List} of {@link Book}s.
      */
     @GetMapping("/book")
@@ -55,6 +60,14 @@ public class BookResource {
     public ResponseEntity<Book> getBook(@PathVariable Long id) {
         log.debug("REST request to get book : {}", id);
         return ResponseUtil.wrapOrNotFound(bookRepository.findById(id));
+    }
+
+    @GetMapping("/book/isbn/{isbn}")
+    public ResponseEntity<Book> getBookByIsbn(@PathVariable String isbn) throws ExecutionException, InterruptedException {
+        log.debug("REST request to get book by isbn from bookgrabber : {}", isbn);
+        CompletableFuture<Optional<Book>> book = bookService.getBookByISBN(isbn);
+        CompletableFuture.allOf(book).join();
+        return ResponseUtil.wrapOrNotFound(book.get());
     }
 
     @PostMapping("/book")

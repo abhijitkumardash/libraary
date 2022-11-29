@@ -1,7 +1,7 @@
 package org.pickwicksoft.libraary.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -15,10 +15,7 @@ import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.pickwicksoft.libraary.IntegrationTest;
-import org.pickwicksoft.libraary.domain.Book;
-import org.pickwicksoft.libraary.domain.BookFormat;
-import org.pickwicksoft.libraary.domain.BookItem;
-import org.pickwicksoft.libraary.domain.BookStatus;
+import org.pickwicksoft.libraary.domain.*;
 import org.pickwicksoft.libraary.repository.BookItemRepository;
 import org.pickwicksoft.libraary.repository.BookRepository;
 import org.pickwicksoft.libraary.security.AuthoritiesConstants;
@@ -73,6 +70,28 @@ class BookItemResourceIT {
 
     private BookItem bookitem;
 
+    public static BookItem createUpdatedEntity(BookItem bookitem) {
+        bookitem.setBarcode(UPDATED_BARCODE);
+
+        bookitem.setReferenceOnly(UPDATED_ISREFERENCEONLY);
+
+        bookitem.setBorrowed(UPDATED_BORROWED);
+
+        bookitem.setDueDate(UPDATED_DUEDATE);
+
+        bookitem.setPrice(UPDATED_PRICE);
+
+        bookitem.setFormat(UPDATED_FORMAT);
+
+        bookitem.setStatus(UPDATED_STATUS);
+
+        bookitem.setDateOfPurchase(UPDATED_DATEOFPURCHASE);
+
+        bookitem.setPublicationDate(UPDATED_PUBLICATIONDATE);
+
+        return bookitem;
+    }
+
     public BookItem createEntity() {
         BookItem bookitem = new BookItem();
 
@@ -107,11 +126,13 @@ class BookItemResourceIT {
         } else {
             book.setTitle("BBB");
         }
-        book.setAuthor("Test Author");
+        book.setSubtitle("AAA");
+        book.setCover(TestUtil.createByteArray(1, "0"));
+        book.addAuthor(new Author("AAA"));
         book.setPublisher("Test Publisher");
         book.setPublicationYear(2020);
         book.setPages(100);
-        book.setSubject("Test Subject");
+        book.setDescription("Test Subject");
         book = bookRepository.save(book);
         return book;
     }
@@ -138,28 +159,6 @@ class BookItemResourceIT {
         bookitem.setPublicationDate(UPDATED_PUBLICATIONDATE);
 
         bookitem.setBook(createBook(true));
-
-        return bookitem;
-    }
-
-    public static BookItem createUpdatedEntity(BookItem bookitem) {
-        bookitem.setBarcode(UPDATED_BARCODE);
-
-        bookitem.setReferenceOnly(UPDATED_ISREFERENCEONLY);
-
-        bookitem.setBorrowed(UPDATED_BORROWED);
-
-        bookitem.setDueDate(UPDATED_DUEDATE);
-
-        bookitem.setPrice(UPDATED_PRICE);
-
-        bookitem.setFormat(UPDATED_FORMAT);
-
-        bookitem.setStatus(UPDATED_STATUS);
-
-        bookitem.setDateOfPurchase(UPDATED_DATEOFPURCHASE);
-
-        bookitem.setPublicationDate(UPDATED_PUBLICATIONDATE);
 
         return bookitem;
     }
