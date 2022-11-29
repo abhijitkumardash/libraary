@@ -49,15 +49,11 @@ class AuthorResourceIT {
     private BookRepository bookRepository;
 
     public Author createEntity() {
-        Author author = new Author();
-        author.setName(DEFAULT_NAME);
-        return author;
+        return new Author(DEFAULT_NAME);
     }
 
     public Author createUpdatedEntity() {
-        Author author = new Author();
-        author.setName(UPDATED_NAME);
-        return author;
+        return new Author(UPDATED_NAME);
     }
 
     private Book createBook(Boolean updated) {
