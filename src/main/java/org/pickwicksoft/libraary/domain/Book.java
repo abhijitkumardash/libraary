@@ -87,6 +87,10 @@ public class Book {
         author.getBooks().add(this);
     }
 
+    public void setAuthors(List<Author> authors) {
+        authors.forEach(this::addAuthor);
+    }
+
     public void removeAuthor(long authorId) {
         Author author = this.authors.stream().filter(t -> t.getId() == authorId).findFirst().orElse(null);
         if (author != null) {

@@ -1,6 +1,7 @@
 package org.pickwicksoft.libraary.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -26,18 +27,15 @@ public class Author {
     @JsonIgnore
     private Set<Book> books = new HashSet<>();
 
-    public Author(String name) {
+    public Author(@JsonProperty("name") String name) {
         this.name = name;
     }
 
+    @Deprecated
     public Author() {}
 
     public Set<Book> getBooks() {
         return books;
-    }
-
-    public void setBooks(Set<Book> book) {
-        this.books = book;
     }
 
     public Long getId() {
