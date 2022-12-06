@@ -20,4 +20,5 @@
     <include file="config/liquibase/changelog/20220906185421_add_book_logic.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220929122630_add_fake_data_book.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220929145924_update_language_entity.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20221124171700_rename_subject_to_description.xml" relativeToChangelogFile="false"/>
 </databaseChangeLog>

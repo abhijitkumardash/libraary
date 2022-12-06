@@ -29,8 +29,8 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
   page!: number;
   predicate!: string;
   ascending!: boolean;
-  defaultSortColumn: string = "email";
-  defaultSortOrder: string = "asc";
+  defaultSortColumn = "email";
+  defaultSortOrder = "asc";
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -62,7 +62,6 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
   }
 
   deleteUser(user: User): void {
-    console.log(user.login)
     const dialog = this.dialogService.openDialog(UserManagementDeleteDialogComponent, {
       data: user
     })
