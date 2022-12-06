@@ -10,7 +10,7 @@ import { BookItemService } from '../../../entities/book-item/bookitem.service';
   templateUrl: './book.component.html',
 })
 export class BookComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'title', 'author', 'year', 'publisher', 'publicationYear', 'pages', 'isbn'];
+  displayedColumns: string[] = ['id', 'title', 'author', 'publisher', 'publicationYear', 'pages', 'isbn'];
   dataSource: any | null = null;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -32,11 +32,11 @@ export class BookComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-    
+
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
-  
-  
+
+
 }
