@@ -162,7 +162,7 @@ class BookResourceIT {
 
         // Get all the bookList
         restBookMockMvc
-            .perform(get(ENTITY_API_URL + ""))
+            .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(book.getId().intValue())))
