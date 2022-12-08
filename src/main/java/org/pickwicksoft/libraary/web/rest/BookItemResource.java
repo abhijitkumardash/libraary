@@ -12,10 +12,16 @@ import org.pickwicksoft.libraary.repository.BookItemRepository;
 import org.pickwicksoft.libraary.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 @RestController
@@ -38,15 +44,19 @@ public class BookItemResource {
 
     /**
      * {@code GET  /book/items} : get all the book item.
+     *
      * @return the {@link List} of {@link BookItem}s.
      */
     @GetMapping("/book/items")
-    public List<BookItem> getAllBookItems(
+    public ResponseEntity<List<BookItem>> getAllBookItems(
+        @ParameterObject Pageable pageable,
         @RequestParam(required = false, defaultValue = "") String title,
         @RequestParam(required = false, defaultValue = "") String author
     ) {
         log.debug("REST request to get all books");
-        return bookItemRepository.findByBook_TitleIgnoreCaseAndBook_AuthorIgnoreCase(title, author);
+        Page<BookItem> page = bookItemRepository.findAllByTitleAndAuthor(title, author, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
