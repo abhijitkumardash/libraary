@@ -220,7 +220,7 @@ class BookItemResourceIT {
         // Initialize the database
         bookitemRepository.saveAndFlush(bookitem);
 
-        // Get all the bookitemList
+        // Get all the bookitems
         restBookItemMockMvc
             .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())

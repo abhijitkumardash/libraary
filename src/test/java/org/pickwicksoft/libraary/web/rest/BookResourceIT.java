@@ -158,7 +158,7 @@ class BookResourceIT {
     @Transactional
     void getAllBooks() throws Exception {
         // Initialize the database
-        bookRepository.save(book);
+        bookRepository.saveAndFlush(book);
 
         // Get all the bookList
         restBookMockMvc
@@ -170,7 +170,6 @@ class BookResourceIT {
             .andExpect(jsonPath("$.[*].subtitle").value(hasItem(DEFAULT_SUBTITLE)))
             .andExpect(jsonPath("$.[*].cover").isArray())
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
-            //.andExpect(jsonPath("$.[*].authors").value(hasItem(DEFAULT_AUTHOR.getName())))
             .andExpect(jsonPath("$.[*].isbn").value(hasItem(DEFAULT_ISBN)))
             .andExpect(jsonPath("$.[*].publisher").value(hasItem(DEFAULT_PUBLISHER)))
             .andExpect(jsonPath("$.[*].publicationYear").value(hasItem(DEFAULT_PUBLICATIONYEAR)))
@@ -193,7 +192,6 @@ class BookResourceIT {
             .andExpect(jsonPath("$.subtitle").value(DEFAULT_SUBTITLE))
             .andExpect(jsonPath("$.cover").isNotEmpty())
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
-            //.andExpect(jsonPath("$.authors").value(DEFAULT_AUTHOR.getName()))
             .andExpect(jsonPath("$.isbn").value(DEFAULT_ISBN))
             .andExpect(jsonPath("$.publisher").value(DEFAULT_PUBLISHER))
             .andExpect(jsonPath("$.publicationYear").value(DEFAULT_PUBLICATIONYEAR))

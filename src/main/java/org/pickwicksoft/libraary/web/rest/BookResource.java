@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Stream;
 import javax.validation.Valid;
 import org.pickwicksoft.libraary.domain.Book;
 import org.pickwicksoft.libraary.repository.BookRepository;
@@ -15,10 +16,15 @@ import org.pickwicksoft.libraary.service.BookService;
 import org.pickwicksoft.libraary.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 @RestController
@@ -40,14 +46,20 @@ public class BookResource {
     }
 
     /**
-     * {@code GET  /book/items} : get all the book/items.
+     * {@code GET  /book/items} : get a page of book items.
      *
-     * @return the {@link List} of {@link Book}s.
+     * @return the {@link Pageable} of {@link Book}s.
      */
     @GetMapping("/book")
-    public List<Book> getBooks() {
-        log.debug("REST request to get all books");
-        return bookRepository.findAll();
+    public ResponseEntity<List<Book>> getBooks(
+        @ParameterObject Pageable pageable,
+        @RequestParam(required = false, defaultValue = "") String title,
+        @RequestParam(required = false, defaultValue = "") String author
+    ) {
+        log.debug("REST request to get a page of books");
+        var page = bookRepository.findByTitleAndAuthor(title, author, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
