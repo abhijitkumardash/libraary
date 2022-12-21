@@ -14,8 +14,8 @@ export class BookItemService {
     return this.http.get<IBookItem[]>(this.resourceUrl, {observe: 'response'});
   }
 
-  find(id: number): Observable<HttpResponse<IBookItem>> {
-    return this.http.get<IBookItem>(`${this.resourceUrl}/${id}`, {observe: 'response'})
+  find(id: number): Observable<IBookItem> {
+    return this.http.get<IBookItem>(`${this.resourceUrl}/${id}`)
   }
 
   create(bookItem: IBookItem): Observable<HttpResponse<IBookItem>> {
