@@ -3,22 +3,23 @@ import { BookService } from '../../../entities/book/book.service';
 import {ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import { BookItemService } from '../../../entities/book-item/bookitem.service';
 
 @Component({
   selector: 'jhi-book-list',
   templateUrl: './book.component.html',
 })
 export class BookComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'title', 'author', 'year', 'publisher', 'publicationYear', 'pages', 'isbn'];
+  displayedColumns: string[] = ['id', 'title', 'author', 'publisher', 'publicationYear', 'pages', 'isbn'];
   dataSource: any | null = null;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private bookService: BookService) { }
+  constructor(private bookItemService: BookItemService) { }
 
   ngOnInit(): void {
-    this.bookService.query().subscribe((result) => {
+    this.bookItemService.query().subscribe((result) => {
       this.dataSource = result.body
     })
   }
@@ -31,11 +32,11 @@ export class BookComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-    
+
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
-  
-  
+
+
 }

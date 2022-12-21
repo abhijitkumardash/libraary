@@ -6,7 +6,7 @@ import {IBookItem} from "./bookitem.model";
 
 @Injectable({providedIn: 'root'})
 export class BookItemService {
-  private resourceUrl = this .applicationConfigService.getEndpointFor('api/book-item');
+  private resourceUrl = this.applicationConfigService.getEndpointFor('api/book/items');
 
   constructor(private http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
 
