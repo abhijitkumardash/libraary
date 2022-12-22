@@ -5,6 +5,8 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import { BookItemService } from '../../../entities/book-item/bookitem.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { IBookItem } from '../../../entities/book-item/bookitem.model';
+import { MatTableDataSource } from '@angular/material/table';
 
 
 @Component({
@@ -13,7 +15,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class BookComponent implements OnInit {
   displayedColumns: string[] = ['cover', 'title', 'author', 'isbn', 'year', 'pages', 'format', 'status'];
-  dataSource: any | null = null;
+  dataSource: MatTableDataSource<IBookItem> = new MatTableDataSource<IBookItem>([]);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -21,8 +23,7 @@ export class BookComponent implements OnInit {
 
   ngOnInit(): void {
     this.bookItemService.query().subscribe((result) => {
-      this.dataSource = result.body
-      console.log(result.body)
+      this.dataSource = new MatTableDataSource<IBookItem>(result.body ? result.body : [])
       
     })
   }
