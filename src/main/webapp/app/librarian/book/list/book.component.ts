@@ -6,6 +6,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {IBookItem} from '../../../entities/book-item/bookitem.model';
 import {MatTableDataSource} from '@angular/material/table';
 import {ActivatedRoute, Params, Router } from '@angular/router';
+import { MatDrawer } from '@angular/material/sidenav';
 
 
 @Component({
@@ -19,12 +20,11 @@ export class BookComponent implements OnInit {
   selectedBook: IBookItem | null = null;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild('drawer') drawer!: any;
+  @ViewChild('drawer') drawer!: MatDrawer;
   constructor(private bookItemService: BookItemService,
               protected sanitizer: DomSanitizer,
               private router: Router,
-              private activatedRoute: ActivatedRoute) {
-  }
+              private activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.bookItemService.query().subscribe((result) => {
@@ -51,12 +51,11 @@ export class BookComponent implements OnInit {
 
   detail(bookItem: IBookItem): void {
     if (!this.drawer.opened) {
-      const queryParams: Params = {id: bookItem.id};
       this.router.navigate(
         [],
         {
           relativeTo: this.activatedRoute,
-          queryParams: queryParams,
+          queryParams: {id: bookItem.id},
           queryParamsHandling: 'merge',
         });
       this.selectedBook = bookItem;
