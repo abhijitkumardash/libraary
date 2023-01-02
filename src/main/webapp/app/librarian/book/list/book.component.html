@@ -37,7 +37,7 @@
             *ngIf="element.book.cover"
             [src]="this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + element.book.cover)"
             alt="Cover"
-            class="h-20 m-1 transition ease-in-out duration-500 delay-200 hover:scale-[3]"
+            class="h-20 m-1 transition ease-in-out duration-500 delay-200 hover:scale-[2.5] cursor-auto"
           />
         </td>
       </ng-container>
@@ -96,7 +96,7 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="detail(row)"></tr>
+      <tr mat-row class="hover:bg-slate-100 cursor-pointer" *matRowDef="let row; columns: displayedColumns" (click)="detail(row)"></tr>
       <tr class="mat-row" *matNoDataRow>
         <td class="mat-cell" colspan="4">No data matching the filter "{{ input.value }}"</td>
       </tr>

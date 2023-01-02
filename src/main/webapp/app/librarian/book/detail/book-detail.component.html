@@ -23,7 +23,7 @@
     <fa-icon icon="times"></fa-icon>
     <span>{{ book?.status?.toString()?.capitalize() }}</span>
   </div>
-  <div class="flex flex-row align-items-center justify-around w-5/6 p-3 pr-5 pl-5">
+  <div class="flex flex-row flex-wrap align-items-center justify-around w-5/6 pr-5 pl-5 gap-x-1 xs:pt-3">
     <div>
       <fa-icon icon="tree-city" class="pr-1 text-slate-200"></fa-icon>
       <span class="text-lg text-slate-200 mr-3">{{ book?.book?.publisher }}</span>
@@ -33,42 +33,34 @@
       <span class="text-lg text-slate-200">{{ book?.book?.isbn }}</span>
     </div>
   </div>
-  <div class="flex flex-row text-center align-items-center justify-around w-5/6 rounded-3xl p-3 pr-5 pl-5 mt-3 bg-slate-800">
-    <div class="flex flex-column gap-y-5">
-      <div *ngIf="book?.book?.pages">
-        <p class="text-2xl font-semibold">{{ book?.book?.pages }}</p>
-        <p class="text-sm">pages</p>
-      </div>
-      <div *ngIf="book?.price">
-        <p class="text-2xl font-semibold">{{ book?.price }}€</p>
-        <p class="text-sm">price</p>
-      </div>
+  <div class="grid grid-cols-2 xs:grid-cols-3 gap-y-4 text-center w-5/6 rounded-3xl p-3 pr-5 pl-5 mt-3 bg-slate-800">
+    <div *ngIf="book?.book?.pages">
+      <p class="text-2xl font-semibold">{{ book?.book?.pages }}</p>
+      <p class="text-sm">pages</p>
     </div>
-    <div class="border-l-[1px] h-12 border-slate-500"></div>
-    <div class="flex flex-column gap-y-3">
-      <div *ngIf="book?.book?.publicationYear">
-        <p class="text-2xl font-semibold">{{ book?.book?.publicationYear }}</p>
-        <p class="text-sm">published</p>
-      </div>
-      <div *ngIf="book?.format">
-        <p class="text-2xl font-semibold">{{ book?.format?.capitalize() }}</p>
-        <p class="text-sm">format</p>
-      </div>
+    <div *ngIf="book?.price">
+      <p class="text-2xl font-semibold">{{ book?.price }}€</p>
+      <p class="text-sm">price</p>
     </div>
-    <div *ngIf="book?.book?.pages" class="border-l-[1px] h-12 border-slate-500"></div>
-    <div *ngIf="book?.book?.languages" class="flex flex-column gap-y-3">
-      <div>
-        <div *ngFor="let language of book?.book?.languages">
-          <p class="text-2xl font-semibold">{{ language.flag }}</p>
-          <p *ngIf="book?.book?.languages?.length! > 1">/</p>
-        </div>
-        <p class="text-sm">language</p>
+    <div *ngIf="book?.book?.publicationYear">
+      <p class="text-2xl font-semibold">{{ book?.book?.publicationYear }}</p>
+      <p class="text-sm">published</p>
+    </div>
+    <div *ngIf="book?.format">
+      <p class="text-2xl font-semibold">{{ book?.format?.capitalize() }}</p>
+      <p class="text-sm">format</p>
+    </div>
+    <div>
+      <div *ngFor="let language of book?.book?.languages">
+        <p class="text-2xl font-semibold">{{ language.flag }}</p>
+        <p *ngIf="book?.book?.languages?.length! > 1">/</p>
       </div>
-      <div>
-        <fa-icon *ngIf="book?.referenceOnly" icon="check" class="text-green-500 text-2xl font-semibold"></fa-icon>
-        <fa-icon *ngIf="!book?.referenceOnly" icon="times" class="text-red-500 text-2xl font-semibold"></fa-icon>
-        <p class="text-sm">reference only</p>
-      </div>
+      <p class="text-sm">language</p>
+    </div>
+    <div>
+      <fa-icon *ngIf="book?.referenceOnly" icon="check" class="text-green-500 text-2xl font-semibold"></fa-icon>
+      <fa-icon *ngIf="!book?.referenceOnly" icon="times" class="text-red-500 text-2xl font-semibold"></fa-icon>
+      <p class="text-sm">reference only</p>
     </div>
   </div>
   <div [ngClass]="{ limitTextHeight: isReadMore }" class="w-5/6 text-lg leading-relaxed text-justify pt-3">

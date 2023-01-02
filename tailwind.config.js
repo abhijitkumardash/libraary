@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme')
 module.exports = {
   important: true,
   content: [
@@ -9,6 +10,10 @@ module.exports = {
       colors: {
         "primary": "rgb(15 23 42)",
       }
+    },
+    screens: {
+      'xs': '400px',
+      ...defaultTheme.screens,
     },
   },
   plugins: [],
