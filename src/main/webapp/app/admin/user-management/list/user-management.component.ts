@@ -2,7 +2,6 @@ import {AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { HttpResponse, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ASC, DESC, SORT } from 'app/config/navigation.constants';
 import { AccountService } from 'app/core/auth/account.service';

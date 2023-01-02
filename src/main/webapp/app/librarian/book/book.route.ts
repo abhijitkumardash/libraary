@@ -1,6 +1,6 @@
-
-import { Routes } from "@angular/router";
+import {Routes } from "@angular/router";
 import {BookComponent} from "./list/book.component";
+
 
 export const bookRoute: Routes = [
   {
@@ -9,5 +9,5 @@ export const bookRoute: Routes = [
     data: {
       defaultSort: 'id,asc',
     },
-  },
+  }
 ];

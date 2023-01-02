@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {User} from '../user-management.model';
 import {UserManagementDeleteDialogComponent} from "../delete/user-management-delete-dialog.component";
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Account} from "../../../core/auth/account.model";
 import {AccountService} from 'app/core/auth/account.service';
 import {MatDialogService} from "../../../shared/dialog/mat-dialog.service";
@@ -30,7 +29,6 @@ export class UserManagementDetailComponent implements OnInit {
   }
 
   deleteUser(user: User): void {
-    console.log(user.login)
     const dialog = this.dialogService.openDialog(UserManagementDeleteDialogComponent, {
       data: user
     })
