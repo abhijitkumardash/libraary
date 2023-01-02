@@ -2,7 +2,7 @@ import {IBook} from "../book/book.model";
 import {Dayjs} from "dayjs";
 
 export interface IBookItem {
-  id?: number;
+  id?: string;
   book?: IBook;
   barcode?: string;
   borrowed?: Dayjs;
@@ -34,7 +34,7 @@ export enum StatusType {
 
 export class BookItem implements IBookItem {
   constructor(
-    public id?: number,
+    public id?: string,
     public book?: IBook,
     public barcode?: string,
     public borrowed?: Dayjs,

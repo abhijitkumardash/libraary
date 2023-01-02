@@ -1,4 +1,80 @@
-<div class="">
-  <img [src]="image" />
-  <p>{{ book?.book?.title }}</p>
+<div class="min-h-full w-[34rem] max-w-[100vw] bg-slate-900 text-white pt-3 pb-3 flex flex-column text-center align-items-center gap-y-px">
+  <img
+    *ngIf="book?.book?.cover !== ''"
+    [src]="this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + book?.book?.cover)"
+    class="w-[40%] pt-3 pb-3 rounded-[20px]"
+  />
+  <fa-icon *ngElse icon="book"></fa-icon>
+  <p class="text-2xl font-medium">{{ book?.book?.title }}</p>
+  <p class="text-2xl font-medium">{{ book?.book?.subtitle }}</p>
+  <div *ngFor="let author of book?.book?.authors">
+    <span class="text-lg text-slate-200">{{ author.name }}</span>
+    <span *ngIf="book?.book?.authors?.length! > 1">, </span>
+  </div>
+  <div class="text-lg text-green-500" *ngIf="book?.status?.toString() === 'AVAILABLE'">
+    <fa-icon icon="check"></fa-icon>
+    <span>{{ book?.status?.toString()?.capitalize() }}</span>
+  </div>
+  <div class="text-lg text-red-500" *ngIf="book?.status?.toString() === 'LOST'">
+    <fa-icon icon="times"></fa-icon>
+    <span>{{ book?.status?.toString()?.capitalize() }}</span>
+  </div>
+  <div class="text-lg text-orange-500" *ngIf="book?.status?.toString() === 'RESERVED'">
+    <fa-icon icon="times"></fa-icon>
+    <span>{{ book?.status?.toString()?.capitalize() }}</span>
+  </div>
+  <div class="flex flex-row align-items-center justify-around w-5/6 p-3 pr-5 pl-5">
+    <div>
+      <fa-icon icon="tree-city" class="pr-1 text-slate-200"></fa-icon>
+      <span class="text-lg text-slate-200 mr-3">{{ book?.book?.publisher }}</span>
+    </div>
+    <div>
+      <fa-icon icon="bars" class="pr-1 text-slate-200"></fa-icon>
+      <span class="text-lg text-slate-200">{{ book?.book?.isbn }}</span>
+    </div>
+  </div>
+  <div class="flex flex-row text-center align-items-center justify-around w-5/6 rounded-3xl p-3 pr-5 pl-5 mt-3 bg-slate-800">
+    <div class="flex flex-column gap-y-5">
+      <div *ngIf="book?.book?.pages">
+        <p class="text-2xl font-semibold">{{ book?.book?.pages }}</p>
+        <p class="text-sm">pages</p>
+      </div>
+      <div *ngIf="book?.price">
+        <p class="text-2xl font-semibold">{{ book?.price }}€</p>
+        <p class="text-sm">price</p>
+      </div>
+    </div>
+    <div class="border-l-[1px] h-12 border-slate-500"></div>
+    <div class="flex flex-column gap-y-3">
+      <div *ngIf="book?.book?.publicationYear">
+        <p class="text-2xl font-semibold">{{ book?.book?.publicationYear }}</p>
+        <p class="text-sm">published</p>
+      </div>
+      <div *ngIf="book?.format">
+        <p class="text-2xl font-semibold">{{ book?.format?.capitalize() }}</p>
+        <p class="text-sm">format</p>
+      </div>
+    </div>
+    <div *ngIf="book?.book?.pages" class="border-l-[1px] h-12 border-slate-500"></div>
+    <div *ngIf="book?.book?.languages" class="flex flex-column gap-y-3">
+      <div>
+        <div *ngFor="let language of book?.book?.languages">
+          <p class="text-2xl font-semibold">{{ language.flag }}</p>
+          <p *ngIf="book?.book?.languages?.length! > 1">/</p>
+        </div>
+        <p class="text-sm">language</p>
+      </div>
+      <div>
+        <fa-icon *ngIf="book?.referenceOnly" icon="check" class="text-green-500 text-2xl font-semibold"></fa-icon>
+        <fa-icon *ngIf="!book?.referenceOnly" icon="times" class="text-red-500 text-2xl font-semibold"></fa-icon>
+        <p class="text-sm">reference only</p>
+      </div>
+    </div>
+  </div>
+  <div [ngClass]="{ limitTextHeight: isReadMore }" class="w-5/6 text-lg leading-relaxed text-justify pt-3">
+    {{ book?.book?.description }}
+  </div>
+  <button mat-flat-button color="primary" (click)="showText()" class="w-5/6 bg-blue-500 rounded-[20px] mt-3">
+    {{ isReadMore ? 'Read' : 'Show Less' }}
+  </button>
 </div>
