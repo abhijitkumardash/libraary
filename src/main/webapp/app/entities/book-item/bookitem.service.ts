@@ -2,16 +2,21 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ApplicationConfigService} from 'app/core/config/application-config.service';
-import {IBookItem} from "./bookitem.model";
+import {BookItem, IBookItem} from "./bookitem.model";
+import {Pagination} from "../../core/request/request.model";
+import {createRequestOption} from "../../core/request/request-util";
+import {IService} from "../../shared/service/iservice";
 
 @Injectable({providedIn: 'root'})
-export class BookItemService {
+export class BookItemService extends IService<BookItem> {
   private resourceUrl = this.applicationConfigService.getEndpointFor('api/book/items');
 
-  constructor(private http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
+  constructor(private http: HttpClient, private applicationConfigService: ApplicationConfigService) {
+    super();}
 
-  query(): Observable<HttpResponse<IBookItem[]>> {
-    return this.http.get<IBookItem[]>(this.resourceUrl, {observe: 'response'});
+  query(req?: Pagination): Observable<HttpResponse<IBookItem[]>> {
+    const options = createRequestOption(req);
+    return this.http.get<IBookItem[]>(this.resourceUrl, {params: options, observe: 'response'});
   }
 
   find(id: string): Observable<IBookItem> {

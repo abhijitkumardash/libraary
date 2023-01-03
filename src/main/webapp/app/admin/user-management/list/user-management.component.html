@@ -24,11 +24,12 @@
     <table
       class="w-full"
       mat-table
-      [dataSource]="users"
+      [dataSource]="data"
       matSort
       (matSortChange)="loadAll()"
       matSortActive="{{ defaultSortColumn }}"
-      [hidden]="!users"
+      [matSortDirection]="defaultSortDirection"
+      [hidden]="!data"
     >
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header jhiTranslate="global.field.id">ID</th>
