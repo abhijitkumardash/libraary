@@ -1,5 +1,5 @@
 <mat-drawer-container class="view-fill bg-white">
-  <div class="w-3/4 ml-auto mr-auto mt-8">
+  <div class="md:w-3/4 p-2 md:p-0 ml-auto mr-auto mt-8">
     <h2 class="flex items-center justify-between pb-8">
       <span
         id="book-page-heading"
@@ -22,7 +22,16 @@
       <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input />
     </mat-form-field>
 
-    <table mat-table [dataSource]="dataSource" class="w-full">
+    <table
+      mat-table
+      [dataSource]="data"
+      class="w-full"
+      matSort
+      (matSortChange)="loadAll()"
+      matSortActive="{{ defaultSortColumn }}"
+      [matSortDirection]="defaultSortDirection"
+      [hidden]="!data"
+    >
       <ng-container matColumnDef="author">
         <th mat-header-cell *matHeaderCellDef>Authors</th>
         <td mat-cell *matCellDef="let element">
@@ -43,7 +52,7 @@
       </ng-container>
 
       <ng-container matColumnDef="format">
-        <th mat-header-cell *matHeaderCellDef>Format</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Format</th>
         <td mat-cell *matCellDef="let element">
           <mat-chip-list aria-label="format">
             <mat-chip>{{ element.format }}</mat-chip>
@@ -52,7 +61,7 @@
       </ng-container>
 
       <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
         <td mat-cell *matCellDef="let element">
           <mat-chip-list aria-label="status">
             <mat-chip>{{ element.status }}</mat-chip>
@@ -66,27 +75,27 @@
       </ng-container>
 
       <ng-container matColumnDef="isbn">
-        <th mat-header-cell *matHeaderCellDef>ISBN</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ISBN</th>
         <td mat-cell *matCellDef="let element">{{ element.book.isbn }}</td>
       </ng-container>
 
       <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef>Title</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
         <td mat-cell *matCellDef="let element">{{ element.book.title }}</td>
       </ng-container>
 
       <ng-container matColumnDef="publisher">
-        <th mat-header-cell *matHeaderCellDef>Publisher</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Publisher</th>
         <td mat-cell *matCellDef="let element">{{ element.book.publisher }}</td>
       </ng-container>
 
       <ng-container matColumnDef="year">
-        <th mat-header-cell *matHeaderCellDef>Year</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Year</th>
         <td mat-cell *matCellDef="let element">{{ element.book.publicationYear }}</td>
       </ng-container>
 
       <ng-container matColumnDef="pages">
-        <th mat-header-cell *matHeaderCellDef>Pages</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Pages</th>
         <td mat-cell *matCellDef="let element">{{ element.book.pages }}</td>
       </ng-container>
 
@@ -102,7 +111,7 @@
       </tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    <mat-paginator (page)="getData($event)" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
   </div>
   <mat-drawer #drawer class="h-full" mode="side" position="end">
     <fa-icon icon="times" class="absolute top-0 right-10 text-2xl cursor-pointer text-slate-100" (click)="closeDrawer()"></fa-icon>
