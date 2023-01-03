@@ -6,7 +6,7 @@
   />
   <fa-icon *ngElse icon="book"></fa-icon>
   <p class="text-2xl font-medium">{{ book?.book?.title }}</p>
-  <p class="text-2xl font-medium">{{ book?.book?.subtitle }}</p>
+  <p class="w-5/6 font-medium">{{ book?.book?.subtitle }}</p>
   <div *ngFor="let author of book?.book?.authors">
     <span class="text-lg text-slate-200">{{ author.name }}</span>
     <span *ngIf="book?.book?.authors?.length! > 1">, </span>
@@ -23,13 +23,17 @@
     <fa-icon icon="times"></fa-icon>
     <span>{{ book?.status?.toString()?.capitalize() }}</span>
   </div>
+  <div class="text-lg text-rose-500" *ngIf="book?.status?.toString() === 'LOANED'">
+    <fa-icon icon="times"></fa-icon>
+    <span>{{ book?.status?.toString()?.capitalize() }}</span>
+  </div>
   <div class="flex flex-row flex-wrap align-items-center justify-around w-5/6 pr-5 pl-5 gap-x-1 xs:pt-3">
     <div>
       <fa-icon icon="tree-city" class="pr-1 text-slate-200"></fa-icon>
       <span class="text-lg text-slate-200 mr-3">{{ book?.book?.publisher }}</span>
     </div>
     <div>
-      <fa-icon icon="bars" class="pr-1 text-slate-200"></fa-icon>
+      <fa-icon icon="qrcode" class="pr-1 text-slate-200"></fa-icon>
       <span class="text-lg text-slate-200">{{ book?.book?.isbn }}</span>
     </div>
   </div>
