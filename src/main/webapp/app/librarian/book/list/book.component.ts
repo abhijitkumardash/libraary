@@ -15,7 +15,7 @@ import { SortDirection } from '@angular/material/sort';
   styleUrls: ['./book.component.scss'],
 })
 export class BookComponent extends SortableComponent<IBookItem> implements OnInit {
-  displayedColumns: string[] = ['cover', 'title', 'author', 'isbn', 'year', 'pages', 'format', 'status'];
+  displayedColumns: string[] = ['cover', 'book_title', 'book_authors_name', 'book_isbn', 'book_publicationYear', 'book_pages', 'format', 'status'];
   selectedBook: IBookItem | null = null;
   @ViewChild('drawer') drawer!: MatDrawer;
   itemsPerPage = 5;
