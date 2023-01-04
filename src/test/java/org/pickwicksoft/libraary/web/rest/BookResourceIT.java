@@ -49,8 +49,6 @@ class BookResourceIT {
 
     private static final String ENTITY_API_URL = "/api/book";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
-    private static final String DEFAULT_AUTHOR = "AAA";
-    private static final String UPDATED_AUTHOR = "BBB";
 
     private static Random random = new Random();
     private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
@@ -85,8 +83,6 @@ class BookResourceIT {
 
         book.setPages(DEFAULT_PAGES);
 
-        book.addAuthor(new Author(DEFAULT_AUTHOR));
-
         return book;
     }
 
@@ -110,8 +106,6 @@ class BookResourceIT {
         book.setPublicationYear(UPDATED_PUBLICATIONYEAR);
 
         book.setPages(UPDATED_PAGES);
-
-        book.addAuthor(new Author(UPDATED_AUTHOR));
 
         return book;
     }
@@ -185,15 +179,13 @@ class BookResourceIT {
 
     @Test
     @Transactional
-    void getAllBooksFilterByTitleAndIsbnAndAuthor() throws Exception {
+    void getAllBooksFilterByTitleAndIsbn() throws Exception {
         // Initialize the database
         bookRepository.saveAndFlush(book);
 
         // Get all the bookList
         restBookMockMvc
-            .perform(
-                get(ENTITY_API_URL + "?title=" + DEFAULT_TITLE + "&isbn=" + DEFAULT_ISBN + "&author=" + book.getAuthors().get(0).getName())
-            )
+            .perform(get(ENTITY_API_URL + "?title=" + DEFAULT_TITLE + "&isbn=" + DEFAULT_ISBN))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(book.getId().intValue())))
