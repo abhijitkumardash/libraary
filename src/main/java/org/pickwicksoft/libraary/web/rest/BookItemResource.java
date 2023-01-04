@@ -7,6 +7,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import javax.validation.Valid;
+import net.kaczmarzyk.spring.data.jpa.domain.In;
+import net.kaczmarzyk.spring.data.jpa.domain.Like;
+import net.kaczmarzyk.spring.data.jpa.domain.LikeIgnoreCase;
+import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
+import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
 import org.pickwicksoft.libraary.domain.BookItem;
 import org.pickwicksoft.libraary.repository.BookItemRepository;
 import org.pickwicksoft.libraary.web.rest.errors.BadRequestAlertException;
@@ -15,7 +20,9 @@ import org.slf4j.LoggerFactory;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,12 +56,29 @@ public class BookItemResource {
      */
     @GetMapping("/book/items")
     public ResponseEntity<List<BookItem>> getAllBookItems(
-        @ParameterObject Pageable pageable,
-        @RequestParam(required = false, defaultValue = "") String title,
-        @RequestParam(required = false, defaultValue = "") String author
+        @And(
+            {
+                @Spec(path = "book.title", params = "title", spec = LikeIgnoreCase.class),
+                @Spec(path = "book.authors.name", params = "name", spec = LikeIgnoreCase.class),
+                @Spec(path = "book.isbn", params = "isbn", spec = Like.class),
+                @Spec(path = "format", params = "format", spec = In.class),
+            }
+        ) Specification<BookItem> spec,
+        @RequestParam(required = false, defaultValue = "") String author,
+        @ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get all books");
-        Page<BookItem> page = bookItemRepository.findAllByTitleAndAuthor(title, author, pageable);
+        Page<BookItem> page;
+        if (author.isEmpty()) {
+            page = bookItemRepository.findAll(spec, pageable);
+        } else {
+            List<BookItem> books = bookItemRepository.findAll(spec);
+            // Filter all books where one or more authors match the authorName
+            books.removeIf(bookItem -> bookItem.getBook().getAuthors().stream().noneMatch(a -> a.getName().contains(author)));
+            final int start = (int) pageable.getOffset();
+            final int end = Math.min((start + pageable.getPageSize()), books.size());
+            page = new PageImpl<>(books.subList(start, end), pageable, books.size());
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

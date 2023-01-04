@@ -233,6 +233,47 @@ class BookItemResourceIT {
 
     @Test
     @Transactional
+    void getAllBookItemsByTitleAndIsbnAndAuthor() throws Exception {
+        // Initialize the database
+        bookitemRepository.saveAndFlush(bookitem);
+
+        // Get all the bookitems
+        restBookItemMockMvc
+            .perform(
+                get(
+                    ENTITY_API_URL +
+                    "?sort=id,desc&title=" +
+                    bookitem.getBook().getTitle() +
+                    "&isbn=" +
+                    bookitem.getBook().getIsbn() +
+                    "&author=" +
+                    bookitem.getBook().getAuthors().get(0).getName()
+                )
+            )
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(bookitem.getId().toString())))
+            .andExpect(jsonPath("$.[*].barcode").value(hasItem(DEFAULT_BARCODE)))
+            .andExpect(jsonPath("$.[*].referenceOnly").value(hasItem(DEFAULT_ISREFERENCEONLY)))
+            .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE)));
+    }
+
+    @Test
+    @Transactional
+    void getAllBookItemsByNotExistingTitle() throws Exception {
+        // Initialize the database
+        bookitemRepository.saveAndFlush(bookitem);
+
+        // Get all the bookitems
+        restBookItemMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&title=notexisting"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*]").isEmpty());
+    }
+
+    @Test
+    @Transactional
     void getBookItem() throws Exception {
         // Initialize the database
         bookitemRepository.saveAndFlush(bookitem);

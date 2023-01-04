@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.pickwicksoft.libraary.IntegrationTest;
+import org.pickwicksoft.libraary.domain.Author;
 import org.pickwicksoft.libraary.domain.Book;
 import org.pickwicksoft.libraary.repository.BookRepository;
 import org.pickwicksoft.libraary.security.AuthoritiesConstants;
@@ -174,6 +175,43 @@ class BookResourceIT {
             .andExpect(jsonPath("$.[*].publisher").value(hasItem(DEFAULT_PUBLISHER)))
             .andExpect(jsonPath("$.[*].publicationYear").value(hasItem(DEFAULT_PUBLICATIONYEAR)))
             .andExpect(jsonPath("$.[*].pages").value(hasItem(DEFAULT_PAGES)));
+    }
+
+    @Test
+    @Transactional
+    void getAllBooksFilterByTitleAndIsbn() throws Exception {
+        // Initialize the database
+        bookRepository.saveAndFlush(book);
+
+        // Get all the bookList
+        restBookMockMvc
+            .perform(get(ENTITY_API_URL + "?title=" + DEFAULT_TITLE + "&isbn=" + DEFAULT_ISBN))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(book.getId().intValue())))
+            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
+            .andExpect(jsonPath("$.[*].subtitle").value(hasItem(DEFAULT_SUBTITLE)))
+            .andExpect(jsonPath("$.[*].cover").isArray())
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].isbn").value(hasItem(DEFAULT_ISBN)))
+            .andExpect(jsonPath("$.[*].publisher").value(hasItem(DEFAULT_PUBLISHER)))
+            .andExpect(jsonPath("$.[*].publicationYear").value(hasItem(DEFAULT_PUBLICATIONYEAR)))
+            .andExpect(jsonPath("$.[*].pages").value(hasItem(DEFAULT_PAGES)));
+    }
+
+    @Test
+    @Transactional
+    void getAllBooksByNonExistingTitle() throws Exception {
+        // Initialize the database
+        bookRepository.saveAndFlush(book);
+
+        // Get all the bookList
+        restBookMockMvc
+            .perform(get(ENTITY_API_URL + "?title=nonExistingTitle"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
     }
 
     @Test
