@@ -10,7 +10,14 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Stream;
 import javax.validation.Valid;
+import net.kaczmarzyk.spring.data.jpa.domain.In;
+import net.kaczmarzyk.spring.data.jpa.domain.Like;
+import net.kaczmarzyk.spring.data.jpa.domain.LikeIgnoreCase;
+import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
+import net.kaczmarzyk.spring.data.jpa.web.annotation.Join;
+import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
 import org.pickwicksoft.libraary.domain.Book;
+import org.pickwicksoft.libraary.domain.BookItem;
 import org.pickwicksoft.libraary.repository.BookRepository;
 import org.pickwicksoft.libraary.service.BookService;
 import org.pickwicksoft.libraary.web.rest.errors.BadRequestAlertException;
@@ -19,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -52,12 +60,17 @@ public class BookResource {
      */
     @GetMapping("/book")
     public ResponseEntity<List<Book>> getBooks(
-        @ParameterObject Pageable pageable,
-        @RequestParam(required = false, defaultValue = "") String title,
-        @RequestParam(required = false, defaultValue = "") String author
+        @Join(path = "authors", alias = "a") @And(
+            {
+                @Spec(path = "title", params = "title", spec = LikeIgnoreCase.class),
+                @Spec(path = "a.name", params = "author", spec = LikeIgnoreCase.class),
+                @Spec(path = "isbn", params = "isbn", spec = Like.class),
+            }
+        ) Specification<Book> spec,
+        @ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get a page of books");
-        var page = bookRepository.findByTitleAndAuthor(title, author, pageable);
+        var page = bookRepository.findAll(spec, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

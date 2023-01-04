@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.pickwicksoft.libraary.IntegrationTest;
+import org.pickwicksoft.libraary.domain.Author;
 import org.pickwicksoft.libraary.domain.Book;
 import org.pickwicksoft.libraary.repository.BookRepository;
 import org.pickwicksoft.libraary.security.AuthoritiesConstants;
@@ -48,6 +49,8 @@ class BookResourceIT {
 
     private static final String ENTITY_API_URL = "/api/book";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
+    private static final String DEFAULT_AUTHOR = "AAA";
+    private static final String UPDATED_AUTHOR = "BBB";
 
     private static Random random = new Random();
     private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
@@ -82,6 +85,8 @@ class BookResourceIT {
 
         book.setPages(DEFAULT_PAGES);
 
+        book.addAuthor(new Author(DEFAULT_AUTHOR));
+
         return book;
     }
 
@@ -105,6 +110,8 @@ class BookResourceIT {
         book.setPublicationYear(UPDATED_PUBLICATIONYEAR);
 
         book.setPages(UPDATED_PAGES);
+
+        book.addAuthor(new Author(UPDATED_AUTHOR));
 
         return book;
     }
@@ -174,6 +181,45 @@ class BookResourceIT {
             .andExpect(jsonPath("$.[*].publisher").value(hasItem(DEFAULT_PUBLISHER)))
             .andExpect(jsonPath("$.[*].publicationYear").value(hasItem(DEFAULT_PUBLICATIONYEAR)))
             .andExpect(jsonPath("$.[*].pages").value(hasItem(DEFAULT_PAGES)));
+    }
+
+    @Test
+    @Transactional
+    void getAllBooksFilterByTitleAndIsbnAndAuthor() throws Exception {
+        // Initialize the database
+        bookRepository.saveAndFlush(book);
+
+        // Get all the bookList
+        restBookMockMvc
+            .perform(
+                get(ENTITY_API_URL + "?title=" + DEFAULT_TITLE + "&isbn=" + DEFAULT_ISBN + "&author=" + book.getAuthors().get(0).getName())
+            )
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(book.getId().intValue())))
+            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
+            .andExpect(jsonPath("$.[*].subtitle").value(hasItem(DEFAULT_SUBTITLE)))
+            .andExpect(jsonPath("$.[*].cover").isArray())
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].isbn").value(hasItem(DEFAULT_ISBN)))
+            .andExpect(jsonPath("$.[*].publisher").value(hasItem(DEFAULT_PUBLISHER)))
+            .andExpect(jsonPath("$.[*].publicationYear").value(hasItem(DEFAULT_PUBLICATIONYEAR)))
+            .andExpect(jsonPath("$.[*].pages").value(hasItem(DEFAULT_PAGES)));
+    }
+
+    @Test
+    @Transactional
+    void getAllBooksByNonExistingTitle() throws Exception {
+        // Initialize the database
+        bookRepository.saveAndFlush(book);
+
+        // Get all the bookList
+        restBookMockMvc
+            .perform(get(ENTITY_API_URL + "?title=nonExistingTitle"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
     }
 
     @Test
