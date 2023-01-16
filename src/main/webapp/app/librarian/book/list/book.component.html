@@ -27,11 +27,11 @@
       <table
         (matSortChange)="applySort()"
         [dataSource]="data"
-        [matSortDirection]="defaultSortDirection"
+        [matSortDirection]="this.direction"
         class="w-full"
         mat-table
         matSort
-        matSortActive="{{ defaultSortColumn }}"
+        matSortActive="{{ predicate }}"
       >
         <ng-container matColumnDef="book_authors_name">
           <th *matHeaderCellDef mat-header-cell mat-sort-header>Authors</th>

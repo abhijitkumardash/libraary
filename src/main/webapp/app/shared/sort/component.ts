@@ -16,7 +16,7 @@ export abstract class SortableComponent<T> {
   abstract itemsPerPage: number;
   page!: number;
   predicate!: string;
-  ascending!: boolean;
+  direction!: SortDirection;
   abstract defaultSortColumn: string;
   abstract defaultSortDirection: SortDirection;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -40,7 +40,7 @@ export abstract class SortableComponent<T> {
       relativeTo: this.activatedRoute.parent,
       queryParams: {
         page: this.page,
-        sort: `${this.sort ? this.sort.active : this.predicate},${this.sort ? this.sort.direction : (this.ascending ? ASC : DESC)}`,
+        sort: `${this.sort ? this.sort.active : this.predicate},${this.sort ? this.sort.direction : this.direction}`,
       },
       queryParamsHandling: 'merge',
     });
@@ -52,7 +52,7 @@ export abstract class SortableComponent<T> {
       this.page = Number(page ?? 0);
       const sort = (params.get(SORT) ?? this.defaultSortColumn + "," + this.defaultSortDirection).split(',');
       this.predicate = sort[0];
-      this.ascending = sort[1] === ASC;
+      this.direction = sort[1] === 'asc' ? 'asc' : (sort[1] === 'desc' ? sort[1] : '');
       if (params.keys.length === 0) {
         this.transition();
         return;
@@ -62,7 +62,7 @@ export abstract class SortableComponent<T> {
   }
 
   sortData(): string[] {
-    const result = [`${this.sort ? this.sort.active : this.predicate},${this.sort ? this.sort.direction : (this.ascending ? ASC : DESC)}`];
+    const result = [`${this.sort ? this.sort.active : this.predicate},${this.sort ? this.sort.direction : this.direction}`];
     if (this.predicate !== 'id') {
       result.push('id');
     }
