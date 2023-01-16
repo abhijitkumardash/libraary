@@ -36,7 +36,9 @@
         <ng-container matColumnDef="book_authors_name">
           <th *matHeaderCellDef mat-header-cell mat-sort-header>Authors</th>
           <td *matCellDef="let element" mat-cell>
-            <p *ngFor="let author of element.book.authors">{{ author.name }}</p>
+            <p *ngFor="let author of element.book.authors" class="block cursor-text m-2" (click)="$event.stopPropagation()">
+              {{ author.name }}
+            </p>
           </td>
         </ng-container>
 
@@ -48,6 +50,7 @@
               [src]="this.sanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + element.book.cover)"
               alt="Cover"
               class="h-20 m-1 transition ease-in-out duration-500 delay-200 hover:scale-[2.5] cursor-auto"
+              (click)="$event.stopPropagation()"
             />
           </td>
         </ng-container>
@@ -55,7 +58,7 @@
         <ng-container matColumnDef="format">
           <th *matHeaderCellDef mat-header-cell mat-sort-header>Format</th>
           <td *matCellDef="let element" mat-cell>
-            <mat-chip-list aria-label="format">
+            <mat-chip-list aria-label="format" class="block cursor-pointer" (click)="$event.stopPropagation()">
               <mat-chip>{{ element.format.capitalize() }}</mat-chip>
             </mat-chip-list>
           </td>
@@ -64,7 +67,7 @@
         <ng-container matColumnDef="status">
           <th *matHeaderCellDef mat-header-cell mat-sort-header>Status</th>
           <td *matCellDef="let element" mat-cell>
-            <mat-chip-list aria-label="status">
+            <mat-chip-list aria-label="status" class="block cursor-pointer" (click)="$event.stopPropagation()">
               <mat-chip>{{ element.status.capitalize() }}</mat-chip>
             </mat-chip-list>
           </td>
@@ -77,13 +80,15 @@
 
         <ng-container matColumnDef="book_isbn">
           <th *matHeaderCellDef mat-header-cell mat-sort-header>ISBN</th>
-          <td *matCellDef="let element" mat-cell>{{ element.book.isbn }}</td>
+          <td *matCellDef="let element" mat-cell>
+            <p class="block cursor-text m-2" (click)="$event.stopPropagation()">{{ element.book.isbn }}</p>
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="book_title">
           <th *matHeaderCellDef mat-header-cell mat-sort-header>Title</th>
           <td *matCellDef="let element" mat-cell>
-            {{ element.book.title }}
+            <p class="block cursor-text m-2" (click)="$event.stopPropagation()">{{ element.book.title }}</p>
           </td>
         </ng-container>
 
@@ -94,12 +99,16 @@
 
         <ng-container matColumnDef="book_publicationYear">
           <th *matHeaderCellDef mat-header-cell mat-sort-header>Year</th>
-          <td *matCellDef="let element" mat-cell>{{ element.book.publicationYear }}</td>
+          <td *matCellDef="let element" mat-cell>
+            <p class="block cursor-text m-2" (click)="$event.stopPropagation()">{{ element.book.publicationYear }}</p>
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="book_pages">
           <th *matHeaderCellDef mat-header-cell mat-sort-header>Pages</th>
-          <td *matCellDef="let element" mat-cell>{{ element.book.pages }}</td>
+          <td *matCellDef="let element" mat-cell>
+            <p class="block cursor-text m-2" (click)="$event.stopPropagation()">{{ element.book.pages }}</p>
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="subject">
