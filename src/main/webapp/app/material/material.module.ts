@@ -15,10 +15,11 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatPasswordStrengthModule} from "@angular-material-extensions/password-strength";
 import {MatChipsModule} from '@angular/material/chips';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import { MatSortModule } from "@angular/material/sort"
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatSortModule} from "@angular/material/sort"
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   exports: [
@@ -42,6 +43,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     MatSnackBarModule,
     MatDialogModule,
     MatSidenavModule,
+    MatTabsModule,
   ],
 })
 export class MaterialModule {

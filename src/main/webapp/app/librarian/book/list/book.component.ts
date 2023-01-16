@@ -2,11 +2,13 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {BookItemService} from '../../../entities/book-item/bookitem.service';
 import {DomSanitizer} from '@angular/platform-browser';
 import {IBookItem} from '../../../entities/book-item/bookitem.model';
-import {ActivatedRoute, Router } from '@angular/router';
-import { MatDrawer } from '@angular/material/sidenav';
-import {ASC, DESC} from "../../../config/navigation.constants";
+import {ActivatedRoute, Router} from '@angular/router';
+import {MatDrawer} from '@angular/material/sidenav';
+import {SORT} from "../../../config/navigation.constants";
 import {SortableComponent} from "../../../shared/sort/component";
-import { SortDirection } from '@angular/material/sort';
+import {SortDirection} from '@angular/material/sort';
+import {debounceTime, distinctUntilChanged, Observable, Subject} from 'rxjs';
+import {HttpResponse} from '@angular/common/http';
 
 
 @Component({
@@ -15,17 +17,20 @@ import { SortDirection } from '@angular/material/sort';
   styleUrls: ['./book.component.scss'],
 })
 export class BookComponent extends SortableComponent<IBookItem> implements OnInit {
-  displayedColumns: string[] = ['cover', 'book_title', 'book_authors_name', 'book_isbn', 'book_publicationYear', 'book_pages', 'format', 'status'];
+  displayedColumns: string[] = ['cover', 'book_title', 'book_authors_name', 'book_isbn',
+    'book_publicationYear', 'book_pages', 'format', 'status', 'actions'];
   selectedBook: IBookItem | null = null;
   @ViewChild('drawer') drawer!: MatDrawer;
   itemsPerPage = 5;
-  defaultSortColumn = "status";
+  defaultSortColumn = "book_title";
   defaultSortDirection = "asc" as SortDirection;
+  search = "";
+  debounceSearch: Subject<string> = new Subject<string>();
+
   constructor(private bookItemService: BookItemService,
               protected sanitizer: DomSanitizer,
               protected router: Router,
-              protected activatedRoute: ActivatedRoute)
-  {
+              protected activatedRoute: ActivatedRoute) {
     super(activatedRoute, router, bookItemService);
   }
 
@@ -39,15 +44,20 @@ export class BookComponent extends SortableComponent<IBookItem> implements OnIni
     if (this.activatedRoute.snapshot.queryParamMap.get('id') !== null) {
       this.drawer.toggle();
     }
+    this.drawer.closedStart.subscribe({
+      next: () => {
+        this.closeDrawer()
+      }
+    })
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.data.filter = filterValue.trim().toLowerCase();
-
-    if (this.data.paginator) {
-      this.data.paginator.firstPage();
+  onFilterChanged(filter: string): void {
+    if (this.debounceSearch.observers.length === 0) {
+      this.debounceSearch.pipe(debounceTime(1000), distinctUntilChanged()).subscribe(() => {
+        this.reset();
+      });
     }
+    this.debounceSearch.next(filter);
   }
 
   detail(bookItem: IBookItem): void {
@@ -59,7 +69,7 @@ export class BookComponent extends SortableComponent<IBookItem> implements OnIni
           queryParams: {
             id: bookItem.id,
             page: this.page,
-            sort: `${this.predicate},${this.ascending ? ASC : DESC}`,
+            sort: `${this.predicate},${this.activatedRoute.snapshot.queryParamMap.get(SORT)?.split(",")[1]}`,
           },
           queryParamsHandling: 'merge',
         });
@@ -68,6 +78,21 @@ export class BookComponent extends SortableComponent<IBookItem> implements OnIni
     } else {
       this.closeDrawer();
     }
+  }
+
+  reset(): void {
+    this.page = 0;
+    this.loadAll();
+  }
+
+  protected query(): Observable<HttpResponse<IBookItem[]>> {
+    return this.service
+      .query({
+        page: this.page,
+        size: this.itemsPerPage,
+        sort: this.sortData(),
+        title: this.search,
+      })
   }
 
   closeDrawer() {
