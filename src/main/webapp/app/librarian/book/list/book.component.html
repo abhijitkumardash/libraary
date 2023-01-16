@@ -131,7 +131,7 @@
                 <mat-icon>edit</mat-icon>
                 <span jhiTranslate="entity.action.edit">Edit</span>
               </button>
-              <button mat-menu-item type="button">
+              <button mat-menu-item type="button" (click)="deleteBook(element)">
                 <mat-icon>person_remove</mat-icon>
                 <span jhiTranslate="entity.action.delete">Delete</span>
               </button>
