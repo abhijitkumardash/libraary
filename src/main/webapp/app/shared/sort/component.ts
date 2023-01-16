@@ -1,5 +1,5 @@
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
-import {combineLatest} from "rxjs";
+import {combineLatest, Observable} from "rxjs";
 import {ASC, DESC, SORT} from "../../config/navigation.constants";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Directive, ViewChild} from "@angular/core";
@@ -47,12 +47,16 @@ export abstract class SortableComponent<T> {
   }
 
   handleNavigation(): void {
-    combineLatest([this.activatedRoute.data, this.activatedRoute.queryParamMap]).subscribe(([data, params]) => {
+    combineLatest([this.activatedRoute.data, this.activatedRoute.queryParamMap]).subscribe(([_, params]) => {
       const page = params.get('page');
       this.page = Number(page ?? 0);
-      const sort = (params.get(SORT) ?? data['defaultSort']).split(',');
+      const sort = (params.get(SORT) ?? this.defaultSortColumn + "," + this.defaultSortDirection).split(',');
       this.predicate = sort[0];
       this.ascending = sort[1] === ASC;
+      if (params.keys.length === 0) {
+        this.transition();
+        return;
+      }
       this.loadAll();
     });
   }
@@ -65,14 +69,13 @@ export abstract class SortableComponent<T> {
     return result;
   }
 
+  applySort() {
+    this.transition();
+  }
+
   loadAll(): void {
     this.isLoading = true;
-    this.service
-      .query({
-        page: this.page,
-        size: this.itemsPerPage,
-        sort: this.sortData(),
-      })
+    this.query()
       .subscribe({
         next: (res: HttpResponse<T[]>) => {
           this.isLoading = false;
@@ -89,5 +92,14 @@ export abstract class SortableComponent<T> {
     this.paginator.pageIndex = this.page;
     this.data = new MatTableDataSource<T>(data);
     this.data.sort = this.sort;
+  }
+
+  protected query(): Observable<HttpResponse<T[]>> {
+    return this.service
+      .query({
+        page: this.page,
+        size: this.itemsPerPage,
+        sort: this.sortData(),
+      })
   }
 }

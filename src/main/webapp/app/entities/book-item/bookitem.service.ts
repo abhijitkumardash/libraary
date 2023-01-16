@@ -3,7 +3,7 @@ import {HttpClient, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ApplicationConfigService} from 'app/core/config/application-config.service';
 import {BookItem, IBookItem} from "./bookitem.model";
-import {Pagination} from "../../core/request/request.model";
+import {BookSearchWithPagination} from "../../core/request/request.model";
 import {createRequestOption} from "../../core/request/request-util";
 import {IService} from "../../shared/service/iservice";
 
@@ -14,7 +14,7 @@ export class BookItemService extends IService<BookItem> {
   constructor(private http: HttpClient, private applicationConfigService: ApplicationConfigService) {
     super();}
 
-  query(req?: Pagination): Observable<HttpResponse<IBookItem[]>> {
+  query(req?: BookSearchWithPagination): Observable<HttpResponse<IBookItem[]>> {
     const options = createRequestOption(req);
     return this.http.get<IBookItem[]>(this.resourceUrl, {params: options, observe: 'response'});
   }
