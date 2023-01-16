@@ -1,6 +1,6 @@
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {combineLatest, Observable} from "rxjs";
-import {ASC, DESC, SORT} from "../../config/navigation.constants";
+import {SORT} from "../../config/navigation.constants";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Directive, ViewChild} from "@angular/core";
 import {MatSort, SortDirection} from "@angular/material/sort";
@@ -50,7 +50,7 @@ export abstract class SortableComponent<T> {
     combineLatest([this.activatedRoute.data, this.activatedRoute.queryParamMap]).subscribe(([_, params]) => {
       const page = params.get('page');
       this.page = Number(page ?? 0);
-      const sort = (params.get(SORT) ?? this.defaultSortColumn + "," + this.defaultSortDirection).split(',');
+      const sort = (params.get(SORT) ?? `${this.defaultSortColumn},${this.defaultSortDirection}`).split(',');
       this.predicate = sort[0];
       this.direction = sort[1] === 'asc' ? 'asc' : (sort[1] === 'desc' ? sort[1] : '');
       if (params.keys.length === 0) {

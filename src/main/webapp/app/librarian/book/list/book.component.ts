@@ -25,7 +25,7 @@ export class BookComponent extends SortableComponent<IBookItem> implements OnIni
   defaultSortColumn = "book_title";
   defaultSortDirection = "asc" as SortDirection;
   search = "";
-  debounceSearch: Subject<any> = new Subject<any>();
+  debounceSearch: Subject<string> = new Subject<string>();
 
   constructor(private bookItemService: BookItemService,
               protected sanitizer: DomSanitizer,
