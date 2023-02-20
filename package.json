@@ -114,7 +114,7 @@
     "autoprefixer": "^10.4.8",
     "browser-sync": "2.27.11",
     "browser-sync-webpack-plugin": "2.3.0",
-    "concurrently": "7.3.0",
+    "concurrently": "7.6.0",
     "copy-webpack-plugin": "11.0.0",
     "eslint": "8.21.0",
     "eslint-config-prettier": "8.5.0",
