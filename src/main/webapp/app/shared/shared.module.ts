@@ -11,6 +11,8 @@ import { FormatMediumDatetimePipe } from './date/format-medium-datetime.pipe';
 import { FormatMediumDatePipe } from './date/format-medium-date.pipe';
 import { FilterComponent } from './filter/filter.component';
 import {MaterialModule} from "../material/material.module";
+import { AuthorSelectComponent } from "./select/author/author-select.component";
+import { LanguageSelectComponent } from "./select/language/language-select.component";
 
 @NgModule({
   imports: [SharedLibsModule, MaterialModule],
@@ -24,6 +26,8 @@ import {MaterialModule} from "../material/material.module";
     FormatMediumDatetimePipe,
     FormatMediumDatePipe,
     FilterComponent,
+    AuthorSelectComponent,
+    LanguageSelectComponent,
   ],
   exports: [
     SharedLibsModule,
@@ -36,7 +40,9 @@ import {MaterialModule} from "../material/material.module";
     FormatMediumDatetimePipe,
     FormatMediumDatePipe,
     FilterComponent,
-    MaterialModule
-  ],
+    MaterialModule,
+    AuthorSelectComponent,
+    LanguageSelectComponent
+  ]
 })
 export class SharedModule {}

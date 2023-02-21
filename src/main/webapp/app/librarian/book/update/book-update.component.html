@@ -40,9 +40,6 @@
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>Subtitle</mat-label>
             <input formControlName="subtitle" matInput name="subtitle" type="text" />
-            <mat-error *ngIf="editForm.get('subtitle')?.errors?.required" jhiTranslate="entity.validation.required">
-              This field is required.
-            </mat-error>
             <mat-error
               *ngIf="editForm.get('subtitle')?.errors?.maxlength"
               [translateValues]="{ max: 200 }"
@@ -52,31 +49,7 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field appearance="outline" class="w-full">
-            <mat-label>Authors</mat-label>
-            <mat-chip-list #chipList aria-label="Author selection" [disabled]="this.editForm.disabled">
-              <mat-chip *ngFor="let author of authors" (removed)="remove(author)">
-                {{ author.name }}
-                <button matChipRemove>
-                  <mat-icon>cancel</mat-icon>
-                </button>
-              </mat-chip>
-              <input
-                placeholder="New author..."
-                #authorInput
-                formControlName="author"
-                [matAutocomplete]="auto"
-                [matChipInputFor]="chipList"
-                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                (matChipInputTokenEnd)="add($event)"
-              />
-            </mat-chip-list>
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-              <mat-option *ngFor="let author of filteredAuthors | async" [value]="author.name">
-                {{ author.name }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
+          <author-select [disabled]="this.editForm.disabled" [items]="authors"></author-select>
         </div>
 
         <mat-form-field appearance="outline" class="col-span-3">
@@ -112,6 +85,8 @@
           </mat-error>
           <mat-error *ngIf="editForm.get('pages')?.errors?.pattern"> Only numbers allowed. </mat-error>
         </mat-form-field>
+
+        <language-select [disabled]="this.editForm.disabled" [items]="languages" class="col-span-2"></language-select>
       </div>
 
       <div class="flex flex-row items-center justify-end gap-3 w-full">
@@ -119,7 +94,13 @@
           <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
         </button>
 
-        <button [disabled]="editForm.invalid || isSaving" color="primary" mat-flat-button type="submit">
+        <button
+          [disabled]="editForm.invalid || isSaving || editForm.disabled"
+          color="primary"
+          mat-flat-button
+          type="submit"
+          (click)="submit()"
+        >
           <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
         </button>
       </div>

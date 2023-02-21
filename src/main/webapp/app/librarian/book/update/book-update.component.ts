@@ -1,16 +1,11 @@
-import { COMMA, ENTER } from "@angular/cdk/keycodes";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { BookItemService } from "../../../entities/book-item/bookitem.service";
 import { BookService } from "../../../entities/book/book.service";
-import { AuthorService } from "../../../entities/book/author.service";
-import { Author, IAuthor } from "../../../entities/book/author.model";
-import { MatChipInputEvent } from "@angular/material/chips";
-import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
-import { Observable } from "rxjs";
-import { map, startWith } from "rxjs/operators";
+import { IAuthor } from "../../../entities/book/author.model";
 import { IBook } from "../../../entities/book/book.model";
+import { ILanguage } from "../../../entities/book/language.model";
 
 @Component({
   selector: "book-update",
@@ -24,17 +19,14 @@ export class BookUpdateComponent implements OnInit {
   isLoading = false;
   coverImage: string = "";
   authors: IAuthor[] = [];
-  allAuthors: IAuthor[] = [];
-  filteredAuthors: Observable<IAuthor[]>;
-  separatorKeysCodes: number[] = [ENTER, COMMA];
+  languages: ILanguage[] = [];
   isbnForm = new FormGroup({
     isbn: new FormControl("", { validators: [Validators.required, Validators.minLength(13), Validators.maxLength(13)] })
   });
   editForm = new FormGroup({
     title: new FormControl("", { validators: [Validators.required, Validators.maxLength(100)] }),
-    subtitle: new FormControl("", { validators: [Validators.required, Validators.maxLength(200)] }),
+    subtitle: new FormControl("", { validators: [Validators.maxLength(200)] }),
     description: new FormControl("", { validators: [Validators.required] }),
-    author: new FormControl("", { validators: [Validators.required] }),
     publisher: new FormControl("", { validators: [Validators.required] }),
     publicationYear: new FormControl("", {
       validators: [Validators.required, Validators.pattern("^[0-9]*$")]
@@ -42,16 +34,9 @@ export class BookUpdateComponent implements OnInit {
     pages: new FormControl("", { validators: [Validators.required, Validators.pattern("^[0-9]*$")]})
   });
 
-  @ViewChild("authorInput") authorInput!: ElementRef<HTMLInputElement>;
   @ViewChild("isbnInput") isbnInput!: ElementRef<HTMLInputElement>;
 
-  constructor(private bookItemService: BookItemService, private bookService: BookService,
-              private authorService: AuthorService, private route: ActivatedRoute) {
-    this.filteredAuthors = this.editForm.get("author")!.valueChanges.pipe(
-      startWith(null),
-      map((author: string | null) => (author ? this._filter(author) : this.allAuthors.slice()))
-    );
-  }
+  constructor(private bookItemService: BookItemService, private bookService: BookService, private route: ActivatedRoute) {}
 
   previousState(): void {
     window.history.back();
@@ -66,7 +51,6 @@ export class BookUpdateComponent implements OnInit {
         this.editForm.disable()
       );
     });
-    this.loadData();
   }
 
   searchForBookData(): void {
@@ -100,54 +84,23 @@ export class BookUpdateComponent implements OnInit {
         description: book?.description ?? "",
         publisher: book?.publisher ?? "",
         publicationYear: book?.publicationYear ?? "",
-        pages: book?.pages.toString() ?? ""
+        pages: book?.pages?.toString() ?? ""
       }
     );
     this.coverImage = book?.cover ?? "";
     this.authors = book?.authors ?? [];
+    this.languages = book?.languages ?? [];
   }
 
   private reset() {
     this.coverImage = "";
     this.editForm.reset();
     this.authors = [];
+    this.languages = [];
   }
 
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || "").trim();
-    if (value) {
-      this.authors.push(new Author(this.editForm.get("author")?.value ?? ""));
-    }
-
-    event.chipInput!.clear();
-
-    this.editForm.get("author")?.setValue(null);
-  }
-
-
-  remove(author: IAuthor): void {
-    this.authors = this.authors.filter(f => f.name !== author.name);
-  }
-
-  selected(event: MatAutocompleteSelectedEvent): void {
-    if (this.authorInput.nativeElement.value != "") {
-      this.authors.push(this.allAuthors.find(f => f.name === event.option.value) ?? new Author(event.option.value));
-    }
-    this.authorInput.nativeElement.value = "";
-    this.editForm.get("author")?.setValue(null);
-  }
-
-  private _filter(value: string): IAuthor[] {
-    const filterValue = value.toLowerCase();
-
-    return this.allAuthors.filter(author => author.name.toLowerCase().includes(filterValue));
-  }
-
-  private loadData() {
-    this.authorService.query().subscribe(
-      (res) => {
-        this.allAuthors = res.body ?? [];
-      }
-    );
+  submit() {
+    console.warn(this.authors)
+    console.warn(this.languages)
   }
 }
