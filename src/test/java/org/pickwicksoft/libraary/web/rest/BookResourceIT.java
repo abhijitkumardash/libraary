@@ -38,8 +38,8 @@ class BookResourceIT {
     private static final byte[] UPDATED_COVER = TestUtil.createByteArray(1, "1");
     private static final String DEFAULT_DESCRIPTION = "AAA";
     private static final String UPDATED_DESCRIPTION = "BBB";
-    private static final String DEFAULT_ISBN = "AAA";
-    private static final String UPDATED_ISBN = "BBB";
+    private static final Long DEFAULT_ISBN = 9999999999999L;
+    private static final Long UPDATED_ISBN = 1111111111111L;
     private static final String DEFAULT_PUBLISHER = "AAA";
     private static final String UPDATED_PUBLISHER = "BBB";
     private static final Integer DEFAULT_PUBLICATIONYEAR = 0;
@@ -185,7 +185,7 @@ class BookResourceIT {
 
         // Get all the bookList
         restBookMockMvc
-            .perform(get(ENTITY_API_URL + "?title=" + DEFAULT_TITLE + "&isbn=" + DEFAULT_ISBN))
+            .perform(get(ENTITY_API_URL + "?title=" + DEFAULT_TITLE + "&isbn=" + DEFAULT_ISBN.toString()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(book.getId().intValue())))

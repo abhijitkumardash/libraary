@@ -11,7 +11,7 @@
     <changeSet id="20220929122630-data" author="garlontas" context="faker">
         <loadData tableName="book" file="config/liquibase/fake-data/book.csv" separator=";" encoding="UTF-8" usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="isbn" type="string"/>
+            <column name="isbn" type="BIGINT"/>
             <column name="pages" type="numeric"/>
             <column name="publication_year" type="numeric"/>
             <column name="publisher" type="string"/>

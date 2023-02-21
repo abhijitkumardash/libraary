@@ -42,8 +42,8 @@ public class Book {
     @JsonIgnoreProperties(value = { "books" }, allowSetters = true)
     private Set<Author> authors = new HashSet<>();
 
-    @Column(name = "isbn", nullable = false)
-    private String isbn;
+    @Column(name = "isbn", nullable = false, unique = true)
+    private Long isbn;
 
     @Column(name = "publisher", nullable = false)
     private String publisher;
@@ -108,11 +108,11 @@ public class Book {
         return new ArrayList<>(this.authors);
     }
 
-    public String getIsbn() {
+    public Long getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(String isbn) {
+    public void setIsbn(Long isbn) {
         this.isbn = isbn;
     }
 

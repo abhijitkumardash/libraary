@@ -8,8 +8,11 @@ public class Language {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "code", nullable = false)
+    private String code;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -17,11 +20,11 @@ public class Language {
     @Column(name = "flag", nullable = false)
     private String flag;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -41,8 +44,16 @@ public class Language {
         this.flag = flag;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     @Override
     public String toString() {
-        return "Language{" + "id=" + id + ", name='" + name + '\'' + '}';
+        return "Language{" + "id=" + id + ", code='" + code + '\'' + ", name='" + name + '\'' + ", flag='" + flag + '\'' + '}';
     }
 }

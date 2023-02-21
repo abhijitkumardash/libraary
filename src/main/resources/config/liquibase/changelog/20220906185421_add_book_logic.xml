@@ -5,7 +5,7 @@
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="bookPK"/>
             </column>
-            <column name="isbn" type="VARCHAR(255)">
+            <column name="isbn" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
             <column name="pages" type="INT">
@@ -111,7 +111,7 @@
     <changeSet author="stefan (generated)" id="1662483264923-12">
         <createTable tableName="language">
             <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="languagePK"/>
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="name" type="VARCHAR(255)">
                 <constraints nullable="false"/>

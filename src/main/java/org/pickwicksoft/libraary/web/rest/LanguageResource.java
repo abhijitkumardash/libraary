@@ -42,7 +42,7 @@ public class LanguageResource {
     }
 
     @GetMapping("/language/{id}")
-    public ResponseEntity<Language> getLanguage(@PathVariable String id) {
+    public ResponseEntity<Language> getLanguage(@PathVariable Long id) {
         log.debug("REST request to get language : {}", id);
         var language = languageRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(language);

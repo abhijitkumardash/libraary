@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import javax.validation.Valid;
+import net.kaczmarzyk.spring.data.jpa.domain.Equal;
 import net.kaczmarzyk.spring.data.jpa.domain.In;
 import net.kaczmarzyk.spring.data.jpa.domain.Like;
 import net.kaczmarzyk.spring.data.jpa.domain.LikeIgnoreCase;
@@ -60,7 +61,7 @@ public class BookItemResource {
             {
                 @Spec(path = "book.title", params = "title", spec = LikeIgnoreCase.class),
                 @Spec(path = "book.authors.name", params = "name", spec = LikeIgnoreCase.class),
-                @Spec(path = "book.isbn", params = "isbn", spec = Like.class),
+                @Spec(path = "book.isbn", params = "isbn", spec = Equal.class),
                 @Spec(path = "format", params = "format", spec = In.class),
             }
         ) Specification<BookItem> spec,
