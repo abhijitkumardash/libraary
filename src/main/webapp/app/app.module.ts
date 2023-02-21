@@ -27,7 +27,6 @@ import { ErrorComponent } from './layouts/error/error.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
-import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 
 @NgModule({
   imports: [
@@ -35,7 +34,6 @@ import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
     BrowserModule,
     LoadingBarModule,
     LoadingBarRouterModule,
-    LoadingBarHttpClientModule,
     SharedModule,
     HomeModule,
     // jhipster-needle-angular-add-module JHipster will add new module here

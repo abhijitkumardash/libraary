@@ -22,6 +22,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @NgModule({
   exports: [
@@ -48,6 +49,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatTabsModule,
     MatStepperModule,
     MatAutocompleteModule,
+    MatProgressBarModule,
   ],
 })
 export class MaterialModule {
