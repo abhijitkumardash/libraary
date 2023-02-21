@@ -6,6 +6,7 @@ import {bookRoute} from "./book.route";
 import {BookComponent} from "./list/book.component";
 import { BookDetailComponent } from './detail/book-detail.component';
 import {BookDeleteDialogComponent} from "./delete/book-delete-dialog.component";
+import {BookUpdateComponent} from "./update/book-update.component";
 
 @NgModule({
   imports: [SharedModule, RouterModule.forChild(bookRoute)],
@@ -13,6 +14,7 @@ import {BookDeleteDialogComponent} from "./delete/book-delete-dialog.component";
     BookComponent,
     BookDetailComponent,
     BookDeleteDialogComponent,
+    BookUpdateComponent,
   ],
 })
 export class BookModule {

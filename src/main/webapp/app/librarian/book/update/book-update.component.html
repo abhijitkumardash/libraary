@@ -1,0 +1,111 @@
+<div class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <div class="w-full max-w-lg space-y-8 m-auto">
+    <h2 class="text-center text-3xl font-bold tracking-tight text-gray-900 mb-4">Create or edit a book</h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <form [formGroup]="isbnForm" class="flex flex-col" name="isbnForm" novalidate role="form">
+      <mat-form-field apperance="outline">
+        <mat-label>ISBN</mat-label>
+        <input formControlName="isbn" matInput />
+        <mat-error *ngIf="isbnForm.get('isbn')?.hasError('required')"> ISBN is required </mat-error>
+        <mat-error *ngIf="isbnForm.get('isbn')?.hasError('maxLength')"> ISBN must be 13 characters long </mat-error>
+      </mat-form-field>
+      <button (click)="searchForBookData()" [disabled]="isbnForm.invalid" class="mt-1" color="primary" mat-flat-button>
+        <fa-icon icon="barcode"></fa-icon>&nbsp;<span>Search for book by ISBN</span>
+      </button>
+    </form>
+
+    <form [formGroup]="editForm" class="flex flex-col mt-15" name="editForm" novalidate role="form">
+      <div class="grid grid-cols-3 gap-4">
+        <div>
+          <img *ngIf="coverImage != ''" class="drop-shadow-md" src="{{ 'data:image/png;base64,' + coverImage }}" />
+          <img *ngIf="coverImage === ''" class="drop-shadow-md pointer-events-none select-none" src="content/images/cover.svg" />
+        </div>
+        <div class="col-span-2">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Title</mat-label>
+            <input formControlName="title" matInput name="title" type="text" />
+            <mat-error *ngIf="editForm.get('title')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </mat-error>
+            <mat-error
+              *ngIf="editForm.get('title')?.errors?.maxlength"
+              [translateValues]="{ max: 50 }"
+              jhiTranslate="entity.validation.maxlength"
+            >
+              This field cannot be longer than 50 characters.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Subtitle</mat-label>
+            <input formControlName="subtitle" matInput name="subtitle" type="text" />
+            <mat-error *ngIf="editForm.get('subtitle')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </mat-error>
+            <mat-error
+              *ngIf="editForm.get('subtitle')?.errors?.maxlength"
+              [translateValues]="{ max: 200 }"
+              jhiTranslate="entity.validation.maxlength"
+            >
+              This field cannot be longer than 100 characters.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Authors</mat-label>
+            <mat-chip-list #chipList aria-label="Author selection">
+              <mat-chip *ngFor="let author of authors" (removed)="remove(author)">
+                {{ author.name }}
+                <button matChipRemove>
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+              <input
+                placeholder="New author..."
+                #authorInput
+                formControlName="author"
+                [matAutocomplete]="auto"
+                [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="add($event)"
+              />
+            </mat-chip-list>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+              <mat-option *ngFor="let author of filteredAuthors | async" [value]="author.name">
+                {{ author.name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+          <mat-label>Description</mat-label>
+          <textarea class="leading-6 h-40" formControlName="description" matInput name="description" type="text"></textarea>
+          <mat-error *ngIf="editForm.get('description')?.errors?.required" jhiTranslate="entity.validation.required">
+            This field is required.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Publisher</mat-label>
+          <input formControlName="publisher" matInput name="publisher" type="text" />
+          <mat-error *ngIf="editForm.get('publisher')?.errors?.required" jhiTranslate="entity.validation.required">
+            This field is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="flex flex-row items-center justify-end gap-3 w-full">
+        <button (click)="previousState()" mat-stroked-button type="button">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button [disabled]="editForm.invalid || isSaving" color="primary" mat-flat-button type="submit">
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

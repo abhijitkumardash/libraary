@@ -3,7 +3,8 @@
 <div>
   <router-outlet name="navbar"></router-outlet>
 </div>
-
+<ngx-loading-bar color="#FFFFFF" height="2px" [includeSpinner]="false" ref="router"></ngx-loading-bar>
+<ngx-loading-bar color="#FFFFFF" height="2px" [includeSpinner]="false" ref="http"></ngx-loading-bar>
 <div class="container-fluid p-0">
   <div class="">
     <router-outlet></router-outlet>

@@ -18,6 +18,14 @@ export class BookService {
     return this.http.get<IBook>(`${this.resourceUrl}/${id}`, { observe: 'response' })
   }
 
+  findByIsbn(isbn: string): Observable<HttpResponse<IBook>> {
+    return this.http.get<IBook>(`${this.resourceUrl}/isbn/${isbn}`, { observe: 'response' })
+  }
+
+  searchByISBN(isbn: string): Observable<HttpResponse<IBook>> {
+    return this.http.get<IBook>(`${this.resourceUrl}/search/isbn/${isbn}`, { observe: 'response' })
+  }
+
   create(book: IBook): Observable<HttpResponse<IBook>> {
     return this.http.post<IBook>(this.resourceUrl, book, { observe: 'response' });
   }

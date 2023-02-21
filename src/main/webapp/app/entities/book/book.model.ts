@@ -1,6 +1,6 @@
 import {ILanguage} from "./language.model";
 import {ISubCategory} from "./subcategory.model";
-import {IAuthors} from "./author.model";
+import {IAuthor} from "./author.model";
 
 export interface IBook {
   id: number;
@@ -8,7 +8,7 @@ export interface IBook {
   title: string;
   subtitle?: string;
   description?: string;
-  authors?: IAuthors[];
+  authors?: IAuthor[];
   isbn?: string;
   publisher?: string;
   publicationYear?: string;
@@ -25,7 +25,7 @@ export class Book implements IBook {
   public pages: number,
   public subtitle?: string,
   public description?: string,
-  public authors?: IAuthors[],
+  public authors?: IAuthor[],
   public isbn?: string,
   public publisher?: string,
   public publicationYear?: string,
