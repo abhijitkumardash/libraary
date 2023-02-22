@@ -23,6 +23,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 @NgModule({
   exports: [
@@ -50,6 +51,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     MatStepperModule,
     MatAutocompleteModule,
     MatProgressBarModule,
+    MatDatepickerModule,
   ],
 })
 export class MaterialModule {

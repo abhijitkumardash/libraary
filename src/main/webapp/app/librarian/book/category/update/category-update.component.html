@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>Create a new Category</h2>
+<mat-dialog-content class="mat-typography">
+  <jhi-alert-error></jhi-alert-error>
+  <form [formGroup]="categoryForm" class="flex flex-col">
+    <mat-form-field appearance="outline">
+      <mat-label>Category Group</mat-label>
+      <mat-select (selectionChange)="onChange()" formControlName="category">
+        <mat-option [value]="new">New Group</mat-option>
+        <mat-option *ngFor="let category of categories" [value]="category">
+          {{ category.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="categoryForm.get('category')?.value?.id === -1" appearance="outline">
+      <mat-label>Category Group Name</mat-label>
+      <input formControlName="categoryName" matInput placeholder="Ex. Novel" />
+      <mat-error *ngIf="categoryForm.get('categoryName')?.errors?.required" jhiTranslate="entity.validation.required">
+        This field is required.
+      </mat-error>
+      <mat-error *ngIf="categoryForm.get('categoryName')?.errors?.['isDuplicateValidator']"> This group already exists </mat-error>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="categoryForm.get('category')?.value?.id !== -1 || categoryForm.get('categoryName')?.valid" appearance="outline">
+      <mat-label>Subcategory</mat-label>
+      <input formControlName="subcategory" matInput placeholder="Ex. Novel" />
+      <mat-error *ngIf="categoryForm.get('subcategory')?.errors?.required" jhiTranslate="entity.validation.required">
+        This field is required.
+      </mat-error>
+      <mat-error *ngIf="categoryForm.get('subcategory')?.errors?.['isDuplicateSubCategoryValidator']">
+        This subcategory already exists
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-dialog-close mat-stroked-button><span jhiTranslate="entity.action.cancel">Cancel</span></button>
+  <button
+    [mat-dialog-close]="'created'"
+    cdkFocusInitial
+    color="primary"
+    mat-flat-button
+    (click)="submit()"
+    [disabled]="categoryForm.invalid"
+  >
+    <span jhiTranslate="entity.action.save">Save</span>
+  </button>
+</mat-dialog-actions>

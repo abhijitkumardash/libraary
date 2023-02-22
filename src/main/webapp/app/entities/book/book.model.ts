@@ -14,7 +14,7 @@ export interface IBook {
   publicationYear?: string;
   pages: number;
   languages?: ILanguage[];
-  subcategory?: ISubCategory[];
+  subCategories?: ISubCategory[];
 }
 
 export class Book implements IBook {
@@ -30,6 +30,6 @@ export class Book implements IBook {
   public publisher?: string,
   public publicationYear?: string,
   public languages?: ILanguage[],
-  public subcategory?: ISubCategory[],
+  public subCategories?: ISubCategory[],
   ) {}
 }

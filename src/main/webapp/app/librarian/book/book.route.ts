@@ -30,16 +30,13 @@ export const bookRoute: Routes = [
   },
   {
     path: 'new',
-    component: BookUpdateComponent,
-    resolve: {
-      user: BookResolve,
-    },
+    component: BookUpdateComponent
   },
   {
     path: ':id/edit',
     component: BookUpdateComponent,
     resolve: {
-      user: BookResolve,
+      bookItem: BookResolve,
     },
   },
 ];

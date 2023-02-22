@@ -5,7 +5,7 @@
     <form [formGroup]="isbnForm" class="flex flex-col" name="isbnForm" novalidate role="form">
       <mat-form-field apperance="outline">
         <mat-label>ISBN</mat-label>
-        <input formControlName="isbn" matInput #isbnInput autocomplete="off" />
+        <input #isbnInput autocomplete="off" cdkFocusInitial formControlName="isbn" matInput />
         <mat-error *ngIf="isbnForm.get('isbn')?.hasError('required')"> ISBN is required </mat-error>
         <mat-error *ngIf="isbnForm.get('isbn')?.hasError('maxLength')"> ISBN must be 13 characters long </mat-error>
       </mat-form-field>
@@ -18,8 +18,11 @@
     <form [formGroup]="editForm" class="flex flex-col mt-15" name="editForm" novalidate role="form">
       <div class="grid grid-cols-3 gap-4">
         <div>
-          <img *ngIf="coverImage != ''" class="drop-shadow-md" src="{{ 'data:image/png;base64,' + coverImage }}" />
-          <img *ngIf="coverImage === ''" class="drop-shadow-md pointer-events-none select-none" src="content/images/cover.svg" />
+          <img *ngIf="coverImage != ''" class="drop-shadow-lg" src="{{ 'data:image/png;base64,' + coverImage }}" />
+          <img *ngIf="coverImage === ''" class="drop-shadow-lg pointer-events-none select-none" src="content/images/cover.svg" />
+          <div class="mt-3">
+            <mat-checkbox color="primary" formControlName="referenceOnly">Reference only</mat-checkbox>
+          </div>
         </div>
         <div class="col-span-2">
           <mat-form-field appearance="outline" class="w-full">
@@ -49,6 +52,11 @@
             </mat-error>
           </mat-form-field>
 
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>ISBN</mat-label>
+            <input formControlName="isbn" matInput name="isbn" type="text" />
+          </mat-form-field>
+
           <author-select [disabled]="this.editForm.disabled" [items]="authors"></author-select>
         </div>
 
@@ -59,6 +67,24 @@
             This field is required.
           </mat-error>
         </mat-form-field>
+
+        <div class="col-span-3">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Categories</mat-label>
+            <mat-select formControlName="subcategory" multiple>
+              <mat-optgroup *ngFor="let group of categories" [label]="group.name">
+                <mat-option *ngFor="let subcategory of group.subcategories" [value]="subcategory.id">
+                  {{ subcategory.name }}
+                </mat-option>
+              </mat-optgroup>
+            </mat-select>
+            <mat-hint align="start">
+              <a class="text-slate-900 underline tracking-normal" (click)="addNewCategory()">
+                <fa-icon icon="plus" class="pr-2"></fa-icon>Add new Category
+              </a>
+            </mat-hint>
+          </mat-form-field>
+        </div>
 
         <mat-form-field appearance="outline">
           <mat-label>Publisher</mat-label>
@@ -83,10 +109,33 @@
           <mat-error *ngIf="editForm.get('pages')?.errors?.required" jhiTranslate="entity.validation.required">
             This field is required.
           </mat-error>
-          <mat-error *ngIf="editForm.get('pages')?.errors?.pattern"> Only numbers allowed. </mat-error>
+          <mat-error *ngIf="editForm.get('pages')?.errors?.pattern"> Only numbers allowed.</mat-error>
         </mat-form-field>
 
         <language-select [disabled]="this.editForm.disabled" [items]="languages" class="col-span-2"></language-select>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Price</mat-label>
+          <input formControlName="price" matInput name="price" type="text" />
+          <mat-error *ngIf="editForm.get('price')?.errors?.pattern"> Only numbers allowed.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Purchase Date</mat-label>
+          <input [matDatepicker]="picker" formControlName="dateOfPurchase" matInput />
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Format</mat-label>
+          <mat-select formControlName="format">
+            <mat-option *ngFor="let format of formats" [value]="format">
+              {{ format.capitalize() }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
 
       <div class="flex flex-row items-center justify-end gap-3 w-full">

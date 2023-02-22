@@ -27,11 +27,13 @@ import { ErrorComponent } from './layouts/error/error.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
+    MatNativeDateModule,
     LoadingBarModule,
     LoadingBarRouterModule,
     SharedModule,

@@ -22,7 +22,7 @@ public class BookItem {
     private String barcode;
 
     @Column(name = "isReferenceOnly", nullable = false)
-    private Boolean isReferenceOnly;
+    private Boolean isReferenceOnly = false;
 
     @Column(name = "borrowed", nullable = false)
     private Date borrowed;
@@ -37,13 +37,13 @@ public class BookItem {
     private BookFormat format;
 
     @Column(name = "status", nullable = false)
-    private BookStatus status;
+    private BookStatus status = BookStatus.AVAILABLE;
 
     @Column(name = "dateOfPurchase", nullable = false)
-    private Date dateOfPurchase;
+    private Date dateOfPurchase = new Date();
 
     @Column(name = "publicationDate", nullable = false)
-    private Date publicationDate;
+    private Date publicationDate = new Date();
 
     public UUID getId() {
         return id;
