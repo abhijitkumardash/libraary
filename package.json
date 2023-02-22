@@ -112,7 +112,7 @@
     "@angular/service-worker": "14.1.0",
     "@types/jest": "28.1.6",
     "@types/node": "16.11.47",
-    "@typescript-eslint/eslint-plugin": "5.32.0",
+    "@typescript-eslint/eslint-plugin": "5.53.0",
     "@typescript-eslint/parser": "5.32.0",
     "autoprefixer": "^10.4.8",
     "browser-sync": "2.27.10",
