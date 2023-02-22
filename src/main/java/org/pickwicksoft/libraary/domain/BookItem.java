@@ -11,8 +11,8 @@ public class BookItem {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne
     @NotNull
@@ -45,11 +45,11 @@ public class BookItem {
     @Column(name = "publicationDate", nullable = false)
     private Date publicationDate = new Date();
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

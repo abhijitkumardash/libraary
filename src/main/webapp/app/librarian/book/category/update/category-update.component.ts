@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import { Category, ICategory } from "../../../../entities/book/category.model";
 import { BookService } from "../../../../entities/book/book.service";
-import { ISubCategory, SubCategory } from "../../../../entities/book/subcategory.model";
+import { ISubCategory } from "../../../../entities/book/subcategory.model";
 
 @Component({
   selector: 'category-update',
@@ -36,7 +36,6 @@ export class CategoryUpdateComponent implements OnInit{
   }
 
   submit() {
-    console.warn(this.categoryForm.value)
     if(this.categoryForm.get("category")?.value?.id !== -1) {
       this.categoryService.createSubCategory({name: this.categoryForm.get("subcategory")?.value ?? undefined, category: this.categoryForm.get("category")?.value ?? undefined}).subscribe()
     } else {
@@ -64,7 +63,6 @@ export class CategoryUpdateComponent implements OnInit{
     return (control: AbstractControl): ValidationErrors | null => {
       const required = control.parent?.get('category')?.value?.id === -1
       const isEmpty = required ? control.value === "" : false
-      console.warn(isEmpty)
       return isEmpty ? {empty: {value: control.value}} : null;
     };
   }

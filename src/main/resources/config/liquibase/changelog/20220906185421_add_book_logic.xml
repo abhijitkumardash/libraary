@@ -33,7 +33,7 @@
     </changeSet>
     <changeSet author="stefan (generated)" id="1662483264923-5">
         <createTable tableName="book_item">
-            <column name="id" type="uuid">
+            <column name="id" type="bigint">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="book_itemPK"/>
             </column>
             <column name="barcode" type="VARCHAR(255)">

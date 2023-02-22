@@ -45,7 +45,13 @@ export class SelectComponent<T extends NamedModel>{
 
 
   remove(author: T): void {
-    this.items = this.items.filter(f => f.name !== author.name);
+    let items = this.items.filter(f => f.name !== author.name);
+    this.setAsItemsKeepReference(items);
+  }
+
+  private setAsItemsKeepReference(items: T[]) {
+    this.items.length = 0;
+    this.items.push(...items);
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
@@ -68,7 +74,8 @@ export class SelectComponent<T extends NamedModel>{
   }
 
   private distinct() {
-    this.items = this.items.filter((v, i, a) => a.findIndex(t => (t.name === v.name)) === i);
+    let items = this.items.filter((v, i, a) => a.findIndex(t => (t.name === v.name)) === i);
+    this.setAsItemsKeepReference(items);
   }
 
   private _filter(value: string): T[] {

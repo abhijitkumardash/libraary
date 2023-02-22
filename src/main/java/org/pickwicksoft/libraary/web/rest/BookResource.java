@@ -109,7 +109,6 @@ public class BookResource {
         if (book.getId() != null) {
             throw new BadRequestAlertException("A new book cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        System.out.println(book.getLanguages());
         Book result = bookRepository.save(book);
         return ResponseEntity
             .created(new URI("/api/book/" + result.getId()))

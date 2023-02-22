@@ -139,13 +139,6 @@ export class BookUpdateComponent implements OnInit {
     this.languages = book?.languages ?? [];
   }
 
-  private reset() {
-    this.coverImage = "";
-    this.editForm.reset();
-    this.authors = [];
-    this.languages = [];
-  }
-
   submit() {
     if(this.id === null) {
       this.create();
@@ -161,6 +154,13 @@ export class BookUpdateComponent implements OnInit {
         this.loadCategories()
       }
     });
+  }
+
+  private reset() {
+    this.coverImage = "";
+    this.editForm.reset();
+    this.authors = [];
+    this.languages = [];
   }
 
   private create() {
@@ -185,7 +185,7 @@ export class BookUpdateComponent implements OnInit {
           dateOfPurchase: new Date(formValue.dateOfPurchase ?? ""),
           format: formValue.format as FormatType,
           price: Number(formValue.price!),
-          referenceOnly: formValue.referenceOnly ?? undefined,
+          referenceOnly: formValue.referenceOnly ?? undefined
         }).subscribe(
           () => {
             this.isSaving = false;
@@ -195,6 +195,9 @@ export class BookUpdateComponent implements OnInit {
             this.isSaving = false;
           }
         )
+      },
+      () => {
+        this.isSaving = false;
       }
     )
   }
@@ -223,7 +226,7 @@ export class BookUpdateComponent implements OnInit {
           book: res.body ?? undefined,
           dateOfPurchase: new Date(formValue.dateOfPurchase ?? ""),
           format: formValue.format as FormatType,
-          price: Number(formValue.price!),
+          price: Number(formValue.price!.replace(",", ".")),
           referenceOnly: formValue.referenceOnly ?? undefined,
         }).subscribe(
           () => {

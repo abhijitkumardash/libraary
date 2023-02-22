@@ -36,7 +36,7 @@ public class Book {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE })
     @JoinTable(name = "rel_book_author", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "books" }, allowSetters = true)
@@ -102,6 +102,11 @@ public class Book {
     public void removeAuthor(Author author) {
         this.authors.remove(author);
         author.getBooks().remove(this);
+    }
+
+    public void removeAllAuthors() {
+        this.authors.forEach(t -> t.getBooks().remove(this));
+        this.authors.clear();
     }
 
     public List<Author> getAuthors() {
