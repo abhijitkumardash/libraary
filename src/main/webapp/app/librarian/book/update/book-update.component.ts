@@ -182,7 +182,7 @@ export class BookUpdateComponent implements OnInit {
       res => {
         this.bookItemService.create({
           book: res.body ?? undefined,
-          dateOfPurchase: new Date(formValue.dateOfPurchase ?? ""),
+          dateOfPurchase: formValue.dateOfPurchase ? new Date(formValue.dateOfPurchase) : undefined,
           format: formValue.format as FormatType,
           price: Number(formValue.price!),
           referenceOnly: formValue.referenceOnly ?? undefined
@@ -203,7 +203,6 @@ export class BookUpdateComponent implements OnInit {
   }
 
   private update() {
-    console.warn(this.authors)
     this.isSaving = true;
     let formValue = this.editForm.value;
     this.bookService.update({
@@ -224,7 +223,7 @@ export class BookUpdateComponent implements OnInit {
         this.bookItemService.update({
           id: this.id ?? undefined,
           book: res.body ?? undefined,
-          dateOfPurchase: new Date(formValue.dateOfPurchase ?? ""),
+          dateOfPurchase: formValue.dateOfPurchase ? new Date(formValue.dateOfPurchase) : undefined,
           format: formValue.format as FormatType,
           price: Number(formValue.price!.replace(",", ".")),
           referenceOnly: formValue.referenceOnly ?? undefined,

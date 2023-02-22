@@ -11,7 +11,8 @@ public class BookItem {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+    @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
     @ManyToOne
@@ -39,7 +40,7 @@ public class BookItem {
     @Column(name = "status", nullable = false)
     private BookStatus status = BookStatus.AVAILABLE;
 
-    @Column(name = "dateOfPurchase", nullable = false)
+    @Column(name = "dateOfPurchase")
     private Date dateOfPurchase = new Date();
 
     @Column(name = "publicationDate", nullable = false)
