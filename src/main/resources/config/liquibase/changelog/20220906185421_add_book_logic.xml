@@ -40,13 +40,13 @@
                 <constraints nullable="false"/>
             </column>
             <column name="borrowed" type="TIMESTAMP">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="date_of_purchase" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
             <column name="due_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="format" type="INT">
                 <constraints nullable="false"/>
@@ -55,7 +55,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="price" type="DOUBLE">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="publication_date" type="TIMESTAMP">
                 <constraints nullable="false"/>

@@ -3,7 +3,7 @@ import {ISubCategory} from "./subcategory.model";
 import {IAuthor} from "./author.model";
 
 export interface IBook {
-  id: number;
+  id?: number;
   cover: string;
   title: string;
   subtitle?: string;
@@ -19,7 +19,6 @@ export interface IBook {
 
 export class Book implements IBook {
   constructor(
-  public id: number,
   public cover: string,
   public title: string,
   public pages: number,
@@ -31,5 +30,6 @@ export class Book implements IBook {
   public publicationYear?: string,
   public languages?: ILanguage[],
   public subCategories?: ISubCategory[],
+  public id?: number,
   ) {}
 }

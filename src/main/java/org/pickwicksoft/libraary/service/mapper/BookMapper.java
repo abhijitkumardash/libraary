@@ -42,7 +42,7 @@ public interface BookMapper {
         if (identifier.getIsbn13() != null && !identifier.getIsbn13().isEmpty()) {
             return Long.decode(identifier.getIsbn13().get(0));
         }
-        return 0L;
+        return null;
     }
 
     @Mapping(source = "numberOfPages", target = "pages")

@@ -19,18 +19,18 @@ public class BookItem {
     private Book book;
 
     @Column(name = "barcode", nullable = false)
-    private String barcode;
+    private String barcode = "0000000000000";
 
     @Column(name = "isReferenceOnly", nullable = false)
     private Boolean isReferenceOnly = false;
 
-    @Column(name = "borrowed", nullable = false)
+    @Column(name = "borrowed")
     private Date borrowed;
 
-    @Column(name = "dueDate", nullable = false)
+    @Column(name = "dueDate")
     private Date dueDate;
 
-    @Column(name = "price", nullable = false)
+    @Column(name = "price")
     private Double price;
 
     @Column(name = "format", nullable = false)

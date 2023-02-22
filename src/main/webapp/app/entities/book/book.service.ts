@@ -33,7 +33,7 @@ export class BookService {
   }
 
   update(book: IBook): Observable<HttpResponse<IBook>> {
-    return this.http.put<IBook>(this.resourceUrl, book, { observe: 'response' });
+    return this.http.put<IBook>(`${this.resourceUrl}/${book.id}`, book, { observe: 'response' });
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {

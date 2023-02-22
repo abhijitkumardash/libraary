@@ -20,6 +20,7 @@ import { CategoryUpdateComponent } from "../category/update/category-update.comp
 })
 export class BookUpdateComponent implements OnInit {
   id: string | null = null;
+  bookId: number | null = null;
   isSaving = false;
   isLoading = false;
   coverImage: string = "";
@@ -43,7 +44,7 @@ export class BookUpdateComponent implements OnInit {
     pages: new FormControl("", { validators: [Validators.required, Validators.pattern("^[0-9]*$")]}),
     price: new FormControl("", { validators: [Validators.pattern("^\\d+([,.]\\d{1,2})?$")]}),
     dateOfPurchase: new FormControl(""),
-    format: new FormControl(""),
+    format: new FormControl("", { validators: [Validators.required] }),
     referenceOnly: new FormControl(false),
     subcategory: new FormControl(),
   });
@@ -120,6 +121,7 @@ export class BookUpdateComponent implements OnInit {
   }
 
   loadBookToForm(book: IBook | null) {
+    this.bookId = book?.id ?? null;
     this.editForm.patchValue(
       {
         title: book?.title ?? "",
@@ -145,7 +147,11 @@ export class BookUpdateComponent implements OnInit {
   }
 
   submit() {
-    console.warn(this.editForm.value)
+    if(this.id === null) {
+      this.create();
+    } else {
+      this.update();
+    }
   }
 
   addNewCategory() {
@@ -155,5 +161,80 @@ export class BookUpdateComponent implements OnInit {
         this.loadCategories()
       }
     });
+  }
+
+  private create() {
+    this.isSaving = true;
+    let formValue = this.editForm.value;
+    this.bookService.create({
+      cover: this.coverImage,
+      title: formValue.title!,
+      pages: Number(formValue.pages!),
+      subtitle: formValue.subtitle ?? undefined,
+      description: formValue.description ?? undefined,
+      authors: this.authors,
+      languages: this.languages,
+      isbn: formValue.isbn!,
+      publisher: formValue.publisher ?? undefined,
+      publicationYear: formValue.publicationYear ?? undefined,
+      subCategories: this.allSubcategories.filter(cat => formValue.subcategory?.includes(cat.id))
+    }).subscribe(
+      res => {
+        this.bookItemService.create({
+          book: res.body ?? undefined,
+          dateOfPurchase: new Date(formValue.dateOfPurchase ?? ""),
+          format: formValue.format as FormatType,
+          price: Number(formValue.price!),
+          referenceOnly: formValue.referenceOnly ?? undefined,
+        }).subscribe(
+          () => {
+            this.isSaving = false;
+            this.previousState();
+          },
+          () => {
+            this.isSaving = false;
+          }
+        )
+      }
+    )
+  }
+
+  private update() {
+    console.warn(this.authors)
+    this.isSaving = true;
+    let formValue = this.editForm.value;
+    this.bookService.update({
+      cover: this.coverImage,
+      title: formValue.title!,
+      pages: Number(formValue.pages!),
+      subtitle: formValue.subtitle ?? undefined,
+      description: formValue.description ?? undefined,
+      authors: this.authors,
+      languages: this.languages,
+      isbn: this.editForm.get("isbn")?.value ?? "",
+      publisher: formValue.publisher ?? undefined,
+      publicationYear: formValue.publicationYear ?? undefined,
+      subCategories: this.allSubcategories.filter(cat => formValue.subcategory?.includes(cat.id)),
+      id: this.bookId ?? undefined,
+    }).subscribe(
+      res => {
+        this.bookItemService.update({
+          id: this.id ?? undefined,
+          book: res.body ?? undefined,
+          dateOfPurchase: new Date(formValue.dateOfPurchase ?? ""),
+          format: formValue.format as FormatType,
+          price: Number(formValue.price!),
+          referenceOnly: formValue.referenceOnly ?? undefined,
+        }).subscribe(
+          () => {
+            this.isSaving = false;
+            this.previousState();
+          },
+          () => {
+            this.isSaving = false;
+          }
+        )
+      }
+    )
   }
 }

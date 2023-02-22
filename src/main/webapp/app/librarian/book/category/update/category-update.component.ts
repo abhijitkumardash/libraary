@@ -48,14 +48,14 @@ export class CategoryUpdateComponent implements OnInit{
 
   private isDuplicateValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      const duplicate = this.categories.find(cat => cat.name === control.value) !== undefined;
+      const duplicate = this.categories.find(cat => cat.name.toLowerCase() === control.value.toLowerCase()) !== undefined;
       return duplicate ? {duplicate: {value: control.value}} : null;
     };
   }
 
   private isDuplicateSubCategoryValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      const duplicate = this.subcategories.find(cat => cat.name === control.value) !== undefined;
+      const duplicate = this.subcategories.find(cat => cat.name?.toLowerCase() === control.value.toLowerCase()) !== undefined;
       return duplicate ? {duplicate: {value: control.value}} : null;
     };
   }

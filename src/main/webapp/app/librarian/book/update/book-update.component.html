@@ -2,7 +2,7 @@
   <div class="w-full max-w-xl space-y-8 m-auto">
     <h2 class="text-center text-3xl font-bold tracking-tight text-gray-900 mb-4">Create or edit a book</h2>
 
-    <form [formGroup]="isbnForm" class="flex flex-col" name="isbnForm" novalidate role="form">
+    <form [formGroup]="isbnForm" class="flex flex-col" name="isbnForm" novalidate role="form" *ngIf="id === null">
       <mat-form-field apperance="outline">
         <mat-label>ISBN</mat-label>
         <input #isbnInput autocomplete="off" cdkFocusInitial formControlName="isbn" matInput />
@@ -117,6 +117,7 @@
         <mat-form-field appearance="outline">
           <mat-label>Price</mat-label>
           <input formControlName="price" matInput name="price" type="text" />
+          <span matSuffix>lei &nbsp;</span>
           <mat-error *ngIf="editForm.get('price')?.errors?.pattern"> Only numbers allowed.</mat-error>
         </mat-form-field>
 
