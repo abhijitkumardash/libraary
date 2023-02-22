@@ -11,45 +11,46 @@ public class BookItem {
 
     @Id
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+    @SequenceGenerator(name = "sequenceGenerator")
+    private Long id;
 
     @ManyToOne
     @NotNull
     private Book book;
 
     @Column(name = "barcode", nullable = false)
-    private String barcode;
+    private String barcode = "0000000000000";
 
     @Column(name = "isReferenceOnly", nullable = false)
-    private Boolean isReferenceOnly;
+    private Boolean isReferenceOnly = false;
 
-    @Column(name = "borrowed", nullable = false)
+    @Column(name = "borrowed")
     private Date borrowed;
 
-    @Column(name = "dueDate", nullable = false)
+    @Column(name = "dueDate")
     private Date dueDate;
 
-    @Column(name = "price", nullable = false)
+    @Column(name = "price")
     private Double price;
 
     @Column(name = "format", nullable = false)
     private BookFormat format;
 
     @Column(name = "status", nullable = false)
-    private BookStatus status;
+    private BookStatus status = BookStatus.AVAILABLE;
 
-    @Column(name = "dateOfPurchase", nullable = false)
-    private Date dateOfPurchase;
+    @Column(name = "dateOfPurchase")
+    private Date dateOfPurchase = new Date();
 
     @Column(name = "publicationDate", nullable = false)
-    private Date publicationDate;
+    private Date publicationDate = new Date();
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

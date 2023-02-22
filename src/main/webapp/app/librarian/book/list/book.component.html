@@ -123,15 +123,11 @@
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu" xPosition="before">
-              <button [routerLink]="['./', element.id, 'view']" mat-menu-item type="submit">
-                <mat-icon>visibility</mat-icon>
-                <span jhiTranslate="entity.action.view">View</span>
-              </button>
-              <button [routerLink]="['./', element.id, 'edit']" mat-menu-item queryParamsHandling="merge" type="submit">
+              <button [routerLink]="['./', element.id, 'edit']" mat-menu-item queryParamsHandling="" type="submit">
                 <mat-icon>edit</mat-icon>
                 <span jhiTranslate="entity.action.edit">Edit</span>
               </button>
-              <button mat-menu-item type="button">
+              <button mat-menu-item type="button" (click)="deleteBook(element)">
                 <mat-icon>person_remove</mat-icon>
                 <span jhiTranslate="entity.action.delete">Delete</span>
               </button>

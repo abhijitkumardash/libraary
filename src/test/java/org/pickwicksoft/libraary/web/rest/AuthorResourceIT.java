@@ -58,7 +58,7 @@ class AuthorResourceIT {
 
     private Book createBook(Boolean updated) {
         Book book = new Book();
-        book.setIsbn(UUID.randomUUID().toString());
+        book.setIsbn(9999999999999L);
         if (updated == true) {
             book.setTitle("AAA");
         } else {

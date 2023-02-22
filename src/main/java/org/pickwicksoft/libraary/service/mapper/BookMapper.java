@@ -38,11 +38,11 @@ public interface BookMapper {
     }
 
     @Named("parseISBN")
-    static String parseISBN(Identifier identifier) {
+    static Long parseISBN(Identifier identifier) {
         if (identifier.getIsbn13() != null && !identifier.getIsbn13().isEmpty()) {
-            return identifier.getIsbn13().get(0);
+            return Long.decode(identifier.getIsbn13().get(0));
         }
-        return "";
+        return null;
     }
 
     @Mapping(source = "numberOfPages", target = "pages")

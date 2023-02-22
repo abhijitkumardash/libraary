@@ -38,8 +38,8 @@ public class BookService {
 
     private Book mapToDomainBook(org.pickwicksoft.bookgrabber.model.Book grabbedBook, String isbn) {
         Book book = bookMapper.bookToDomainBook(grabbedBook);
-        if (book.getIsbn() == null || book.getIsbn().isEmpty()) {
-            book.setIsbn(isbn);
+        if (book.getIsbn() == null) {
+            book.setIsbn(Long.decode(isbn));
         }
         book = mapLanguage(book, grabbedBook.getLanguage());
         book = mapCover(book, grabbedBook.getCover().getLarge());

@@ -27,8 +27,8 @@
       [dataSource]="data"
       matSort
       (matSortChange)="applySort()"
-      matSortActive="{{ defaultSortColumn }}"
-      [matSortDirection]="defaultSortDirection"
+      matSortActive="{{ predicate }}"
+      [matSortDirection]="direction"
       [hidden]="!data"
     >
       <ng-container matColumnDef="id">

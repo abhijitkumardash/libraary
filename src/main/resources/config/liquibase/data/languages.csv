@@ -1,0 +1,488 @@
+id,code,name,flag
+1,aar,Afar,🇩🇯
+2,abk,Abkhazian,🇬🇪
+3,ace,Achinese,🇮🇩
+4,ach,Acoli,🇺🇬
+5,ada,Adangme,🇬🇭
+6,ady,Adyghe; Adygei,🇷🇺
+7,afa,Afro-Asiatic languages,🌍
+8,afh,Afrihili,🌍
+9,afr,Afrikaans,🇿🇦
+10,ain,Ainu,🇯🇵
+11,aka,Akan,🇬🇭
+12,akk,Akkadian,🌍
+13,alb,Albanian,🇦🇱
+14,ale,Aleut,🇺🇸
+15,alg,Algonquian languages,🌍
+16,alt,Southern Altai,🇷🇺
+17,amh,Amharic,🇪🇹
+18,ang,"English, Old (ca.450-1100)",🇬🇧
+19,anp,Angika,🇮🇳
+20,apa,Apache languages,🇺🇸
+21,ara,Arabic,🇸🇦
+22,arc,Official Aramaic (700-300 BCE); Imperial Aramaic (700-300 BCE),🌍
+23,arg,Aragonese,🇪🇸
+24,arm,Armenian,🇦🇲
+25,arn,Mapudungun; Mapuche,🇨🇱
+26,arp,Arapaho,🇺🇸
+27,art,Artificial languages,💻
+28,arw,Arawak,🇬🇾
+29,asm,Assamese,🇮🇳
+30,ast,Asturian; Bable; Leonese; Asturleonese,🇪🇸
+31,ath,Athapascan languages,🌍
+32,aus,Australian languages,🇦🇺
+33,ava,Avaric,🇷🇺
+34,ave,Avestan,🌍
+35,awa,Awadhi,🇮🇳
+36,aym,Aymara,🇧🇴
+37,aze,Azerbaijani,🇦🇿
+38,bad,Banda languages,🌍
+39,bai,Bamileke languages,🇨🇲
+40,bak,Bashkir,🇷🇺
+41,bal,Baluchi,🇵🇰
+42,bam,Bambara,🇲🇱
+43,ban,Balinese,🇮🇩
+44,baq,Basque,🇪🇸
+45,bas,Basa,🇨🇲
+46,bat,Baltic languages,🌍
+47,bej,Beja; Bedawiyet,🇪🇹
+48,bel,Belarusian,🇧🇾
+49,bem,Bemba,🇿🇲
+50,ben,Bengali,🇧🇩
+51,ber,Berber languages,🇩🇿
+52,bho,Bhojpuri,🇮🇳
+53,bih,Bihari languages,🇮🇳
+54,bik,Bikol,🇵🇭
+55,bin,Bini; Edo,🇳🇬
+56,bis,Bislama,🇻🇺
+57,bla,Siksika,🇨🇦
+58,bnt,Bantu languages,🌍
+59,bos,Bosnian,🇧🇦
+60,bra,Braj,🇮🇳
+61,bre,Breton,🇫🇷
+62,btk,Batak languages,🇮🇩
+63,bua,Buriat,🇷🇺
+64,bug,Buginese,🇮🇩
+65,bul,Bulgarian,🇧🇬
+66,bur,Burmese,🇲🇲
+67,byn,Blin; Bilin,🇪🇷
+68,cad,Caddo,🇺🇸
+69,cai,Central American Indian languages,🌎
+70,car,Galibi Carib,🇫🇷
+71,cat,Catalan; Valencian,🇪🇸
+72,cau,Caucasian languages,🌍
+73,ceb,Cebuano,🇵🇭
+74,cel,Celtic languages,🌍
+75,cha,Chamorro,🇬🇺
+76,chb,Chibcha,🇨🇴
+77,che,Chechen,🇷🇺
+78,chg,Chagatai,🇺🇿
+79,chi,Chinese,🇨🇳
+80,chk,Chuukese,🇫🇲
+81,chm,Mari,🇷🇺
+82,chn,Chinook jargon,🇺🇸
+83,cho,Choctaw,🇺🇸
+84,chp,Chipewyan; Dene Suline,🇨🇦
+85,chr,Cherokee,🇺🇸
+86,chu,Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic,🇷🇸
+87,chv,Chuvash,🇷🇺
+88,chy,Cheyenne,🇺🇸
+89,cmc,Chamic languages,🌍
+90,cnr,Montenegrin,🇲🇪
+91,cop,Coptic,🇪🇬
+92,cor,Cornish,🇬🇧
+93,cos,Corsican,🇫🇷
+94,cpe,"Creoles and pidgins, English based",🌍
+95,cpf,"Creoles and pidgins, French-based",🌍
+96,cpp,"Creoles and pidgins, Portuguese-based",🌍
+97,cre,Cree,🇨🇦
+98,crh,Crimean Tatar; Crimean Turkish,🇺🇦
+99,crp,Creoles and pidgins,🌍
+100,csb,Kashubian,🇵🇱
+101,cus,Cushitic languages,🌍
+102,cze,Czech,🇨🇿
+103,dak,Dakota,🇺🇸
+104,dan,Danish,🇩🇰
+105,dar,Dargwa,🇷🇺
+106,day,Land Dayak languages,🇲🇾
+107,del,Delaware,🇺🇸
+108,den,Slave (Athapascan),🇨🇦
+109,dgr,Dogrib,🇨🇦
+110,din,Dinka,🇸🇸
+111,div,Divehi; Dhivehi; Maldivian,🇲🇻
+112,doi,Dogri,🇮🇳
+113,dra,Dravidian languages,🇮🇳
+114,dsb,Lower Sorbian,🇩🇪
+115,dua,Duala,🇨🇲
+116,dum,"Dutch, Middle (ca.1050-1350)",🇳🇱
+117,dut,Dutch; Flemish,🇳🇱
+118,dyu,Dyula,🇨🇮
+119,dzo,Dzongkha,🇧🇹
+120,efi,Efik,🇳🇬
+121,egy,Egyptian (Ancient),🇪🇬
+122,eka,Ekajuk,🇳🇬
+123,elx,Elamite,🌍
+124,eng,English,🇬🇧
+125,enm,"English, Middle (1100-1500)",🇬🇧
+126,epo,Esperanto,🌍
+127,est,Estonian,🇪🇪
+128,ewe,Ewe,🇬🇭
+129,ewo,Ewondo,🇨🇲
+130,fan,Fang,🇬🇦
+131,fao,Faroese,🇫🇴
+132,fat,Fanti,🇬🇭
+133,fij,Fijian,🇫🇯
+134,fil,Filipino; Pilipino,🇵🇭
+135,fin,Finnish,🇫🇮
+136,fiu,Finno-Ugrian languages,🌍
+137,fon,Fon,🇹🇬
+138,fre,French,🇫🇷
+139,frm,"French, Middle (ca.1400-1600)",🇫🇷
+140,fro,"French, Old (842-ca.1400)",🇫🇷
+141,frr,Northern Frisian,🇩🇪
+142,frs,Eastern Frisian,🇩🇪
+143,fry,Western Frisian,🇳🇱
+144,ful,Fulah,🇸🇳
+145,fur,Friulian,🇮🇹
+146,gaa,Ga,🇬🇭
+147,gay,Gayo,🇮🇩
+148,gba,Gbaya,🇨🇫
+149,gem,Germanic languages,🇩🇪
+150,geo,Georgian,🇬🇪
+151,ger,German,🇩🇪
+152,gez,Geez,🇪🇹
+153,gil,Gilbertese,🇰🇮
+154,gla,Gaelic; Scottish Gaelic,🏴󠁧󠁢󠁳󠁣󠁴󠁿
+155,gle,Irish,🇮🇪
+156,glg,Galician,🇪🇸
+157,glv,Manx,🇮🇲
+158,gmh,"German, Middle High (ca.1050-1500)",🇩🇪
+159,goh,"German, Old High (ca.750-1050)",🇩🇪
+160,gon,Gondi,🇮🇳
+161,gor,Gorontalo,🇮🇩
+162,got,Gothic,🕸️
+163,grb,Grebo,🇱🇷
+164,grc,"Greek, Ancient (to 1453)",🏛️
+165,gre,"Greek, Modern (1453-)",🇬🇷
+166,grn,Guarani,🇵🇾
+167,gsw,Swiss German; Alemannic; Alsatian,🇨🇭
+168,guj,Gujarati,🇮🇳
+169,gwi,Gwich'in,🇺🇸
+170,hai,Haida,🇨🇦
+171,hat,Haitian; Haitian Creole,🇭🇹
+172,hau,Hausa,🇳🇬
+173,haw,Hawaiian,🏝️
+174,heb,Hebrew,🇮🇱
+175,her,Herero,🇳🇦
+176,hil,Hiligaynon,🇵🇭
+177,him,Himachali languages; Western Pahari languages,🇮🇳
+178,hin,Hindi,🇮🇳
+179,hit,Hittite,🕸️
+180,hmn,Hmong; Mong,🇨🇳
+181,hmo,Hiri Motu,🇵🇬
+182,hrv,Croatian,🇭🇷
+183,hsb,Upper Sorbian,🇩🇪
+184,hun,Hungarian,🇭🇺
+185,hup,Hupa,🇺🇸
+186,iba,Iban,🇲🇾
+187,ibo,Igbo,🇳🇬
+188,ice,Icelandic,🇮🇸
+189,ido,Ido,🌐
+190,iii,Sichuan Yi; Nuosu,🇨🇳
+191,ijo,Ijo languages,🇳🇬
+192,iku,Inuktitut,🇨🇦
+193,ile,Interlingue; Occidental,🌐
+194,ilo,Iloko,🇵🇭
+195,ina,Interlingua (International Auxiliary Language Association),🌐
+196,inc,Indic languages,🇮🇳
+197,ind,Indonesian,🇮🇩
+198,ine,Indo-European languages,🌍
+199,inh,Ingush,🇷🇺
+200,ipk,Inupiaq,🇺🇸
+201,ira,Iranian languages,🇮🇷
+202,iro,Iroquoian languages,🌍
+203,ita,Italian,🇮🇹
+204,jav,Javanese,🇮🇩
+205,jbo,Lojban,🌍
+206,jpn,Japanese,🇯🇵
+207,jpr,Judeo-Persian,🇮🇷
+208,jrb,Judeo-Arabic,🇮🇱
+209,kaa,Kara-Kalpak,🇺🇿
+210,kab,Kabyle,🇩🇿
+211,kac,Kachin; Jingpho,🇲🇲
+212,kal,Kalaallisut; Greenlandic,🇬🇱
+213,kam,Kamba,🇰🇪
+214,kan,Kannada,🇮🇳
+215,kar,Karen languages,🇲🇲
+216,kas,Kashmiri,🇮🇳
+217,kau,Kanuri,🇳🇪
+218,kaw,Kawi,🌍
+219,kaz,Kazakh,🇰🇿
+220,kbd,Kabardian,🇷🇺
+221,kha,Khasi,🇮🇳
+222,khi,Khoisan languages,🌍
+223,khm,Central Khmer,🇰🇭
+224,kho,Khotanese; Sakan,🌍
+225,kik,Kikuyu; Gikuyu,🇰🇪
+226,kin,Kinyarwanda,🇷🇼
+227,kir,Kirghiz; Kyrgyz,🇰🇬
+228,kmb,Kimbundu,🇦🇴
+229,kok,Konkani,🇮🇳
+230,kom,Komi,🇷🇺
+231,kon,Kongo,🇨🇩
+232,kor,Korean,🇰🇷
+233,kos,Kosraean,🇫🇲
+234,kpe,Kpelle,🇱🇷
+235,krc,Karachay-Balkar,🇷🇺
+236,krl,Karelian,🇫🇮
+237,kro,Kru languages,🌍
+238,kru,Kurukh,🇮🇳
+239,kua,Kuanyama; Kwanyama,🇳🇦
+240,kum,Kumyk,🇷🇺
+241,kur,Kurdish,🌍
+242,kut,Kutenai,🇨🇦
+243,lad,Ladino,🌍
+244,lah,Lahnda,🇵🇰
+245,lam,Lamba,🇿🇲
+246,lao,Lao,🇱🇦
+247,lat,Latin,🌍
+248,lav,Latvian,🇱🇻
+249,lez,Lezghian,🇷🇺
+250,lim,Limburgan; Limburger; Limburgish,🇳🇱
+251,lin,Lingala,🇨🇩
+252,lit,Lithuanian,🇱🇹
+253,lol,Mongo,🇨🇩
+254,loz,Lozi,🇿🇲
+255,ltz,Luxembourgish; Letzeburgesch,🇱🇺
+256,lua,Luba-Lulua,🇨🇩
+257,lub,Luba-Katanga,🇨🇩
+258,lug,Ganda,🇺🇬
+259,lui,Luiseno,🇺🇸
+260,lun,Lunda,🇦🇴
+261,luo,Luo (Kenya and Tanzania),🇰🇪🇹🇿
+262,lus,Lushai,🇮🇳
+263,mac,Macedonian,🇲🇰
+264,mad,Madurese,🇮🇩
+265,mag,Magahi,🇮🇳
+266,mah,Marshallese,🇲🇭
+267,mai,Maithili,🇮🇳
+268,mak,Makasar,🇮🇩
+269,mal,Malayalam,🇮🇳
+270,man,Mandingo,🇬🇳
+271,mao,Maori,🇳🇿
+272,map,Austronesian languages,🏝️
+273,mar,Marathi,🇮🇳
+274,mas,Masai,🇰🇪🇹🇿
+275,may,Malay,🇲🇾🇮🇩
+276,mdf,Moksha,🇷🇺
+277,mdr,Mandar,🇮🇩
+278,men,Mende,🇸🇱
+279,mga,"Irish, Middle (900-1200)",🇮🇪
+280,mic,Mi'kmaq; Micmac,🇨🇦
+281,min,Minangkabau,🇮🇩
+282,mis,Uncoded languages,🌍
+283,mkh,Mon-Khmer languages,🇰🇭🇻🇳
+284,mlg,Malagasy,🇲🇬
+285,mlt,Maltese,🇲🇹
+286,mnc,Manchu,🇨🇳
+287,mni,Manipuri,🇮🇳
+288,mno,Manobo languages,🇵🇭
+289,moh,Mohawk,🇨🇦
+290,mon,Mongolian,🇲🇳
+291,mos,Mossi,🇧🇫
+292,mul,Multiple languages,🌍
+293,mun,Munda languages,🇮🇳
+294,mus,Creek,🇺🇸
+295,mwl,Mirandese,🇵🇹
+296,mwr,Marwari,🇮🇳
+297,myn,Mayan languages,🇬🇹🇲🇽
+298,myv,Erzya,🇷🇺
+299,nah,Nahuatl languages,🇲🇽
+300,nai,North American Indian languages,🇺🇸
+301,nap,Neapolitan,🇮🇹
+302,nau,Nauru,🇳🇷
+303,nav,Navajo; Navaho,🇺🇸
+304,nbl,"Ndebele, South; South Ndebele",🇿🇦
+305,nde,"Ndebele, North; North Ndebele",🇿🇼
+306,ndo,Ndonga,🇳🇦
+307,nds,"Low German; Low Saxon; German, Low; Saxon, Low",🇩🇪
+308,nep,Nepali,🇳🇵
+309,new,Nepal Bhasa; Newari,🇳🇵
+310,nia,Nias,🇮🇩
+311,nic,Niger-Kordofanian languages,🌍
+312,niu,Niuean,🇳🇺
+313,nno,"Norwegian Nynorsk; Nynorsk, Norwegian",🇳🇴
+314,nob,"Bokmål, Norwegian; Norwegian Bokmål",🇳🇴
+315,nog,Nogai,🇷🇺
+316,non,"Norse, Old",🌍
+317,nor,Norwegian,🇳🇴
+318,nqo,N'Ko,🇬🇳
+319,nso,Pedi; Sepedi; Northern Sotho,🇿🇦
+320,nub,Nubian languages,🌍
+321,nwc,Classical Newari; Old Newari; Classical Nepal Bhasa,🇳🇵
+322,nya,Chichewa; Chewa; Nyanja,🇲🇼
+323,nym,Nyamwezi,🇹🇿
+324,nyn,Nyankole,🇺🇬
+325,nyo,Nyoro,🇰🇪
+326,nzi,Nzima,🇬🇭
+327,oci,Occitan (post 1500),🇫🇷
+328,oji,Ojibwa,🇨🇦
+329,ori,Oriya,🇮🇳
+330,orm,Oromo,🇪🇹
+331,osa,Osage,🇺🇸
+332,oss,Ossetian; Ossetic,🇷🇺
+333,ota,"Turkish, Ottoman (1500-1928)",🌍
+334,oto,Otomian languages,🌍
+335,paa,Papuan languages,🌍
+336,pag,Pangasinan,🇵🇭
+337,pal,Pahlavi,🌍
+338,pam,Pampanga; Kapampangan,🇵🇭
+339,pan,Panjabi; Punjabi,🇮🇳
+340,pap,Papiamento,🇦🇼
+341,pau,Palauan,🇵🇼
+342,peo,"Persian, Old (ca.600-400 B.C.)",🌍
+343,per,Persian,🇮🇷
+344,phi,Philippine languages,🇵🇭
+345,phn,Phoenician,🇱🇧
+346,pli,Pali,🇮🇳
+347,pol,Polish,🇵🇱
+348,pon,Pohnpeian,🇫🇲
+349,por,Portuguese,🇵🇹
+350,pra,Prakrit languages,🇮🇳
+351,pro,"Provençal, Old (to 1500); Occitan, Old (to 1500)",🇫🇷
+352,pus,Pushto; Pashto,🇦🇫
+353,qaa-qtz,Reserved for local use,🏳️
+354,que,Quechua,🇵🇪
+355,raj,Rajasthani,🇮🇳
+356,rap,Rapanui,🇨🇱
+357,rar,Rarotongan; Cook Islands Maori,🇨🇰
+358,roa,Romance languages,💕
+359,roh,Romansh,🇨🇭
+360,rom,Romany,🧑‍🎤
+361,rum,Romanian; Moldavian; Moldovan,🇷🇴
+362,run,Rundi,🇧🇮
+363,rup,Aromanian; Arumanian; Macedo-Romanian,🇷🇴
+364,rus,Russian,🇷🇺
+365,sad,Sandawe,🇹🇿
+366,sag,Sango,🇨🇫
+367,sah,Yakut,🇷🇺
+368,sai,South American Indian languages,🌎
+369,sal,Salishan languages,🌎
+370,sam,Samaritan Aramaic,🇮🇱
+371,san,Sanskrit,🇮🇳
+372,sas,Sasak,🇮🇩
+373,sat,Santali,🇮🇳
+374,scn,Sicilian,🇮🇹
+375,sco,Scots,🏴󠁧󠁢󠁳󠁣󠁴󠁿
+376,sel,Selkup,🇷🇺
+377,sem,Semitic languages,🕌
+378,sga,"Irish, Old (to 900)",🇮🇪
+379,sgn,Sign Languages,🙌
+380,shn,Shan,🇲🇲
+381,sid,Sidamo,🇪🇹
+382,sin,Sinhala; Sinhalese,🇱🇰
+383,sio,Siouan languages,🌎
+384,sit,Sino-Tibetan languages,🌎
+385,sla,Slavic languages,🌎
+386,slo,Slovak,🇸🇰
+387,slv,Slovenian,🇸🇮
+388,sma,Southern Sami,🇳🇴
+389,sme,Northern Sami,🇳🇴
+390,smi,Sami languages,🇳🇴
+391,smj,Lule Sami,🇸🇪
+392,smn,Inari Sami,🇫🇮
+393,smo,Samoan,🇼🇸
+394,sms,Skolt Sami,🇫🇮
+395,sna,Shona,🇿🇼
+396,snd,Sindhi,🇵🇰
+397,snk,Soninke,🇸🇳
+398,sog,Sogdian,🏳️
+399,som,Somali,🇸🇴
+400,son,Songhai languages,🏳️
+401,sot,"Sotho, Southern",🇿🇦
+402,spa,Spanish; Castilian,🇪🇸
+403,srd,Sardinian,🇮🇹
+404,srn,Sranan Tongo,🇸🇷
+405,srp,Serbian,🇷🇸
+406,srr,Serer,🇸🇳
+407,ssa,Nilo-Saharan languages,🏳️
+408,ssw,Swati,🇸🇿
+409,suk,Sukuma,🇹🇿
+410,sun,Sundanese,🇮🇩
+411,sus,Susu,🇬🇳
+412,sux,Sumerian,🏳️
+413,swa,Swahili,🇹🇿
+414,swe,Swedish,🇸🇪
+415,syc,Classical Syriac,🏳️
+416,syr,Syriac,🏳️
+417,tah,Tahitian,🇵🇫
+418,tai,Tai languages,🏳️
+419,tam,Tamil,🇮🇳
+420,tat,Tatar,🇷🇺
+421,tel,Telugu,🇮🇳
+422,tem,Timne,🇸🇱
+423,ter,Tereno,🏳️
+424,tet,Tetum,🇹🇱
+425,tgk,Tajik,🇹🇯
+426,tgl,Tagalog,🇵🇭
+427,tha,Thai,🇹🇭
+428,tib,Tibetan,🇨🇳
+429,tig,Tigre,🇪🇷
+430,tir,Tigrinya,🇪🇷
+431,tiv,Tiv,🇳🇬
+432,tkl,Tokelau,🇹🇰
+433,tlh,Klingon; tlhIngan-Hol,🏳️
+434,tli,Tlingit,🇨🇦
+435,tmh,Tamashek,🇲🇱
+436,tog,Tonga (Nyasa),🇲🇼
+437,ton,Tonga (Tonga Islands),🇹🇴
+438,tpi,Tok Pisin,🇵🇬
+439,tsi,Tsimshian,🇨🇦
+440,tsn,Tswana,🇧🇼
+441,tso,Tsonga,🇿🇦
+442,tuk,Turkmen,🇹🇲
+443,tum,Tumbuka,🇲🇼
+444,tup,Tupi languages,🌎
+445,tur,Turkish,🇹🇷
+446,tut,Altaic languages,🌎
+447,tvl,Tuvalu,🇹🇻
+448,twi,Twi,🇬🇭
+449,tyv,Tuvinian,🇷🇺
+450,udm,Udmurt,🇷🇺
+451,uga,Ugaritic,🌎
+452,uig,Uighur; Uyghur,🌎
+453,ukr,Ukrainian,🇺🇦
+454,umb,Umbundu,🇦🇴
+455,und,Undetermined,❓
+456,urd,Urdu,🇵🇰
+457,uzb,Uzbek,🇺🇿
+458,vai,Vai,🇱🇷
+459,ven,Venda,🇿🇦
+460,vie,Vietnamese,🇻🇳
+461,vol,Volapük,🌎
+462,vot,Votic,🇷🇺
+463,wak,Wakashan languages,🌎
+464,wal,Wolaitta; Wolaytta,🇪🇹
+465,war,Waray,🇵🇭
+466,was,Washo,🇺🇸
+467,wel,Welsh,🏴󠁧󠁢󠁷󠁬󠁳󠁿
+468,wen,Sorbian languages,🇩🇪
+469,wln,Walloon,🇧🇪
+470,wol,Wolof,🇸🇳
+471,xal,Kalmyk; Oirat,🇷🇺
+472,xho,Xhosa,🇿🇦
+473,yao,Yao,🌎
+474,yap,Yapese,🇫🇲
+475,yid,Yiddish,🇮🇱
+476,yor,Yoruba,🇳🇬
+477,ypk,Yupik languages,🌎
+478,zap,Zapotec,🇲🇽
+479,zbl,Blissymbols; Blissymbolics; Bliss,🌎
+480,zen,Zenaga,🌎
+481,zgh,Standard Moroccan Tamazight,🇲🇦
+482,zha,Zhuang; Chuang,🇨🇳
+483,znd,Zande languages,🌎
+484,zul,Zulu,🇿🇦
+485,zun,Zuni,🇺🇸
+486,zxx,No linguistic content; Not applicable,🌎
+487,zza,Zaza; Dimili; Dimli; Kirdki; Kirmanjki; Zazaki,🇹🇷

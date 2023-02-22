@@ -77,6 +77,12 @@ public class CategoryResource {
         return subCategoryRepository.findAll();
     }
 
+    @GetMapping("/category/{id}/subcategory")
+    public List<SubCategory> getSubcategoriesByCategory(@PathVariable Long id) {
+        log.debug("REST request to get all Subcategories by category id");
+        return subCategoryRepository.findAllByCategoryId(id);
+    }
+
     @GetMapping("/category/{id}")
     public ResponseEntity<Category> getCategory(@PathVariable Long id) {
         log.debug("REST request to get Category : {}", id);

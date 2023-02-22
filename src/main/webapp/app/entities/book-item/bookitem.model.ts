@@ -10,7 +10,7 @@ export interface IBookItem {
   price?: number;
   format?: FormatType; // enum
   status?: StatusType; // enum
-  dateOfPurchase?: Dayjs;
+  dateOfPurchase?: Date;
   publicationDate?: Dayjs;
   referenceOnly?: boolean;
 }
@@ -42,7 +42,7 @@ export class BookItem implements IBookItem {
     public price?: number,
     public format?: FormatType,
     public status?: StatusType,
-    public dateOfPurchase?: Dayjs,
+    public dateOfPurchase?: Date,
     public publicationDate?: Dayjs,
     public referenceOnly?: boolean,
   ) {}

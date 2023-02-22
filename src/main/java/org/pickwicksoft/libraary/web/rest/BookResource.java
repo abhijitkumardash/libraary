@@ -9,8 +9,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import javax.validation.Valid;
-import net.kaczmarzyk.spring.data.jpa.domain.Like;
-import net.kaczmarzyk.spring.data.jpa.domain.LikeIgnoreCase;
+import net.kaczmarzyk.spring.data.jpa.domain.*;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Join;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
@@ -61,7 +60,7 @@ public class BookResource {
             {
                 @Spec(path = "title", params = "title", spec = LikeIgnoreCase.class),
                 @Spec(path = "a.name", params = "author", spec = LikeIgnoreCase.class),
-                @Spec(path = "isbn", params = "isbn", spec = Like.class),
+                @Spec(path = "isbn", params = "isbn", spec = Equal.class),
             }
         ) Specification<Book> spec,
         @ParameterObject Pageable pageable
@@ -84,7 +83,19 @@ public class BookResource {
         return ResponseUtil.wrapOrNotFound(bookRepository.findById(id));
     }
 
+    /**
+     * {@code GET  /book/items/isbn/:isbn} : get one book by isbn.
+     *
+     * @param isbn the isbn of the book to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the book, or with status {@code 404 (Not Found)}.
+     */
     @GetMapping("/book/isbn/{isbn}")
+    public ResponseEntity<Book> getBookByISBN(@PathVariable Long isbn) {
+        log.debug("REST request to get book : {}", isbn);
+        return ResponseUtil.wrapOrNotFound(bookRepository.findByIsbn(isbn));
+    }
+
+    @GetMapping("/book/search/isbn/{isbn}")
     public ResponseEntity<Book> getBookByIsbn(@PathVariable String isbn) throws ExecutionException, InterruptedException {
         log.debug("REST request to get book by isbn from bookgrabber : {}", isbn);
         CompletableFuture<Optional<Book>> book = bookService.getBookByISBN(isbn);
@@ -98,7 +109,6 @@ public class BookResource {
         if (book.getId() != null) {
             throw new BadRequestAlertException("A new book cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        System.out.println(book.getLanguages());
         Book result = bookRepository.save(book);
         return ResponseEntity
             .created(new URI("/api/book/" + result.getId()))

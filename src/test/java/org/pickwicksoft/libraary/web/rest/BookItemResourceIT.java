@@ -120,7 +120,7 @@ class BookItemResourceIT {
 
     private Book createBook(Boolean updated) {
         Book book = new Book();
-        book.setIsbn(UUID.randomUUID().toString());
+        book.setIsbn(9999999999999L);
         if (updated) {
             book.setTitle("AAA");
         } else {
@@ -245,7 +245,7 @@ class BookItemResourceIT {
                     "?sort=id,desc&title=" +
                     bookitem.getBook().getTitle() +
                     "&isbn=" +
-                    bookitem.getBook().getIsbn() +
+                    bookitem.getBook().getIsbn().toString() +
                     "&author=" +
                     bookitem.getBook().getAuthors().get(0).getName()
                 )

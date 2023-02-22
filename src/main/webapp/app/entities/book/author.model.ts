@@ -1,8 +1,8 @@
-export interface IAuthors {
-  id: number;
+export interface IAuthor {
+  id?: number;
   name: string;
 }
 
-export class Authors implements IAuthors {
-  constructor(public id: number, public name: string) {}
+export class Author implements IAuthor {
+  constructor(public name: string, public id?: number) {}
 }

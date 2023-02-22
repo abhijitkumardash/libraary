@@ -9,6 +9,8 @@ import {SortableComponent} from "../../../shared/sort/component";
 import {SortDirection} from '@angular/material/sort';
 import {debounceTime, distinctUntilChanged, Observable, Subject} from 'rxjs';
 import {HttpResponse} from '@angular/common/http';
+import {MatDialogService} from "../../../shared/dialog/mat-dialog.service";
+import {BookDeleteDialogComponent} from "../delete/book-delete-dialog.component";
 
 
 @Component({
@@ -30,7 +32,9 @@ export class BookComponent extends SortableComponent<IBookItem> implements OnIni
   constructor(private bookItemService: BookItemService,
               protected sanitizer: DomSanitizer,
               protected router: Router,
-              protected activatedRoute: ActivatedRoute) {
+              protected activatedRoute: ActivatedRoute,
+              private dialogService: MatDialogService
+              ) {
     super(activatedRoute, router, bookItemService);
   }
 
@@ -103,5 +107,18 @@ export class BookComponent extends SortableComponent<IBookItem> implements OnIni
       },
       queryParamsHandling: 'merge'
     })
+  }
+
+  deleteBook(bookItem: IBookItem): void {
+    const dialog = this.dialogService.openDialog(BookDeleteDialogComponent, {
+      data: bookItem
+    })
+    dialog.closed?.subscribe(reason => {
+      if (reason === 'deleted') {
+        this.bookItemService.delete(bookItem.id ? bookItem.id : '').subscribe(() => {
+          this.loadAll();
+        });
+      }
+    });
   }
 }

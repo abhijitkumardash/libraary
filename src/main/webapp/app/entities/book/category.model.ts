@@ -1,8 +1,8 @@
 export interface ICategory {
-  id: number;
+  id?: number;
   name: string;
 }
 
 export class Category implements ICategory {
-  constructor(public id: number, public name: string) {}
+  constructor(public name: string, public id?: number) {}
 }

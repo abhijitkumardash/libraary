@@ -36,14 +36,14 @@ public class Book {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE })
     @JoinTable(name = "rel_book_author", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "books" }, allowSetters = true)
     private Set<Author> authors = new HashSet<>();
 
-    @Column(name = "isbn", nullable = false)
-    private String isbn;
+    @Column(name = "isbn", nullable = false, unique = true)
+    private Long isbn;
 
     @Column(name = "publisher", nullable = false)
     private String publisher;
@@ -104,15 +104,20 @@ public class Book {
         author.getBooks().remove(this);
     }
 
+    public void removeAllAuthors() {
+        this.authors.forEach(t -> t.getBooks().remove(this));
+        this.authors.clear();
+    }
+
     public List<Author> getAuthors() {
         return new ArrayList<>(this.authors);
     }
 
-    public String getIsbn() {
+    public Long getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(String isbn) {
+    public void setIsbn(Long isbn) {
         this.isbn = isbn;
     }
 

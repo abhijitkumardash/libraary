@@ -5,6 +5,7 @@ import {BookSearchWithPagination, Pagination, SearchWithPagination} from "../../
 
 @Injectable({providedIn: 'root'})
 export abstract class IService<T> {
+  abstract query(): Observable<HttpResponse<T[]>>
   abstract query(req?: Pagination): Observable<HttpResponse<T[]>>
   abstract query(req?: SearchWithPagination): Observable<HttpResponse<T[]>>
   abstract query(req?: BookSearchWithPagination): Observable<HttpResponse<T[]>>

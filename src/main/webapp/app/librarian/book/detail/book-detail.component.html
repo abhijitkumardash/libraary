@@ -55,10 +55,9 @@
       <p class="text-sm">format</p>
     </div>
     <div>
-      <div *ngFor="let language of book?.book?.languages">
-        <p class="text-2xl font-semibold">{{ language.flag }}</p>
-        <p *ngIf="book?.book?.languages?.length! > 1">/</p>
-      </div>
+      <span *ngFor="let language of book?.book?.languages">
+        <span class="text-2xl font-semibold">{{ language.flag }}</span>
+      </span>
       <p class="text-sm">language</p>
     </div>
     <div>

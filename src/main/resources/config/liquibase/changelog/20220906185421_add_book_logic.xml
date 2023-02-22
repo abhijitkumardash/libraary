@@ -5,7 +5,7 @@
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="bookPK"/>
             </column>
-            <column name="isbn" type="VARCHAR(255)">
+            <column name="isbn" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
             <column name="pages" type="INT">
@@ -33,20 +33,20 @@
     </changeSet>
     <changeSet author="stefan (generated)" id="1662483264923-5">
         <createTable tableName="book_item">
-            <column name="id" type="uuid">
+            <column name="id" type="bigint">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="book_itemPK"/>
             </column>
             <column name="barcode" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="borrowed" type="TIMESTAMP">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="date_of_purchase" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
             <column name="due_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="format" type="INT">
                 <constraints nullable="false"/>
@@ -55,7 +55,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="price" type="DOUBLE">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="publication_date" type="TIMESTAMP">
                 <constraints nullable="false"/>
@@ -111,7 +111,7 @@
     <changeSet author="stefan (generated)" id="1662483264923-12">
         <createTable tableName="language">
             <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="languagePK"/>
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="name" type="VARCHAR(255)">
                 <constraints nullable="false"/>

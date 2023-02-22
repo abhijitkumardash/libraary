@@ -28,10 +28,10 @@ export class BookItemService extends IService<BookItem> {
   }
 
   update(bookItem: IBookItem): Observable<HttpResponse<IBookItem>> {
-    return this.http.put<IBookItem>(this.resourceUrl, bookItem, {observe: 'response'});
+    return this.http.put<IBookItem>(`${this.resourceUrl}/${bookItem.id}`, bookItem, {observe: 'response'});
   }
 
-  delete(id: number): Observable<HttpResponse<{}>> {
+  delete(id: string): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, {observe: 'response'});
   }
 }

@@ -5,10 +5,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 import javax.validation.Valid;
+import net.kaczmarzyk.spring.data.jpa.domain.Equal;
 import net.kaczmarzyk.spring.data.jpa.domain.In;
-import net.kaczmarzyk.spring.data.jpa.domain.Like;
 import net.kaczmarzyk.spring.data.jpa.domain.LikeIgnoreCase;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
@@ -60,7 +59,7 @@ public class BookItemResource {
             {
                 @Spec(path = "book.title", params = "title", spec = LikeIgnoreCase.class),
                 @Spec(path = "book.authors.name", params = "name", spec = LikeIgnoreCase.class),
-                @Spec(path = "book.isbn", params = "isbn", spec = Like.class),
+                @Spec(path = "book.isbn", params = "isbn", spec = Equal.class),
                 @Spec(path = "format", params = "format", spec = In.class),
             }
         ) Specification<BookItem> spec,
@@ -90,7 +89,7 @@ public class BookItemResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the book, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/book/items/{id}")
-    public ResponseEntity<BookItem> getBookItem(@PathVariable UUID id) {
+    public ResponseEntity<BookItem> getBookItem(@PathVariable Long id) {
         log.debug("REST request to get book item: {}", id);
         return ResponseUtil.wrapOrNotFound(bookItemRepository.findById(id));
     }
@@ -109,7 +108,7 @@ public class BookItemResource {
     }
 
     @PutMapping("/book/items/{id}")
-    public ResponseEntity<BookItem> updateBookItem(@RequestBody BookItem book, @PathVariable UUID id) {
+    public ResponseEntity<BookItem> updateBookItem(@RequestBody BookItem book, @PathVariable Long id) {
         log.debug("REST request to update book item: {}", book);
         if (book.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -130,7 +129,7 @@ public class BookItemResource {
     }
 
     @DeleteMapping("/book/items/{id}")
-    public ResponseEntity<Void> deleteBookItem(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteBookItem(@PathVariable Long id) {
         log.debug("REST request to delete book item: {}", id);
         bookItemRepository.deleteById(id);
         return ResponseEntity
