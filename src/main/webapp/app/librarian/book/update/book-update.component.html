@@ -1,11 +1,11 @@
 <div class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
   <div class="w-full max-w-xl space-y-8 m-auto">
-    <h2 class="text-center text-3xl font-bold tracking-tight text-gray-900 mb-4">Create or edit a book</h2>
+    <h2 class="text-center text-3xl font-bold tracking-tight text-gray-900 mb-4">Create or edit a media</h2>
 
     <form [formGroup]="isbnForm" class="flex flex-col" name="isbnForm" novalidate role="form" *ngIf="id === null">
       <mat-form-field apperance="outline">
         <mat-label>ISBN</mat-label>
-        <input #isbnInput autocomplete="off" cdkFocusInitial formControlName="isbn" matInput />
+        <input #isbnInput autocomplete="off" autofocus formControlName="isbn" matInput />
         <mat-error *ngIf="isbnForm.get('isbn')?.hasError('required')"> ISBN is required </mat-error>
         <mat-error *ngIf="isbnForm.get('isbn')?.hasError('maxLength')"> ISBN must be 13 characters long </mat-error>
       </mat-form-field>
@@ -18,19 +18,23 @@
     <form [formGroup]="editForm" class="flex flex-col mt-15" name="editForm" novalidate role="form">
       <div class="grid grid-cols-3 gap-4">
         <div>
-          <input
-            [disabled]="this.editForm.disabled"
-            (change)="onFileSelected($event)"
-            accept="image/png, image/gif, image/jpeg"
-            hidden
-            id="upload"
-            type="file"
-          />
-          <label class="cursor-pointer" for="upload">
-            <div class="cover" [ngClass]="{ 'pointer-events-none': this.editForm.disabled }">
-              <img *ngIf="coverImage != ''" class="drop-shadow-lg block" src="{{ 'data:image/png;base64,' + coverImage }}" />
+          <input (change)="onFileSelected($event)" accept="image/png, image/gif, image/jpeg" hidden id="upload" type="file" />
+          <label
+            class="cursor-pointer"
+            for="upload"
+            ondragover="return false;"
+            (dragenter)="handleDragEnter()"
+            (dragleave)="handleDragLeave()"
+            (drop)="handleDrop($event)"
+          >
+            <div class="cover">
+              <img
+                *ngIf="coverImage != ''"
+                class="drop-shadow-lg block h-60 object-cover"
+                src="{{ 'data:image/png;base64,' + coverImage }}"
+              />
               <img *ngIf="coverImage === ''" class="drop-shadow-lg select-none h-60 block" src="content/images/cover.svg" />
-              <div class="overlay">
+              <div class="overlay" [ngClass]="{ 'opacity-90': this.dragging === true }">
                 <div class="text">
                   <fa-icon icon="upload" class="text-2xl"></fa-icon>
                   <p>Upload</p>
@@ -75,7 +79,7 @@
             <input formControlName="isbn" matInput name="isbn" type="text" />
           </mat-form-field>
 
-          <author-select [disabled]="this.editForm.disabled" [items]="authors"></author-select>
+          <author-select [items]="authors"></author-select>
         </div>
 
         <mat-form-field appearance="outline" class="col-span-3">
@@ -135,7 +139,7 @@
           <mat-error *ngIf="editForm.get('pages')?.errors?.pattern"> Only numbers allowed.</mat-error>
         </mat-form-field>
 
-        <language-select [disabled]="this.editForm.disabled" [items]="languages" class="col-span-2"></language-select>
+        <language-select [items]="languages" class="col-span-2"></language-select>
 
         <mat-form-field appearance="outline">
           <mat-label>Price</mat-label>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { BookItemService } from "../../../entities/book-item/bookitem.service";
@@ -19,7 +19,7 @@ import { UploadComponent } from "../../../shared/upload/upload.component";
   templateUrl: "./book-update.component.html",
   styleUrls: ["./book-update.component.scss"]
 })
-export class BookUpdateComponent extends UploadComponent implements OnInit {
+export class BookUpdateComponent extends UploadComponent implements OnInit, AfterViewInit {
   id: string | null = null;
   bookId: number | null = null;
   isSaving = false;
@@ -36,7 +36,7 @@ export class BookUpdateComponent extends UploadComponent implements OnInit {
   editForm = new FormGroup({
     title: new FormControl("", { validators: [Validators.required, Validators.maxLength(100)] }),
     subtitle: new FormControl("", { validators: [Validators.maxLength(200)] }),
-    isbn: new FormControl({ value: "", disabled: true }),
+    isbn: new FormControl(""),
     barcode: new FormControl(""),
     label: new FormControl(""),
     description: new FormControl("", { validators: [Validators.required] }),
@@ -57,20 +57,22 @@ export class BookUpdateComponent extends UploadComponent implements OnInit {
   constructor(private bookItemService: BookItemService, private bookService: BookService, private route: ActivatedRoute, private dialogService: MatDialogService) {
     super();}
 
-  previousState(): void {
-    window.history.back();
-  }
-
   ngOnInit(): void {
     this.loadCategories();
     this.route.data.subscribe(({ bookItem }) => {
       if (bookItem) {
         this.id = bookItem.id;
         this.loadBookItemToForm(bookItem);
-      } else (
-        this.editForm.disable()
-      );
+      }
     });
+  }
+
+  ngAfterViewInit() {
+    this.isbnInput.nativeElement.focus();
+  }
+
+  previousState(): void {
+    window.history.back();
   }
 
   loadCategories() {
@@ -109,7 +111,6 @@ export class BookUpdateComponent extends UploadComponent implements OnInit {
         );
       }
     );
-    this.editForm.enable();
   }
 
   loadBookItemToForm(bookItem: IBookItem | null) {

@@ -4,16 +4,25 @@ import { Observable, ReplaySubject } from "rxjs";
 @Directive({})
 export abstract class UploadComponent {
   coverImage: string = "";
-  validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+  validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+  protected dragging: boolean = false;
 
-  onFileSelected(event: Event) {
-    const target = event.target as HTMLInputElement;
-    const files = target.files as FileList;
-    if (!this.isValidImageType(files[0]['type'])) {
-      target.value = '';
+  onFileSelected(event: Event | DragEvent) {
+    let files;
+    let target;
+    if ("dataTransfer" in event) {
+      files = event.dataTransfer?.files;
+    } else {
+      files = (event?.target as HTMLInputElement).files;
+      target = event.target as HTMLInputElement;
+    }
+    if (!this.isValidImageType((files as FileList)[0]["type"])) {
+      if (target) {
+        target.value = "";
+      }
       return;
     }
-    this.convertFile(files[0]).subscribe(base64 => {
+    this.convertFile((files as FileList)[0]).subscribe(base64 => {
       this.coverImage = base64;
     });
   }
@@ -28,5 +37,19 @@ export abstract class UploadComponent {
     reader.readAsBinaryString(file);
     reader.onload = (event) => result.next(btoa(event?.target?.result?.toString() ?? ""));
     return result;
+  }
+
+  handleDragEnter() {
+    this.dragging = true;
+  }
+
+  handleDragLeave() {
+    this.dragging = false;
+  }
+
+  handleDrop(e: Event) {
+    e.preventDefault();
+    this.dragging = false;
+    this.onFileSelected(e);
   }
 }
