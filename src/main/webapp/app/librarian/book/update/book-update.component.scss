@@ -1,0 +1,15 @@
+.overlay {
+  @apply absolute top-0 bottom-0 right-0 left-0 opacity-0 h-full w-full ease-in-out duration-500 bg-slate-900 rounded-lg
+}
+
+.cover {
+  @apply relative
+}
+
+.cover:hover .overlay {
+  @apply opacity-90
+}
+
+.text {
+  @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white text-2xl font-normal
+}

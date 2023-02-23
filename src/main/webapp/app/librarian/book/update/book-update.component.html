@@ -18,8 +18,26 @@
     <form [formGroup]="editForm" class="flex flex-col mt-15" name="editForm" novalidate role="form">
       <div class="grid grid-cols-3 gap-4">
         <div>
-          <img *ngIf="coverImage != ''" class="drop-shadow-lg" src="{{ 'data:image/png;base64,' + coverImage }}" />
-          <img *ngIf="coverImage === ''" class="drop-shadow-lg pointer-events-none select-none" src="content/images/cover.svg" />
+          <input
+            [disabled]="this.editForm.disabled"
+            (change)="onFileSelected($event)"
+            accept="image/png, image/gif, image/jpeg"
+            hidden
+            id="upload"
+            type="file"
+          />
+          <label class="cursor-pointer" for="upload">
+            <div class="cover" [ngClass]="{ 'pointer-events-none': this.editForm.disabled }">
+              <img *ngIf="coverImage != ''" class="drop-shadow-lg block" src="{{ 'data:image/png;base64,' + coverImage }}" />
+              <img *ngIf="coverImage === ''" class="drop-shadow-lg select-none h-60 block" src="content/images/cover.svg" />
+              <div class="overlay">
+                <div class="text">
+                  <fa-icon icon="upload" class="text-2xl"></fa-icon>
+                  <p>Upload</p>
+                </div>
+              </div>
+            </div>
+          </label>
           <div class="mt-3">
             <mat-checkbox color="primary" formControlName="referenceOnly">Reference only</mat-checkbox>
           </div>

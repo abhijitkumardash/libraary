@@ -11,6 +11,7 @@ import { MultiCategory } from "../../../entities/book/multi-category.model";
 import { ISubCategory } from "../../../entities/book/subcategory.model";
 import { MatDialogService } from "../../../shared/dialog/mat-dialog.service";
 import { CategoryUpdateComponent } from "../category/update/category-update.component";
+import { UploadComponent } from "../../../shared/upload/upload.component";
 
 
 @Component({
@@ -18,7 +19,7 @@ import { CategoryUpdateComponent } from "../category/update/category-update.comp
   templateUrl: "./book-update.component.html",
   styleUrls: ["./book-update.component.scss"]
 })
-export class BookUpdateComponent implements OnInit {
+export class BookUpdateComponent extends UploadComponent implements OnInit {
   id: string | null = null;
   bookId: number | null = null;
   isSaving = false;
@@ -53,7 +54,8 @@ export class BookUpdateComponent implements OnInit {
 
   @ViewChild("isbnInput") isbnInput!: ElementRef<HTMLInputElement>;
 
-  constructor(private bookItemService: BookItemService, private bookService: BookService, private route: ActivatedRoute, private dialogService: MatDialogService) {}
+  constructor(private bookItemService: BookItemService, private bookService: BookService, private route: ActivatedRoute, private dialogService: MatDialogService) {
+    super();}
 
   previousState(): void {
     window.history.back();
