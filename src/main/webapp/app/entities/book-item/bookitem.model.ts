@@ -5,6 +5,7 @@ export interface IBookItem {
   id?: string;
   book?: IBook;
   barcode?: string;
+  label?: string;
   borrowed?: Dayjs;
   dueDate?: Dayjs;
   price?: number;
@@ -15,7 +16,7 @@ export interface IBookItem {
   referenceOnly?: boolean;
 }
 
-export enum FormatType {
+export enum   FormatType {
   HARDCOVER = "HARDCOVER",
   PAPERBACK = "PAPERBACK",
   AUDIOBOOK = "AUDIOBOOK",
@@ -23,6 +24,11 @@ export enum FormatType {
   NEWSPAPER = "NEWSPAPER",
   MAGAZINE = "MAGAZINE",
   JOURNAL = "JOURNAL",
+  CD = "CD",
+  DVD = "DVD",
+  BLURAY = "BLURAY",
+  VINYL = "VINYL",
+  IMAGE_ALBUM = "IMAGE ALBUM",
 }
 
 export enum StatusType {
@@ -37,6 +43,7 @@ export class BookItem implements IBookItem {
     public id?: string,
     public book?: IBook,
     public barcode?: string,
+    public label?: string,
     public borrowed?: Dayjs,
     public dueDate?: Dayjs,
     public price?: number,

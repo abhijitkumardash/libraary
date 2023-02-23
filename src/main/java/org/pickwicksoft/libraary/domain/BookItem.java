@@ -22,6 +22,9 @@ public class BookItem {
     @Column(name = "barcode", nullable = false)
     private String barcode = "0000000000000";
 
+    @Column(name = "label", unique = true)
+    private String label = "";
+
     @Column(name = "isReferenceOnly", nullable = false)
     private Boolean isReferenceOnly = false;
 
@@ -132,5 +135,13 @@ public class BookItem {
 
     public void setBook(Book book) {
         this.book = book;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 }

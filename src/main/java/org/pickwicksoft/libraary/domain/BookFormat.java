@@ -8,4 +8,9 @@ public enum BookFormat {
     NEWSPAPER,
     MAGAZINE,
     JOURNAL,
+    CD,
+    DVD,
+    BLURAY,
+    VINYL,
+    IMAGE_ALBUM,
 }

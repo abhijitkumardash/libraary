@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { BookItemService } from "../../../entities/book-item/bookitem.service";
@@ -11,6 +11,7 @@ import { MultiCategory } from "../../../entities/book/multi-category.model";
 import { ISubCategory } from "../../../entities/book/subcategory.model";
 import { MatDialogService } from "../../../shared/dialog/mat-dialog.service";
 import { CategoryUpdateComponent } from "../category/update/category-update.component";
+import { UploadComponent } from "../../../shared/upload/upload.component";
 
 
 @Component({
@@ -18,7 +19,7 @@ import { CategoryUpdateComponent } from "../category/update/category-update.comp
   templateUrl: "./book-update.component.html",
   styleUrls: ["./book-update.component.scss"]
 })
-export class BookUpdateComponent implements OnInit {
+export class BookUpdateComponent extends UploadComponent implements OnInit, AfterViewInit {
   id: string | null = null;
   bookId: number | null = null;
   isSaving = false;
@@ -35,7 +36,9 @@ export class BookUpdateComponent implements OnInit {
   editForm = new FormGroup({
     title: new FormControl("", { validators: [Validators.required, Validators.maxLength(100)] }),
     subtitle: new FormControl("", { validators: [Validators.maxLength(200)] }),
-    isbn: new FormControl({ value: "", disabled: true }),
+    isbn: new FormControl(""),
+    barcode: new FormControl(""),
+    label: new FormControl(""),
     description: new FormControl("", { validators: [Validators.required] }),
     publisher: new FormControl("", { validators: [Validators.required] }),
     publicationYear: new FormControl("", {
@@ -51,11 +54,8 @@ export class BookUpdateComponent implements OnInit {
 
   @ViewChild("isbnInput") isbnInput!: ElementRef<HTMLInputElement>;
 
-  constructor(private bookItemService: BookItemService, private bookService: BookService, private route: ActivatedRoute, private dialogService: MatDialogService) {}
-
-  previousState(): void {
-    window.history.back();
-  }
+  constructor(private bookItemService: BookItemService, private bookService: BookService, private route: ActivatedRoute, private dialogService: MatDialogService) {
+    super();}
 
   ngOnInit(): void {
     this.loadCategories();
@@ -63,10 +63,16 @@ export class BookUpdateComponent implements OnInit {
       if (bookItem) {
         this.id = bookItem.id;
         this.loadBookItemToForm(bookItem);
-      } else (
-        this.editForm.disable()
-      );
+      }
     });
+  }
+
+  ngAfterViewInit() {
+    this.isbnInput.nativeElement.focus();
+  }
+
+  previousState(): void {
+    window.history.back();
   }
 
   loadCategories() {
@@ -105,7 +111,6 @@ export class BookUpdateComponent implements OnInit {
         );
       }
     );
-    this.editForm.enable();
   }
 
   loadBookItemToForm(bookItem: IBookItem | null) {
@@ -116,6 +121,8 @@ export class BookUpdateComponent implements OnInit {
         dateOfPurchase: bookItem?.dateOfPurchase?.toString() ?? "",
         format: bookItem?.format ?? "",
         referenceOnly: bookItem?.referenceOnly ?? false,
+        barcode: bookItem?.barcode ?? "",
+        label: bookItem?.label ?? "",
       }
     );
   }
@@ -177,7 +184,7 @@ export class BookUpdateComponent implements OnInit {
       isbn: formValue.isbn!,
       publisher: formValue.publisher ?? undefined,
       publicationYear: formValue.publicationYear ?? undefined,
-      subCategories: this.allSubcategories.filter(cat => formValue.subcategory?.includes(cat.id))
+      subCategories: this.allSubcategories.filter(cat => formValue.subcategory?.includes(cat.id)),
     }).subscribe(
       res => {
         this.bookItemService.create({
@@ -185,7 +192,9 @@ export class BookUpdateComponent implements OnInit {
           dateOfPurchase: formValue.dateOfPurchase ? new Date(formValue.dateOfPurchase) : undefined,
           format: formValue.format as FormatType,
           price: Number(formValue.price!),
-          referenceOnly: formValue.referenceOnly ?? undefined
+          referenceOnly: formValue.referenceOnly ?? undefined,
+          barcode: formValue.barcode ?? undefined,
+          label: formValue.label ?? undefined,
         }).subscribe(
           () => {
             this.isSaving = false;
@@ -227,6 +236,8 @@ export class BookUpdateComponent implements OnInit {
           format: formValue.format as FormatType,
           price: Number(formValue.price!.replace(",", ".")),
           referenceOnly: formValue.referenceOnly ?? undefined,
+          barcode: formValue.barcode ?? undefined,
+          label: formValue.label ?? undefined,
         }).subscribe(
           () => {
             this.isSaving = false;
