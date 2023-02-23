@@ -36,6 +36,8 @@ export class BookUpdateComponent implements OnInit {
     title: new FormControl("", { validators: [Validators.required, Validators.maxLength(100)] }),
     subtitle: new FormControl("", { validators: [Validators.maxLength(200)] }),
     isbn: new FormControl({ value: "", disabled: true }),
+    barcode: new FormControl(""),
+    label: new FormControl(""),
     description: new FormControl("", { validators: [Validators.required] }),
     publisher: new FormControl("", { validators: [Validators.required] }),
     publicationYear: new FormControl("", {
@@ -116,6 +118,8 @@ export class BookUpdateComponent implements OnInit {
         dateOfPurchase: bookItem?.dateOfPurchase?.toString() ?? "",
         format: bookItem?.format ?? "",
         referenceOnly: bookItem?.referenceOnly ?? false,
+        barcode: bookItem?.barcode ?? "",
+        label: bookItem?.label ?? "",
       }
     );
   }
@@ -177,7 +181,7 @@ export class BookUpdateComponent implements OnInit {
       isbn: formValue.isbn!,
       publisher: formValue.publisher ?? undefined,
       publicationYear: formValue.publicationYear ?? undefined,
-      subCategories: this.allSubcategories.filter(cat => formValue.subcategory?.includes(cat.id))
+      subCategories: this.allSubcategories.filter(cat => formValue.subcategory?.includes(cat.id)),
     }).subscribe(
       res => {
         this.bookItemService.create({
@@ -185,7 +189,9 @@ export class BookUpdateComponent implements OnInit {
           dateOfPurchase: formValue.dateOfPurchase ? new Date(formValue.dateOfPurchase) : undefined,
           format: formValue.format as FormatType,
           price: Number(formValue.price!),
-          referenceOnly: formValue.referenceOnly ?? undefined
+          referenceOnly: formValue.referenceOnly ?? undefined,
+          barcode: formValue.barcode ?? undefined,
+          label: formValue.label ?? undefined,
         }).subscribe(
           () => {
             this.isSaving = false;
@@ -227,6 +233,8 @@ export class BookUpdateComponent implements OnInit {
           format: formValue.format as FormatType,
           price: Number(formValue.price!.replace(",", ".")),
           referenceOnly: formValue.referenceOnly ?? undefined,
+          barcode: formValue.barcode ?? undefined,
+          label: formValue.label ?? undefined,
         }).subscribe(
           () => {
             this.isSaving = false;

@@ -68,7 +68,7 @@
           </mat-error>
         </mat-form-field>
 
-        <div class="col-span-3">
+        <div class="col-span-2">
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>Categories</mat-label>
             <mat-select formControlName="subcategory" multiple>
@@ -85,6 +85,11 @@
             </mat-hint>
           </mat-form-field>
         </div>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Label</mat-label>
+          <input formControlName="label" matInput name="label" type="text" />
+        </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Publisher</mat-label>
@@ -136,6 +141,11 @@
               {{ format.capitalize() }}
             </mat-option>
           </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Barcode</mat-label>
+          <input formControlName="barcode" matInput name="barcode" type="text" />
         </mat-form-field>
       </div>
 

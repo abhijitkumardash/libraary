@@ -6,7 +6,7 @@
                 <constraints nullable="false" primaryKey="true" primaryKeyName="bookPK"/>
             </column>
             <column name="isbn" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" unique="true"/>
             </column>
             <column name="pages" type="INT">
                 <constraints nullable="false"/>
@@ -38,6 +38,9 @@
             </column>
             <column name="barcode" type="VARCHAR(255)">
                 <constraints nullable="false"/>
+            </column>
+            <column name="label" type="VARCHAR(255)">
+                <constraints unique="true"/>
             </column>
             <column name="borrowed" type="TIMESTAMP">
                 <constraints nullable="true"/>
