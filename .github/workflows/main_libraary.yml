@@ -24,9 +24,11 @@ jobs:
         with:
           java-version: '17'
 
+      - name: CHMOD
+        run: chmod +x gradlew
+
       - name: Build with Gradle
-        run: chmod +x gradlew |
-          ./gradlew clean build -x check -x test
+        run: ./gradlew clean build -x check -x test
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
