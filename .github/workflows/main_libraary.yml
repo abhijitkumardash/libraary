@@ -25,7 +25,8 @@ jobs:
           java-version: '17'
 
       - name: Build with Gradle
-        run: ./gradlew clean build -x check -x test
+        run: chmod +x gradlew |
+          ./gradlew clean build -x check -x test
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
@@ -45,6 +46,9 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: java-app
+
+      - name: Delete *plain.jar
+        run: rm -f *plain.jar
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
