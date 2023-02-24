@@ -240,6 +240,7 @@ dependencies {
     implementation "io.jsonwebtoken:jjwt-impl"
     implementation "io.jsonwebtoken:jjwt-jackson"
     }
+    runtimeOnly "org.postgresql:postgresql"
     implementation "org.springframework.cloud:spring-cloud-starter-bootstrap"
     implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
     implementation "org.springframework.cloud:spring-cloud-starter-config"
