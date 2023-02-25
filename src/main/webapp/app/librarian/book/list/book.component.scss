@@ -4,35 +4,35 @@
 
 @media (max-width: 30em) {
 
-  tr th:nth-child(n +3), tr td:nth-child(n +3) {
+  tr th:nth-child(n +3):not(:nth-child(9)), tr td:nth-child(n +3):not(:nth-child(9)) {
     display: none;
   }
 }
 
 @media (max-width: 50em) {
 
-  tr th:nth-child(n +4), tr td:nth-child(n +4) {
+  tr th:nth-child(n +4):not(:nth-child(9)), tr td:nth-child(n +4):not(:nth-child(9)) {
     display: none;
   }
 }
 
 @media (max-width: 60em) {
 
-  tr th:nth-child(n +5), tr td:nth-child(n +5) {
+  tr th:nth-child(n +5):not(:nth-child(9)), tr td:nth-child(n +5):not(:nth-child(9)) {
     display: none;
   }
 }
 
 @media (max-width: 70em) {
 
-  tr th:nth-child(n +6), tr td:nth-child(n +6) {
+  tr th:nth-child(n +6):not(:nth-child(9)), tr td:nth-child(n +6):not(:nth-child(9)) {
     display: none;
   }
 }
 
 @media (max-width: 80em) {
 
-  tr th:nth-child(n +7), tr td:nth-child(n +7) {
+  tr th:nth-child(n +7):not(:nth-child(9)), tr td:nth-child(n +7):not(:nth-child(9)) {
     display: none;
   }
 }

@@ -1,71 +1,30 @@
 package org.pickwicksoft.libraary.service;
 
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-import org.pickwicksoft.bookgrabber.BookGrabber;
-import org.pickwicksoft.libraary.domain.Book;
-import org.pickwicksoft.libraary.repository.AuthorRepository;
-import org.pickwicksoft.libraary.repository.LanguageRepository;
-import org.pickwicksoft.libraary.service.mapper.BookMapper;
-import org.springframework.scheduling.annotation.Async;
+import org.pickwicksoft.libraary.domain.BookItem;
+import org.pickwicksoft.libraary.repository.BookItemRepository;
+import org.pickwicksoft.libraary.repository.BookRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class BookService {
 
-    private final BookGrabber bookGrabber;
-    private final LanguageRepository languageRepository;
-    private final BookMapper bookMapper;
-    private final AuthorRepository authorRepository;
+    private final BookRepository bookRepository;
+    private final BookItemRepository bookItemRepository;
+    private final AuthorService authorService;
 
-    public BookService(
-        LanguageRepository languageRepository,
-        BookGrabber bookGrabber,
-        BookMapper bookMapper,
-        AuthorRepository authorRepository
-    ) {
-        this.languageRepository = languageRepository;
-        this.bookGrabber = bookGrabber;
-        this.bookMapper = bookMapper;
-        this.authorRepository = authorRepository;
+    public BookService(BookRepository bookRepository, BookItemRepository bookItemRepository, AuthorService authorService) {
+        this.bookRepository = bookRepository;
+        this.bookItemRepository = bookItemRepository;
+        this.authorService = authorService;
     }
 
-    @Async
-    public CompletableFuture<Optional<Book>> getBookByISBN(String isbn) {
-        Optional<org.pickwicksoft.bookgrabber.model.Book> grabbedBook = bookGrabber.getBookByISBN(isbn);
-        return CompletableFuture.completedFuture(grabbedBook.map(book -> mapToDomainBook(book, isbn)));
-    }
-
-    private Book mapToDomainBook(org.pickwicksoft.bookgrabber.model.Book grabbedBook, String isbn) {
-        Book book = bookMapper.bookToDomainBook(grabbedBook);
-        if (book.getIsbn() == null) {
-            book.setIsbn(Long.decode(isbn));
+    public BookItem updateBook(BookItem bookItem) {
+        if (bookItem.getId() == null && bookItem.getBook().getId() != null) {
+            var book = bookRepository.save(bookItem.getBook());
+            bookItem.setBook(book);
         }
-        book = mapLanguage(book, grabbedBook.getLanguage());
-        book = mapCover(book, grabbedBook.getCover().getLarge());
-        book = mapAuthors(book);
-        return book;
-    }
-
-    private Book mapAuthors(Book book) {
-        var authors = book.getAuthors();
-        authors.forEach(book::removeAuthor);
-        authors
-            .stream()
-            .map(author -> {
-                var existingAuthor = authorRepository.findAuthorByName(author.getName());
-                return existingAuthor.orElse(author);
-            })
-            .forEach(book::addAuthor);
-        return book;
-    }
-
-    private Book mapCover(Book book, String url) {
-        book.setCover(bookGrabber.getCoverFromURL(url).orElse(null));
-        return book;
-    }
-
-    private Book mapLanguage(Book book, String language) {
-        return book;
+        return bookItemRepository.save(bookItem);
     }
 }

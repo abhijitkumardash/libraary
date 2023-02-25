@@ -13,7 +13,7 @@ interface NamedModel {
 
 @Directive()
 export class SelectComponent<T extends NamedModel>{
-  heading: string = "Select"
+  heading = "Select"
   type: any;
   itemCtrl = new FormControl('');
   @Input() items: T[] = [];

@@ -24,7 +24,7 @@ export class BookUpdateComponent extends UploadComponent implements OnInit, Afte
   bookId: number | null = null;
   isSaving = false;
   isLoading = false;
-  coverImage: string = "";
+  coverImage = "";
   authors: IAuthor[] = [];
   languages: ILanguage[] = [];
   categories: MultiCategory[] = [];
@@ -44,18 +44,19 @@ export class BookUpdateComponent extends UploadComponent implements OnInit, Afte
     publicationYear: new FormControl("", {
       validators: [Validators.required, Validators.pattern("^[0-9]*$")]
     }),
-    pages: new FormControl("", { validators: [Validators.required, Validators.pattern("^[0-9]*$")]}),
-    price: new FormControl("", { validators: [Validators.pattern("^\\d+([,.]\\d{1,2})?$")]}),
+    pages: new FormControl("", { validators: [Validators.required, Validators.pattern("^[0-9]*$")] }),
+    price: new FormControl("", { validators: [Validators.pattern("^\\d+([,.]\\d{1,2})?$")] }),
     dateOfPurchase: new FormControl(""),
     format: new FormControl("", { validators: [Validators.required] }),
     referenceOnly: new FormControl(false),
-    subcategory: new FormControl(),
+    subcategory: new FormControl()
   });
 
   @ViewChild("isbnInput") isbnInput!: ElementRef<HTMLInputElement>;
 
   constructor(private bookItemService: BookItemService, private bookService: BookService, private route: ActivatedRoute, private dialogService: MatDialogService) {
-    super();}
+    super();
+  }
 
   ngOnInit(): void {
     this.loadCategories();
@@ -81,13 +82,13 @@ export class BookUpdateComponent extends UploadComponent implements OnInit, Afte
         this.categories = res.body?.map(cat => new MultiCategory(cat.id!, cat.name, [])) ?? [];
         this.categories.forEach((cat, index, array) => this.bookService.querySubCategoriesByCategory(cat.id).subscribe(
           (res) => {
-            cat.subcategories = res.body ?? []
-            this.allSubcategories.push(...res.body ?? [])
-            array[index] = cat
+            cat.subcategories = res.body ?? [];
+            this.allSubcategories.push(...res.body ?? []);
+            array[index] = cat;
           }
         ));
       }
-    )
+    );
   }
 
   searchForBookData(): void {
@@ -122,7 +123,7 @@ export class BookUpdateComponent extends UploadComponent implements OnInit, Afte
         format: bookItem?.format ?? "",
         referenceOnly: bookItem?.referenceOnly ?? false,
         barcode: bookItem?.barcode ?? "",
-        label: bookItem?.label ?? "",
+        label: bookItem?.label ?? ""
       }
     );
   }
@@ -147,18 +148,14 @@ export class BookUpdateComponent extends UploadComponent implements OnInit, Afte
   }
 
   submit() {
-    if(this.id === null) {
-      this.create();
-    } else {
-      this.update();
-    }
+    this.update();
   }
 
   addNewCategory() {
-    const dialog = this.dialogService.openDialog(CategoryUpdateComponent, {})
+    const dialog = this.dialogService.openDialog(CategoryUpdateComponent, {});
     dialog.closed?.subscribe(reason => {
-      if(reason === 'created') {
-        this.loadCategories()
+      if (reason === "created") {
+        this.loadCategories();
       }
     });
   }
@@ -170,84 +167,39 @@ export class BookUpdateComponent extends UploadComponent implements OnInit, Afte
     this.languages = [];
   }
 
-  private create() {
+  private update() {
     this.isSaving = true;
     let formValue = this.editForm.value;
-    this.bookService.create({
-      cover: this.coverImage,
-      title: formValue.title!,
-      pages: Number(formValue.pages!),
-      subtitle: formValue.subtitle ?? undefined,
-      description: formValue.description ?? undefined,
-      authors: this.authors,
-      languages: this.languages,
-      isbn: formValue.isbn!,
-      publisher: formValue.publisher ?? undefined,
-      publicationYear: formValue.publicationYear ?? undefined,
-      subCategories: this.allSubcategories.filter(cat => formValue.subcategory?.includes(cat.id)),
+    this.bookItemService.update({
+      id: this.id ?? undefined,
+      book: {
+        cover: this.coverImage,
+        title: formValue.title!,
+        pages: Number(formValue.pages!),
+        subtitle: formValue.subtitle ?? undefined,
+        description: formValue.description ?? undefined,
+        authors: this.authors,
+        languages: this.languages,
+        isbn: this.editForm.get("isbn")?.value ?? "",
+        publisher: formValue.publisher ?? undefined,
+        publicationYear: formValue.publicationYear ?? undefined,
+        subCategories: this.allSubcategories.filter(cat => formValue.subcategory?.includes(cat.id)),
+        id: this.bookId ?? undefined
+      },
+      dateOfPurchase: formValue.dateOfPurchase ? new Date(formValue.dateOfPurchase) : undefined,
+      format: formValue.format as FormatType,
+      price: Number(formValue.price?.replace(",", ".")),
+      referenceOnly: formValue.referenceOnly ?? undefined,
+      barcode: formValue.barcode ?? undefined,
+      label: formValue.label === ("" || null) ? undefined : formValue.label
     }).subscribe(
-      res => {
-        this.bookItemService.create({
-          book: res.body ?? undefined,
-          dateOfPurchase: formValue.dateOfPurchase ? new Date(formValue.dateOfPurchase) : undefined,
-          format: formValue.format as FormatType,
-          price: Number(formValue.price!),
-          referenceOnly: formValue.referenceOnly ?? undefined,
-          barcode: formValue.barcode ?? undefined,
-          label: formValue.label ?? undefined,
-        }).subscribe(
-          () => {
-            this.isSaving = false;
-            this.previousState();
-          },
-          () => {
-            this.isSaving = false;
-          }
-        )
+      () => {
+        this.isSaving = false;
+        this.previousState();
       },
       () => {
         this.isSaving = false;
       }
-    )
-  }
-
-  private update() {
-    this.isSaving = true;
-    let formValue = this.editForm.value;
-    this.bookService.update({
-      cover: this.coverImage,
-      title: formValue.title!,
-      pages: Number(formValue.pages!),
-      subtitle: formValue.subtitle ?? undefined,
-      description: formValue.description ?? undefined,
-      authors: this.authors,
-      languages: this.languages,
-      isbn: this.editForm.get("isbn")?.value ?? "",
-      publisher: formValue.publisher ?? undefined,
-      publicationYear: formValue.publicationYear ?? undefined,
-      subCategories: this.allSubcategories.filter(cat => formValue.subcategory?.includes(cat.id)),
-      id: this.bookId ?? undefined,
-    }).subscribe(
-      res => {
-        this.bookItemService.update({
-          id: this.id ?? undefined,
-          book: res.body ?? undefined,
-          dateOfPurchase: formValue.dateOfPurchase ? new Date(formValue.dateOfPurchase) : undefined,
-          format: formValue.format as FormatType,
-          price: Number(formValue.price!.replace(",", ".")),
-          referenceOnly: formValue.referenceOnly ?? undefined,
-          barcode: formValue.barcode ?? undefined,
-          label: formValue.label ?? undefined,
-        }).subscribe(
-          () => {
-            this.isSaving = false;
-            this.previousState();
-          },
-          () => {
-            this.isSaving = false;
-          }
-        )
-      }
-    )
+    );
   }
 }

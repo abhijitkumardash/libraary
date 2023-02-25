@@ -15,7 +15,7 @@ public class BookItem {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
     @NotNull
     private Book book;
 
@@ -23,7 +23,7 @@ public class BookItem {
     private String barcode = "0000000000000";
 
     @Column(name = "label", unique = true)
-    private String label = "";
+    private String label;
 
     @Column(name = "isReferenceOnly", nullable = false)
     private Boolean isReferenceOnly = false;

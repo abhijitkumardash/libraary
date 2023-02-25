@@ -5,7 +5,7 @@ import { Observable, ReplaySubject } from "rxjs";
 export abstract class UploadComponent {
   coverImage: string = "";
   validImageTypes = ["image/gif", "image/jpeg", "image/png"];
-  protected dragging: boolean = false;
+  protected dragging = false;
 
   onFileSelected(event: Event | DragEvent) {
     let files;

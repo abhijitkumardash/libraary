@@ -13,6 +13,7 @@ import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
 import org.pickwicksoft.libraary.domain.BookItem;
 import org.pickwicksoft.libraary.repository.BookItemRepository;
+import org.pickwicksoft.libraary.service.BookService;
 import org.pickwicksoft.libraary.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -38,14 +40,16 @@ public class BookItemResource {
     private final Logger log = LoggerFactory.getLogger(BookItemResource.class);
 
     private static final String ENTITY_NAME = "BookItem";
+    private final BookService bookService;
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
     private final BookItemRepository bookItemRepository;
 
-    public BookItemResource(BookItemRepository bookItemRepository) {
+    public BookItemResource(BookItemRepository bookItemRepository, BookService bookService) {
         this.bookItemRepository = bookItemRepository;
+        this.bookService = bookService;
     }
 
     /**
@@ -107,21 +111,9 @@ public class BookItemResource {
             .body(result);
     }
 
-    @PutMapping("/book/items/{id}")
-    public ResponseEntity<BookItem> updateBookItem(@RequestBody BookItem book, @PathVariable Long id) {
-        log.debug("REST request to update book item: {}", book);
-        if (book.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        if (!Objects.equals(id, book.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
-        }
-
-        if (!bookItemRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
-        }
-
-        BookItem result = bookItemRepository.save(book);
+    @PutMapping("/book/items")
+    public ResponseEntity<BookItem> updateBookItem(@RequestBody BookItem book) {
+        var result = this.bookService.updateBook(book);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, book.getId().toString()))
