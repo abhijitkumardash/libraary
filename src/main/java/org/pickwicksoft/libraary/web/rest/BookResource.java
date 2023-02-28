@@ -15,7 +15,8 @@ import net.kaczmarzyk.spring.data.jpa.web.annotation.Join;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
 import org.pickwicksoft.libraary.domain.Book;
 import org.pickwicksoft.libraary.repository.BookRepository;
-import org.pickwicksoft.libraary.service.BookService;
+import org.pickwicksoft.libraary.service.AuthorService;
+import org.pickwicksoft.libraary.service.BookGrabberService;
 import org.pickwicksoft.libraary.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,14 +40,16 @@ public class BookResource {
     private static final String ENTITY_NAME = "Book";
     private final Logger log = LoggerFactory.getLogger(org.pickwicksoft.libraary.web.rest.BookResource.class);
     private final BookRepository bookRepository;
-    private final BookService bookService;
+    private final BookGrabberService bookGrabberService;
+    private final AuthorService authorService;
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    public BookResource(BookRepository bookRepository, BookService bookService) {
+    public BookResource(BookRepository bookRepository, BookGrabberService bookGrabberService, AuthorService authorService) {
         this.bookRepository = bookRepository;
-        this.bookService = bookService;
+        this.bookGrabberService = bookGrabberService;
+        this.authorService = authorService;
     }
 
     /**
@@ -98,7 +101,7 @@ public class BookResource {
     @GetMapping("/book/search/isbn/{isbn}")
     public ResponseEntity<Book> getBookByIsbn(@PathVariable String isbn) throws ExecutionException, InterruptedException {
         log.debug("REST request to get book by isbn from bookgrabber : {}", isbn);
-        CompletableFuture<Optional<Book>> book = bookService.getBookByISBN(isbn);
+        CompletableFuture<Optional<Book>> book = bookGrabberService.getBookByISBN(isbn);
         CompletableFuture.allOf(book).join();
         return ResponseUtil.wrapOrNotFound(book.get());
     }
@@ -109,6 +112,7 @@ public class BookResource {
         if (book.getId() != null) {
             throw new BadRequestAlertException("A new book cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        book.setAuthors(this.authorService.saveAuthors(book.getAuthors()));
         Book result = bookRepository.save(book);
         return ResponseEntity
             .created(new URI("/api/book/" + result.getId()))
